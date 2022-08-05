@@ -9,61 +9,72 @@ Rule 3     main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
 Rule 4     instrucciones -> instrucciones instruccion
 Rule 5     instrucciones -> instruccion
 Rule 6     instruccion -> declaracion
-Rule 7     declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
-Rule 8     declaracion -> LET MUT ID IGUAL expresion PTCOMA
-Rule 9     declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA
-Rule 10    declaracion -> LET ID IGUAL expresion PTCOMA
-Rule 11    tipo -> I64
-Rule 12    tipo -> F64
-Rule 13    tipo -> BOOL
-Rule 14    tipo -> CHAR
-Rule 15    tipo -> STR
-Rule 16    tipo -> STRING
-Rule 17    expresion -> ID
-Rule 18    expresion -> ENTERO
-Rule 19    expresion -> DECIMAL
-Rule 20    expresion -> TRUE
-Rule 21    expresion -> FALSE
-Rule 22    expresion -> CADENA
-Rule 23    expresion -> CARACTER
+Rule 7     instruccion -> imprimir
+Rule 8     imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+Rule 9     imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA
+Rule 10    declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
+Rule 11    declaracion -> LET MUT ID IGUAL expresion PTCOMA
+Rule 12    declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA
+Rule 13    declaracion -> LET ID IGUAL expresion PTCOMA
+Rule 14    tipo -> I64
+Rule 15    tipo -> F64
+Rule 16    tipo -> BOOL
+Rule 17    tipo -> CHAR
+Rule 18    tipo -> STRING
+Rule 19    tipo -> SIGNOI STR
+Rule 20    expresiones -> expresiones COMA expresion
+Rule 21    expresiones -> expresion
+Rule 22    expresion -> ID
+Rule 23    expresion -> ENTERO
+Rule 24    expresion -> DECIMAL
+Rule 25    expresion -> TRUE
+Rule 26    expresion -> FALSE
+Rule 27    expresion -> CADENA
+Rule 28    expresion -> CARACTER
 
 Terminals, with rules where they appear
 
-BOOL                 : 13
-CADENA               : 22
-CARACTER             : 23
-CHAR                 : 14
-DECIMAL              : 19
-DOSPT                : 7 9
-ENTERO               : 18
-F64                  : 12
-FALSE                : 21
+BOOL                 : 16
+CADENA               : 27
+CARACTER             : 28
+CHAR                 : 17
+COMA                 : 8 20
+DECIMAL              : 24
+DOSPT                : 10 12
+ENTERO               : 23
+EX                   : 8 9
+F64                  : 15
+FALSE                : 26
 FN                   : 3
-I64                  : 11
-ID                   : 7 8 9 10 17
-IGUAL                : 7 8 9 10
-LET                  : 7 8 9 10
+I64                  : 14
+ID                   : 10 11 12 13 22
+IGUAL                : 10 11 12 13
+LET                  : 10 11 12 13
 LLAVEDER             : 3
 LLAVEIZQ             : 3
 MAIN                 : 3
-MUT                  : 7 8
-PARDER               : 3
-PARIZQ               : 3
-PTCOMA               : 7 8 9 10
-STR                  : 15
-STRING               : 16
-TRUE                 : 20
+MUT                  : 10 11
+PARDER               : 3 8 9
+PARIZQ               : 3 8 9
+PRINTLN              : 8 9
+PTCOMA               : 8 9 10 11 12 13
+SIGNOI               : 19
+STR                  : 19
+STRING               : 18
+TRUE                 : 25
 error                : 
 
 Nonterminals, with rules where they appear
 
 declaracion          : 6
-expresion            : 7 8 9 10
+expresion            : 8 9 10 11 12 13 20 21
+expresiones          : 8 20
+imprimir             : 7
 inicio               : 0
 instruccion          : 4 5
 instrucciones        : 1 3 4
 main                 : 1 2
-tipo                 : 7 9
+tipo                 : 10 12
 
 Parsing method: LALR
 
@@ -76,19 +87,24 @@ state 0
     (5) instrucciones -> . instruccion
     (3) main -> . FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
     (6) instruccion -> . declaracion
-    (7) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
-    (9) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
-    (10) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (7) instruccion -> . imprimir
+    (10) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
+    (12) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
+    (13) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (8) imprimir -> . PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> . PRINTLN EX PARIZQ expresion PARDER PTCOMA
 
     FN              shift and go to state 5
-    LET             shift and go to state 7
+    LET             shift and go to state 8
+    PRINTLN         shift and go to state 9
 
     inicio                         shift and go to state 1
     instrucciones                  shift and go to state 2
     main                           shift and go to state 3
     instruccion                    shift and go to state 4
     declaracion                    shift and go to state 6
+    imprimir                       shift and go to state 7
 
 state 1
 
@@ -102,17 +118,22 @@ state 2
     (4) instrucciones -> instrucciones . instruccion
     (3) main -> . FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
     (6) instruccion -> . declaracion
-    (7) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
-    (9) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
-    (10) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (7) instruccion -> . imprimir
+    (10) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
+    (12) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
+    (13) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (8) imprimir -> . PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> . PRINTLN EX PARIZQ expresion PARDER PTCOMA
 
     FN              shift and go to state 5
-    LET             shift and go to state 7
+    LET             shift and go to state 8
+    PRINTLN         shift and go to state 9
 
-    main                           shift and go to state 8
-    instruccion                    shift and go to state 9
+    main                           shift and go to state 10
+    instruccion                    shift and go to state 11
     declaracion                    shift and go to state 6
+    imprimir                       shift and go to state 7
 
 state 3
 
@@ -127,6 +148,7 @@ state 4
 
     FN              reduce using rule 5 (instrucciones -> instruccion .)
     LET             reduce using rule 5 (instrucciones -> instruccion .)
+    PRINTLN         reduce using rule 5 (instrucciones -> instruccion .)
     LLAVEDER        reduce using rule 5 (instrucciones -> instruccion .)
 
 
@@ -134,7 +156,7 @@ state 5
 
     (3) main -> FN . MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
 
-    MAIN            shift and go to state 10
+    MAIN            shift and go to state 12
 
 
 state 6
@@ -143,71 +165,75 @@ state 6
 
     FN              reduce using rule 6 (instruccion -> declaracion .)
     LET             reduce using rule 6 (instruccion -> declaracion .)
+    PRINTLN         reduce using rule 6 (instruccion -> declaracion .)
     LLAVEDER        reduce using rule 6 (instruccion -> declaracion .)
 
 
 state 7
 
-    (7) declaracion -> LET . MUT ID DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> LET . MUT ID IGUAL expresion PTCOMA
-    (9) declaracion -> LET . ID DOSPT tipo IGUAL expresion PTCOMA
-    (10) declaracion -> LET . ID IGUAL expresion PTCOMA
+    (7) instruccion -> imprimir .
 
-    MUT             shift and go to state 11
-    ID              shift and go to state 12
+    FN              reduce using rule 7 (instruccion -> imprimir .)
+    LET             reduce using rule 7 (instruccion -> imprimir .)
+    PRINTLN         reduce using rule 7 (instruccion -> imprimir .)
+    LLAVEDER        reduce using rule 7 (instruccion -> imprimir .)
 
 
 state 8
+
+    (10) declaracion -> LET . MUT ID DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> LET . MUT ID IGUAL expresion PTCOMA
+    (12) declaracion -> LET . ID DOSPT tipo IGUAL expresion PTCOMA
+    (13) declaracion -> LET . ID IGUAL expresion PTCOMA
+
+    MUT             shift and go to state 13
+    ID              shift and go to state 14
+
+
+state 9
+
+    (8) imprimir -> PRINTLN . EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> PRINTLN . EX PARIZQ expresion PARDER PTCOMA
+
+    EX              shift and go to state 15
+
+
+state 10
 
     (1) inicio -> instrucciones main .
 
     $end            reduce using rule 1 (inicio -> instrucciones main .)
 
 
-state 9
+state 11
 
     (4) instrucciones -> instrucciones instruccion .
 
     FN              reduce using rule 4 (instrucciones -> instrucciones instruccion .)
     LET             reduce using rule 4 (instrucciones -> instrucciones instruccion .)
+    PRINTLN         reduce using rule 4 (instrucciones -> instrucciones instruccion .)
     LLAVEDER        reduce using rule 4 (instrucciones -> instrucciones instruccion .)
-
-
-state 10
-
-    (3) main -> FN MAIN . PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
-
-    PARIZQ          shift and go to state 13
-
-
-state 11
-
-    (7) declaracion -> LET MUT . ID DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> LET MUT . ID IGUAL expresion PTCOMA
-
-    ID              shift and go to state 14
 
 
 state 12
 
-    (9) declaracion -> LET ID . DOSPT tipo IGUAL expresion PTCOMA
-    (10) declaracion -> LET ID . IGUAL expresion PTCOMA
+    (3) main -> FN MAIN . PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
 
-    DOSPT           shift and go to state 15
-    IGUAL           shift and go to state 16
+    PARIZQ          shift and go to state 16
 
 
 state 13
 
-    (3) main -> FN MAIN PARIZQ . PARDER LLAVEIZQ instrucciones LLAVEDER
+    (10) declaracion -> LET MUT . ID DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> LET MUT . ID IGUAL expresion PTCOMA
 
-    PARDER          shift and go to state 17
+    ID              shift and go to state 17
 
 
 state 14
 
-    (7) declaracion -> LET MUT ID . DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> LET MUT ID . IGUAL expresion PTCOMA
+    (12) declaracion -> LET ID . DOSPT tipo IGUAL expresion PTCOMA
+    (13) declaracion -> LET ID . IGUAL expresion PTCOMA
 
     DOSPT           shift and go to state 18
     IGUAL           shift and go to state 19
@@ -215,338 +241,532 @@ state 14
 
 state 15
 
-    (9) declaracion -> LET ID DOSPT . tipo IGUAL expresion PTCOMA
-    (11) tipo -> . I64
-    (12) tipo -> . F64
-    (13) tipo -> . BOOL
-    (14) tipo -> . CHAR
-    (15) tipo -> . STR
-    (16) tipo -> . STRING
+    (8) imprimir -> PRINTLN EX . PARIZQ expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> PRINTLN EX . PARIZQ expresion PARDER PTCOMA
 
-    I64             shift and go to state 21
-    F64             shift and go to state 22
-    BOOL            shift and go to state 23
-    CHAR            shift and go to state 24
-    STR             shift and go to state 25
-    STRING          shift and go to state 26
+    PARIZQ          shift and go to state 20
 
-    tipo                           shift and go to state 20
 
 state 16
 
-    (10) declaracion -> LET ID IGUAL . expresion PTCOMA
-    (17) expresion -> . ID
-    (18) expresion -> . ENTERO
-    (19) expresion -> . DECIMAL
-    (20) expresion -> . TRUE
-    (21) expresion -> . FALSE
-    (22) expresion -> . CADENA
-    (23) expresion -> . CARACTER
+    (3) main -> FN MAIN PARIZQ . PARDER LLAVEIZQ instrucciones LLAVEDER
 
-    ID              shift and go to state 27
-    ENTERO          shift and go to state 29
-    DECIMAL         shift and go to state 30
-    TRUE            shift and go to state 31
-    FALSE           shift and go to state 32
-    CADENA          shift and go to state 33
-    CARACTER        shift and go to state 34
+    PARDER          shift and go to state 21
 
-    expresion                      shift and go to state 28
 
 state 17
 
-    (3) main -> FN MAIN PARIZQ PARDER . LLAVEIZQ instrucciones LLAVEDER
+    (10) declaracion -> LET MUT ID . DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> LET MUT ID . IGUAL expresion PTCOMA
 
-    LLAVEIZQ        shift and go to state 35
+    DOSPT           shift and go to state 22
+    IGUAL           shift and go to state 23
 
 
 state 18
 
-    (7) declaracion -> LET MUT ID DOSPT . tipo IGUAL expresion PTCOMA
-    (11) tipo -> . I64
-    (12) tipo -> . F64
-    (13) tipo -> . BOOL
-    (14) tipo -> . CHAR
-    (15) tipo -> . STR
-    (16) tipo -> . STRING
+    (12) declaracion -> LET ID DOSPT . tipo IGUAL expresion PTCOMA
+    (14) tipo -> . I64
+    (15) tipo -> . F64
+    (16) tipo -> . BOOL
+    (17) tipo -> . CHAR
+    (18) tipo -> . STRING
+    (19) tipo -> . SIGNOI STR
 
-    I64             shift and go to state 21
-    F64             shift and go to state 22
-    BOOL            shift and go to state 23
-    CHAR            shift and go to state 24
-    STR             shift and go to state 25
-    STRING          shift and go to state 26
+    I64             shift and go to state 25
+    F64             shift and go to state 26
+    BOOL            shift and go to state 27
+    CHAR            shift and go to state 28
+    STRING          shift and go to state 29
+    SIGNOI          shift and go to state 30
 
-    tipo                           shift and go to state 36
+    tipo                           shift and go to state 24
 
 state 19
 
-    (8) declaracion -> LET MUT ID IGUAL . expresion PTCOMA
-    (17) expresion -> . ID
-    (18) expresion -> . ENTERO
-    (19) expresion -> . DECIMAL
-    (20) expresion -> . TRUE
-    (21) expresion -> . FALSE
-    (22) expresion -> . CADENA
-    (23) expresion -> . CARACTER
+    (13) declaracion -> LET ID IGUAL . expresion PTCOMA
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
 
-    ID              shift and go to state 27
-    ENTERO          shift and go to state 29
-    DECIMAL         shift and go to state 30
-    TRUE            shift and go to state 31
-    FALSE           shift and go to state 32
-    CADENA          shift and go to state 33
-    CARACTER        shift and go to state 34
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
 
-    expresion                      shift and go to state 37
+    expresion                      shift and go to state 32
 
 state 20
 
-    (9) declaracion -> LET ID DOSPT tipo . IGUAL expresion PTCOMA
+    (8) imprimir -> PRINTLN EX PARIZQ . expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> PRINTLN EX PARIZQ . expresion PARDER PTCOMA
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
 
-    IGUAL           shift and go to state 38
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
 
+    expresion                      shift and go to state 39
 
 state 21
 
-    (11) tipo -> I64 .
+    (3) main -> FN MAIN PARIZQ PARDER . LLAVEIZQ instrucciones LLAVEDER
 
-    IGUAL           reduce using rule 11 (tipo -> I64 .)
+    LLAVEIZQ        shift and go to state 40
 
 
 state 22
 
-    (12) tipo -> F64 .
+    (10) declaracion -> LET MUT ID DOSPT . tipo IGUAL expresion PTCOMA
+    (14) tipo -> . I64
+    (15) tipo -> . F64
+    (16) tipo -> . BOOL
+    (17) tipo -> . CHAR
+    (18) tipo -> . STRING
+    (19) tipo -> . SIGNOI STR
 
-    IGUAL           reduce using rule 12 (tipo -> F64 .)
+    I64             shift and go to state 25
+    F64             shift and go to state 26
+    BOOL            shift and go to state 27
+    CHAR            shift and go to state 28
+    STRING          shift and go to state 29
+    SIGNOI          shift and go to state 30
 
+    tipo                           shift and go to state 41
 
 state 23
 
-    (13) tipo -> BOOL .
+    (11) declaracion -> LET MUT ID IGUAL . expresion PTCOMA
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
 
-    IGUAL           reduce using rule 13 (tipo -> BOOL .)
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
 
+    expresion                      shift and go to state 42
 
 state 24
 
-    (14) tipo -> CHAR .
+    (12) declaracion -> LET ID DOSPT tipo . IGUAL expresion PTCOMA
 
-    IGUAL           reduce using rule 14 (tipo -> CHAR .)
+    IGUAL           shift and go to state 43
 
 
 state 25
 
-    (15) tipo -> STR .
+    (14) tipo -> I64 .
 
-    IGUAL           reduce using rule 15 (tipo -> STR .)
+    IGUAL           reduce using rule 14 (tipo -> I64 .)
 
 
 state 26
 
-    (16) tipo -> STRING .
+    (15) tipo -> F64 .
 
-    IGUAL           reduce using rule 16 (tipo -> STRING .)
+    IGUAL           reduce using rule 15 (tipo -> F64 .)
 
 
 state 27
 
-    (17) expresion -> ID .
+    (16) tipo -> BOOL .
 
-    PTCOMA          reduce using rule 17 (expresion -> ID .)
+    IGUAL           reduce using rule 16 (tipo -> BOOL .)
 
 
 state 28
 
-    (10) declaracion -> LET ID IGUAL expresion . PTCOMA
+    (17) tipo -> CHAR .
 
-    PTCOMA          shift and go to state 39
+    IGUAL           reduce using rule 17 (tipo -> CHAR .)
 
 
 state 29
 
-    (18) expresion -> ENTERO .
+    (18) tipo -> STRING .
 
-    PTCOMA          reduce using rule 18 (expresion -> ENTERO .)
+    IGUAL           reduce using rule 18 (tipo -> STRING .)
 
 
 state 30
 
-    (19) expresion -> DECIMAL .
+    (19) tipo -> SIGNOI . STR
 
-    PTCOMA          reduce using rule 19 (expresion -> DECIMAL .)
+    STR             shift and go to state 44
 
 
 state 31
 
-    (20) expresion -> TRUE .
+    (22) expresion -> ID .
 
-    PTCOMA          reduce using rule 20 (expresion -> TRUE .)
+    PTCOMA          reduce using rule 22 (expresion -> ID .)
+    COMA            reduce using rule 22 (expresion -> ID .)
+    PARDER          reduce using rule 22 (expresion -> ID .)
 
 
 state 32
 
-    (21) expresion -> FALSE .
+    (13) declaracion -> LET ID IGUAL expresion . PTCOMA
 
-    PTCOMA          reduce using rule 21 (expresion -> FALSE .)
+    PTCOMA          shift and go to state 45
 
 
 state 33
 
-    (22) expresion -> CADENA .
+    (23) expresion -> ENTERO .
 
-    PTCOMA          reduce using rule 22 (expresion -> CADENA .)
+    PTCOMA          reduce using rule 23 (expresion -> ENTERO .)
+    COMA            reduce using rule 23 (expresion -> ENTERO .)
+    PARDER          reduce using rule 23 (expresion -> ENTERO .)
 
 
 state 34
 
-    (23) expresion -> CARACTER .
+    (24) expresion -> DECIMAL .
 
-    PTCOMA          reduce using rule 23 (expresion -> CARACTER .)
+    PTCOMA          reduce using rule 24 (expresion -> DECIMAL .)
+    COMA            reduce using rule 24 (expresion -> DECIMAL .)
+    PARDER          reduce using rule 24 (expresion -> DECIMAL .)
 
 
 state 35
+
+    (25) expresion -> TRUE .
+
+    PTCOMA          reduce using rule 25 (expresion -> TRUE .)
+    COMA            reduce using rule 25 (expresion -> TRUE .)
+    PARDER          reduce using rule 25 (expresion -> TRUE .)
+
+
+state 36
+
+    (26) expresion -> FALSE .
+
+    PTCOMA          reduce using rule 26 (expresion -> FALSE .)
+    COMA            reduce using rule 26 (expresion -> FALSE .)
+    PARDER          reduce using rule 26 (expresion -> FALSE .)
+
+
+state 37
+
+    (27) expresion -> CADENA .
+
+    PTCOMA          reduce using rule 27 (expresion -> CADENA .)
+    COMA            reduce using rule 27 (expresion -> CADENA .)
+    PARDER          reduce using rule 27 (expresion -> CADENA .)
+
+
+state 38
+
+    (28) expresion -> CARACTER .
+
+    PTCOMA          reduce using rule 28 (expresion -> CARACTER .)
+    COMA            reduce using rule 28 (expresion -> CARACTER .)
+    PARDER          reduce using rule 28 (expresion -> CARACTER .)
+
+
+state 39
+
+    (8) imprimir -> PRINTLN EX PARIZQ expresion . COMA expresiones PARDER PTCOMA
+    (9) imprimir -> PRINTLN EX PARIZQ expresion . PARDER PTCOMA
+
+    COMA            shift and go to state 46
+    PARDER          shift and go to state 47
+
+
+state 40
 
     (3) main -> FN MAIN PARIZQ PARDER LLAVEIZQ . instrucciones LLAVEDER
     (4) instrucciones -> . instrucciones instruccion
     (5) instrucciones -> . instruccion
     (6) instruccion -> . declaracion
-    (7) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
-    (9) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
-    (10) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (7) instruccion -> . imprimir
+    (10) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
+    (12) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
+    (13) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (8) imprimir -> . PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> . PRINTLN EX PARIZQ expresion PARDER PTCOMA
 
-    LET             shift and go to state 7
+    LET             shift and go to state 8
+    PRINTLN         shift and go to state 9
 
-    instrucciones                  shift and go to state 40
+    instrucciones                  shift and go to state 48
     instruccion                    shift and go to state 4
     declaracion                    shift and go to state 6
-
-state 36
-
-    (7) declaracion -> LET MUT ID DOSPT tipo . IGUAL expresion PTCOMA
-
-    IGUAL           shift and go to state 41
-
-
-state 37
-
-    (8) declaracion -> LET MUT ID IGUAL expresion . PTCOMA
-
-    PTCOMA          shift and go to state 42
-
-
-state 38
-
-    (9) declaracion -> LET ID DOSPT tipo IGUAL . expresion PTCOMA
-    (17) expresion -> . ID
-    (18) expresion -> . ENTERO
-    (19) expresion -> . DECIMAL
-    (20) expresion -> . TRUE
-    (21) expresion -> . FALSE
-    (22) expresion -> . CADENA
-    (23) expresion -> . CARACTER
-
-    ID              shift and go to state 27
-    ENTERO          shift and go to state 29
-    DECIMAL         shift and go to state 30
-    TRUE            shift and go to state 31
-    FALSE           shift and go to state 32
-    CADENA          shift and go to state 33
-    CARACTER        shift and go to state 34
-
-    expresion                      shift and go to state 43
-
-state 39
-
-    (10) declaracion -> LET ID IGUAL expresion PTCOMA .
-
-    FN              reduce using rule 10 (declaracion -> LET ID IGUAL expresion PTCOMA .)
-    LET             reduce using rule 10 (declaracion -> LET ID IGUAL expresion PTCOMA .)
-    LLAVEDER        reduce using rule 10 (declaracion -> LET ID IGUAL expresion PTCOMA .)
-
-
-state 40
-
-    (3) main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones . LLAVEDER
-    (4) instrucciones -> instrucciones . instruccion
-    (6) instruccion -> . declaracion
-    (7) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
-    (8) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
-    (9) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
-    (10) declaracion -> . LET ID IGUAL expresion PTCOMA
-
-    LLAVEDER        shift and go to state 44
-    LET             shift and go to state 7
-
-    instruccion                    shift and go to state 9
-    declaracion                    shift and go to state 6
+    imprimir                       shift and go to state 7
 
 state 41
 
-    (7) declaracion -> LET MUT ID DOSPT tipo IGUAL . expresion PTCOMA
-    (17) expresion -> . ID
-    (18) expresion -> . ENTERO
-    (19) expresion -> . DECIMAL
-    (20) expresion -> . TRUE
-    (21) expresion -> . FALSE
-    (22) expresion -> . CADENA
-    (23) expresion -> . CARACTER
+    (10) declaracion -> LET MUT ID DOSPT tipo . IGUAL expresion PTCOMA
 
-    ID              shift and go to state 27
-    ENTERO          shift and go to state 29
-    DECIMAL         shift and go to state 30
-    TRUE            shift and go to state 31
-    FALSE           shift and go to state 32
-    CADENA          shift and go to state 33
-    CARACTER        shift and go to state 34
+    IGUAL           shift and go to state 49
 
-    expresion                      shift and go to state 45
 
 state 42
 
-    (8) declaracion -> LET MUT ID IGUAL expresion PTCOMA .
+    (11) declaracion -> LET MUT ID IGUAL expresion . PTCOMA
 
-    FN              reduce using rule 8 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
-    LET             reduce using rule 8 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
-    LLAVEDER        reduce using rule 8 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
+    PTCOMA          shift and go to state 50
 
 
 state 43
 
-    (9) declaracion -> LET ID DOSPT tipo IGUAL expresion . PTCOMA
+    (12) declaracion -> LET ID DOSPT tipo IGUAL . expresion PTCOMA
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
 
-    PTCOMA          shift and go to state 46
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
 
+    expresion                      shift and go to state 51
 
 state 44
+
+    (19) tipo -> SIGNOI STR .
+
+    IGUAL           reduce using rule 19 (tipo -> SIGNOI STR .)
+
+
+state 45
+
+    (13) declaracion -> LET ID IGUAL expresion PTCOMA .
+
+    FN              reduce using rule 13 (declaracion -> LET ID IGUAL expresion PTCOMA .)
+    LET             reduce using rule 13 (declaracion -> LET ID IGUAL expresion PTCOMA .)
+    PRINTLN         reduce using rule 13 (declaracion -> LET ID IGUAL expresion PTCOMA .)
+    LLAVEDER        reduce using rule 13 (declaracion -> LET ID IGUAL expresion PTCOMA .)
+
+
+state 46
+
+    (8) imprimir -> PRINTLN EX PARIZQ expresion COMA . expresiones PARDER PTCOMA
+    (20) expresiones -> . expresiones COMA expresion
+    (21) expresiones -> . expresion
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
+
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
+
+    expresion                      shift and go to state 52
+    expresiones                    shift and go to state 53
+
+state 47
+
+    (9) imprimir -> PRINTLN EX PARIZQ expresion PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 54
+
+
+state 48
+
+    (3) main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones . LLAVEDER
+    (4) instrucciones -> instrucciones . instruccion
+    (6) instruccion -> . declaracion
+    (7) instruccion -> . imprimir
+    (10) declaracion -> . LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
+    (11) declaracion -> . LET MUT ID IGUAL expresion PTCOMA
+    (12) declaracion -> . LET ID DOSPT tipo IGUAL expresion PTCOMA
+    (13) declaracion -> . LET ID IGUAL expresion PTCOMA
+    (8) imprimir -> . PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+    (9) imprimir -> . PRINTLN EX PARIZQ expresion PARDER PTCOMA
+
+    LLAVEDER        shift and go to state 55
+    LET             shift and go to state 8
+    PRINTLN         shift and go to state 9
+
+    instruccion                    shift and go to state 11
+    declaracion                    shift and go to state 6
+    imprimir                       shift and go to state 7
+
+state 49
+
+    (10) declaracion -> LET MUT ID DOSPT tipo IGUAL . expresion PTCOMA
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
+
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
+
+    expresion                      shift and go to state 56
+
+state 50
+
+    (11) declaracion -> LET MUT ID IGUAL expresion PTCOMA .
+
+    FN              reduce using rule 11 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
+    LET             reduce using rule 11 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
+    PRINTLN         reduce using rule 11 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
+    LLAVEDER        reduce using rule 11 (declaracion -> LET MUT ID IGUAL expresion PTCOMA .)
+
+
+state 51
+
+    (12) declaracion -> LET ID DOSPT tipo IGUAL expresion . PTCOMA
+
+    PTCOMA          shift and go to state 57
+
+
+state 52
+
+    (21) expresiones -> expresion .
+
+    PARDER          reduce using rule 21 (expresiones -> expresion .)
+    COMA            reduce using rule 21 (expresiones -> expresion .)
+
+
+state 53
+
+    (8) imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones . PARDER PTCOMA
+    (20) expresiones -> expresiones . COMA expresion
+
+    PARDER          shift and go to state 59
+    COMA            shift and go to state 58
+
+
+state 54
+
+    (9) imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA .
+
+    FN              reduce using rule 9 (imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA .)
+    LET             reduce using rule 9 (imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA .)
+    PRINTLN         reduce using rule 9 (imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA .)
+    LLAVEDER        reduce using rule 9 (imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA .)
+
+
+state 55
 
     (3) main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER .
 
     $end            reduce using rule 3 (main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER .)
 
 
-state 45
+state 56
 
-    (7) declaracion -> LET MUT ID DOSPT tipo IGUAL expresion . PTCOMA
+    (10) declaracion -> LET MUT ID DOSPT tipo IGUAL expresion . PTCOMA
 
-    PTCOMA          shift and go to state 47
-
-
-state 46
-
-    (9) declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .
-
-    FN              reduce using rule 9 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
-    LET             reduce using rule 9 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
-    LLAVEDER        reduce using rule 9 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
+    PTCOMA          shift and go to state 60
 
 
-state 47
+state 57
 
-    (7) declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .
+    (12) declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .
 
-    FN              reduce using rule 7 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
-    LET             reduce using rule 7 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
-    LLAVEDER        reduce using rule 7 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
+    FN              reduce using rule 12 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
+    LET             reduce using rule 12 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
+    PRINTLN         reduce using rule 12 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
+    LLAVEDER        reduce using rule 12 (declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA .)
+
+
+state 58
+
+    (20) expresiones -> expresiones COMA . expresion
+    (22) expresion -> . ID
+    (23) expresion -> . ENTERO
+    (24) expresion -> . DECIMAL
+    (25) expresion -> . TRUE
+    (26) expresion -> . FALSE
+    (27) expresion -> . CADENA
+    (28) expresion -> . CARACTER
+
+    ID              shift and go to state 31
+    ENTERO          shift and go to state 33
+    DECIMAL         shift and go to state 34
+    TRUE            shift and go to state 35
+    FALSE           shift and go to state 36
+    CADENA          shift and go to state 37
+    CARACTER        shift and go to state 38
+
+    expresion                      shift and go to state 61
+
+state 59
+
+    (8) imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 62
+
+
+state 60
+
+    (10) declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .
+
+    FN              reduce using rule 10 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
+    LET             reduce using rule 10 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
+    PRINTLN         reduce using rule 10 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
+    LLAVEDER        reduce using rule 10 (declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA .)
+
+
+state 61
+
+    (20) expresiones -> expresiones COMA expresion .
+
+    PARDER          reduce using rule 20 (expresiones -> expresiones COMA expresion .)
+    COMA            reduce using rule 20 (expresiones -> expresiones COMA expresion .)
+
+
+state 62
+
+    (8) imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA .
+
+    FN              reduce using rule 8 (imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA .)
+    LET             reduce using rule 8 (imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA .)
+    PRINTLN         reduce using rule 8 (imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA .)
+    LLAVEDER        reduce using rule 8 (imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA .)
 

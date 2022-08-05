@@ -9,12 +9,12 @@ reservadas={
     'false': 'FALSE',
     'char': 'CHAR',
     'str': 'STR',
-    'string': 'STRING',
+    'String': 'STRING',
     'mut': 'MUT',
     'let': 'LET',
     'fn': 'FN',
     'main': 'MAIN',
-
+    'println': 'PRINTLN'
 
 
 }
@@ -31,8 +31,10 @@ tokens=[
     'PARIZQ',
     'PARDER',
     'IGUAL',
-    'DOSPT'
-
+    'DOSPT',
+    'SIGNOI',
+    'COMA',
+    'EX'
 ]
 tokens += list(reservadas.values())
 
@@ -44,11 +46,14 @@ t_DOSPT = ':'
 t_IGUAL = r'='
 t_PARIZQ = r'\('
 t_PARDER = r'\)'
+t_SIGNOI = r'&'
+t_COMA = r'.'
+t_EX = r'\!'
 
 #?---------------FUNCIONES----------------------------
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reservadas.get(t.value.lower(), 'ID')
+    t.type = reservadas.get(t.value, 'ID')
     return t
 
 def t_DECIMAL(t):
@@ -98,7 +103,7 @@ def t_CADENA(t):
     return t
 
 def t_COMENTARIO_SIMPLE(t):
-    r'\\[^\*].*\n'
+    r'//[^\*].*\n'
     t.lexer.lineno += 1
 
 # Caracteres ignorados

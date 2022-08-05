@@ -6,4 +6,4 @@ class tipoPrimitivo(Enum):
     BOOL = 'BOOL'
     CHAR = 'CHAR'
     STRING = 'STRING'
-    STR = '&STR'
+    STR = 'STR'

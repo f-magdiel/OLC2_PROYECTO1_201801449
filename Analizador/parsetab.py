@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'BOOL CADENA CARACTER CHAR DECIMAL DOSPT ENTERO F64 FALSE FN I64 ID IGUAL LET LLAVEDER LLAVEIZQ MAIN MUT PARDER PARIZQ PTCOMA STR STRING TRUEinicio : instrucciones maininicio : mainmain : FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDERinstrucciones : instrucciones instruccioninstrucciones : instruccioninstruccion : declaraciondeclaracion : LET MUT ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET MUT ID IGUAL expresion PTCOMAdeclaracion : LET ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET ID IGUAL expresion PTCOMAtipo : I64\n            | F64\n            | BOOL\n            | CHAR\n            | STR\n            | STRING\n    expresion : ID\n                | ENTERO\n                | DECIMAL\n                | TRUE\n                | FALSE\n                | CADENA\n                | CARACTER\n    '
+_lr_signature = 'BOOL CADENA CARACTER CHAR COMA DECIMAL DOSPT ENTERO EX F64 FALSE FN I64 ID IGUAL LET LLAVEDER LLAVEIZQ MAIN MUT PARDER PARIZQ PRINTLN PTCOMA SIGNOI STR STRING TRUEinicio : instrucciones maininicio : mainmain : FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDERinstrucciones : instrucciones instruccioninstrucciones : instruccioninstruccion : declaracion\n                    | imprimir\n    imprimir : PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMAimprimir : PRINTLN EX PARIZQ expresion PARDER PTCOMAdeclaracion : LET MUT ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET MUT ID IGUAL expresion PTCOMAdeclaracion : LET ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET ID IGUAL expresion PTCOMAtipo : I64\n            | F64\n            | BOOL\n            | CHAR\n            | STRING\n    tipo : SIGNOI STR expresiones : expresiones COMA expresionexpresiones : expresionexpresion : ID\n                | ENTERO\n                | DECIMAL\n                | TRUE\n                | FALSE\n                | CADENA\n                | CARACTER\n    '
     
-_lr_action_items = {'FN':([0,2,4,6,9,39,42,46,47,],[5,5,-5,-6,-4,-10,-8,-9,-7,]),'LET':([0,2,4,6,9,35,39,40,42,46,47,],[7,7,-5,-6,-4,7,-10,7,-8,-9,-7,]),'$end':([1,3,8,44,],[0,-2,-1,-3,]),'LLAVEDER':([4,6,9,39,40,42,46,47,],[-5,-6,-4,-10,44,-8,-9,-7,]),'MAIN':([5,],[10,]),'MUT':([7,],[11,]),'ID':([7,11,16,19,38,41,],[12,14,27,27,27,27,]),'PARIZQ':([10,],[13,]),'DOSPT':([12,14,],[15,18,]),'IGUAL':([12,14,20,21,22,23,24,25,26,36,],[16,19,38,-11,-12,-13,-14,-15,-16,41,]),'PARDER':([13,],[17,]),'I64':([15,18,],[21,21,]),'F64':([15,18,],[22,22,]),'BOOL':([15,18,],[23,23,]),'CHAR':([15,18,],[24,24,]),'STR':([15,18,],[25,25,]),'STRING':([15,18,],[26,26,]),'ENTERO':([16,19,38,41,],[29,29,29,29,]),'DECIMAL':([16,19,38,41,],[30,30,30,30,]),'TRUE':([16,19,38,41,],[31,31,31,31,]),'FALSE':([16,19,38,41,],[32,32,32,32,]),'CADENA':([16,19,38,41,],[33,33,33,33,]),'CARACTER':([16,19,38,41,],[34,34,34,34,]),'LLAVEIZQ':([17,],[35,]),'PTCOMA':([27,28,29,30,31,32,33,34,37,43,45,],[-17,39,-18,-19,-20,-21,-22,-23,42,46,47,]),}
+_lr_action_items = {'FN':([0,2,4,6,7,11,45,50,54,57,60,62,],[5,5,-5,-6,-7,-4,-13,-11,-9,-12,-10,-8,]),'LET':([0,2,4,6,7,11,40,45,48,50,54,57,60,62,],[8,8,-5,-6,-7,-4,8,-13,8,-11,-9,-12,-10,-8,]),'PRINTLN':([0,2,4,6,7,11,40,45,48,50,54,57,60,62,],[9,9,-5,-6,-7,-4,9,-13,9,-11,-9,-12,-10,-8,]),'$end':([1,3,10,55,],[0,-2,-1,-3,]),'LLAVEDER':([4,6,7,11,45,48,50,54,57,60,62,],[-5,-6,-7,-4,-13,55,-11,-9,-12,-10,-8,]),'MAIN':([5,],[12,]),'MUT':([8,],[13,]),'ID':([8,13,19,20,23,43,46,49,58,],[14,17,31,31,31,31,31,31,31,]),'EX':([9,],[15,]),'PARIZQ':([12,15,],[16,20,]),'DOSPT':([14,17,],[18,22,]),'IGUAL':([14,17,24,25,26,27,28,29,41,44,],[19,23,43,-14,-15,-16,-17,-18,49,-19,]),'PARDER':([16,31,33,34,35,36,37,38,39,52,53,61,],[21,-22,-23,-24,-25,-26,-27,-28,47,-21,59,-20,]),'I64':([18,22,],[25,25,]),'F64':([18,22,],[26,26,]),'BOOL':([18,22,],[27,27,]),'CHAR':([18,22,],[28,28,]),'STRING':([18,22,],[29,29,]),'SIGNOI':([18,22,],[30,30,]),'ENTERO':([19,20,23,43,46,49,58,],[33,33,33,33,33,33,33,]),'DECIMAL':([19,20,23,43,46,49,58,],[34,34,34,34,34,34,34,]),'TRUE':([19,20,23,43,46,49,58,],[35,35,35,35,35,35,35,]),'FALSE':([19,20,23,43,46,49,58,],[36,36,36,36,36,36,36,]),'CADENA':([19,20,23,43,46,49,58,],[37,37,37,37,37,37,37,]),'CARACTER':([19,20,23,43,46,49,58,],[38,38,38,38,38,38,38,]),'LLAVEIZQ':([21,],[40,]),'STR':([30,],[44,]),'PTCOMA':([31,32,33,34,35,36,37,38,42,47,51,56,59,],[-22,45,-23,-24,-25,-26,-27,-28,50,54,57,60,62,]),'COMA':([31,33,34,35,36,37,38,39,52,53,61,],[-22,-23,-24,-25,-26,-27,-28,46,-21,58,-20,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,35,],[2,40,]),'main':([0,2,],[3,8,]),'instruccion':([0,2,35,40,],[4,9,4,9,]),'declaracion':([0,2,35,40,],[6,6,6,6,]),'tipo':([15,18,],[20,36,]),'expresion':([16,19,38,41,],[28,37,43,45,]),}
+_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,40,],[2,48,]),'main':([0,2,],[3,10,]),'instruccion':([0,2,40,48,],[4,11,4,11,]),'declaracion':([0,2,40,48,],[6,6,6,6,]),'imprimir':([0,2,40,48,],[7,7,7,7,]),'tipo':([18,22,],[24,41,]),'expresion':([19,20,23,43,46,49,58,],[32,39,42,51,52,56,61,]),'expresiones':([46,],[53,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,27 +27,32 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> inicio","S'",1,None,None,None),
-  ('inicio -> instrucciones main','inicio',2,'p_inicio1','Sintactico.py',7),
-  ('inicio -> main','inicio',1,'p_inicio2','Sintactico.py',15),
-  ('main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER','main',7,'p_main','Sintactico.py',20),
-  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_instrucciones1','Sintactico.py',24),
-  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones2','Sintactico.py',29),
-  ('instruccion -> declaracion','instruccion',1,'p_instrucion','Sintactico.py',33),
-  ('declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',8,'p_declaracion1','Sintactico.py',37),
-  ('declaracion -> LET MUT ID IGUAL expresion PTCOMA','declaracion',6,'p_declaracion2','Sintactico.py',42),
-  ('declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',7,'p_declaracion3','Sintactico.py',46),
-  ('declaracion -> LET ID IGUAL expresion PTCOMA','declaracion',5,'p_declaracion4','Sintactico.py',50),
-  ('tipo -> I64','tipo',1,'p_tipo','Sintactico.py',54),
-  ('tipo -> F64','tipo',1,'p_tipo','Sintactico.py',55),
-  ('tipo -> BOOL','tipo',1,'p_tipo','Sintactico.py',56),
-  ('tipo -> CHAR','tipo',1,'p_tipo','Sintactico.py',57),
-  ('tipo -> STR','tipo',1,'p_tipo','Sintactico.py',58),
-  ('tipo -> STRING','tipo',1,'p_tipo','Sintactico.py',59),
-  ('expresion -> ID','expresion',1,'p_expresion','Sintactico.py',64),
-  ('expresion -> ENTERO','expresion',1,'p_expresion','Sintactico.py',65),
-  ('expresion -> DECIMAL','expresion',1,'p_expresion','Sintactico.py',66),
-  ('expresion -> TRUE','expresion',1,'p_expresion','Sintactico.py',67),
-  ('expresion -> FALSE','expresion',1,'p_expresion','Sintactico.py',68),
-  ('expresion -> CADENA','expresion',1,'p_expresion','Sintactico.py',69),
-  ('expresion -> CARACTER','expresion',1,'p_expresion','Sintactico.py',70),
+  ('inicio -> instrucciones main','inicio',2,'p_inicio1','Sintactico.py',9),
+  ('inicio -> main','inicio',1,'p_inicio2','Sintactico.py',18),
+  ('main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER','main',7,'p_main','Sintactico.py',24),
+  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_instrucciones1','Sintactico.py',29),
+  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones2','Sintactico.py',36),
+  ('instruccion -> declaracion','instruccion',1,'p_instrucion','Sintactico.py',42),
+  ('instruccion -> imprimir','instruccion',1,'p_instrucion','Sintactico.py',43),
+  ('imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA','imprimir',8,'p_imprimir1','Sintactico.py',49),
+  ('imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA','imprimir',6,'p_imprimir2','Sintactico.py',55),
+  ('declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',8,'p_declaracion1','Sintactico.py',60),
+  ('declaracion -> LET MUT ID IGUAL expresion PTCOMA','declaracion',6,'p_declaracion2','Sintactico.py',65),
+  ('declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',7,'p_declaracion3','Sintactico.py',70),
+  ('declaracion -> LET ID IGUAL expresion PTCOMA','declaracion',5,'p_declaracion4','Sintactico.py',75),
+  ('tipo -> I64','tipo',1,'p_tipo1','Sintactico.py',80),
+  ('tipo -> F64','tipo',1,'p_tipo1','Sintactico.py',81),
+  ('tipo -> BOOL','tipo',1,'p_tipo1','Sintactico.py',82),
+  ('tipo -> CHAR','tipo',1,'p_tipo1','Sintactico.py',83),
+  ('tipo -> STRING','tipo',1,'p_tipo1','Sintactico.py',84),
+  ('tipo -> SIGNOI STR','tipo',2,'p_tipo2','Sintactico.py',90),
+  ('expresiones -> expresiones COMA expresion','expresiones',3,'p_expresiones1','Sintactico.py',95),
+  ('expresiones -> expresion','expresiones',1,'p_expresiones2','Sintactico.py',100),
+  ('expresion -> ID','expresion',1,'p_expresion','Sintactico.py',105),
+  ('expresion -> ENTERO','expresion',1,'p_expresion','Sintactico.py',106),
+  ('expresion -> DECIMAL','expresion',1,'p_expresion','Sintactico.py',107),
+  ('expresion -> TRUE','expresion',1,'p_expresion','Sintactico.py',108),
+  ('expresion -> FALSE','expresion',1,'p_expresion','Sintactico.py',109),
+  ('expresion -> CADENA','expresion',1,'p_expresion','Sintactico.py',110),
+  ('expresion -> CARACTER','expresion',1,'p_expresion','Sintactico.py',111),
 ]
