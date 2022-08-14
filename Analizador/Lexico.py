@@ -14,7 +14,9 @@ reservadas={
     'let': 'LET',
     'fn': 'FN',
     'main': 'MAIN',
-    'println': 'PRINTLN'
+    'println': 'PRINTLN',
+    'to_string': 'TOSTRING',
+    'to_owned': 'TOOWNED'
 
 
 }
@@ -34,7 +36,9 @@ tokens=[
     'DOSPT',
     'SIGNOI',
     'COMA',
-    'EX'
+    'EX',
+    'PTO',
+
 ]
 tokens += list(reservadas.values())
 
@@ -47,12 +51,14 @@ t_IGUAL = r'='
 t_PARIZQ = r'\('
 t_PARDER = r'\)'
 t_SIGNOI = r'&'
-t_COMA = r'.'
+t_COMA = r','
 t_EX = r'\!'
+t_PTO = r'.'
+
 
 #?---------------FUNCIONES----------------------------
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'([a-zA-Z]|_[a-zA-Z])[a-zA-Z_0-9]*'
     t.type = reservadas.get(t.value, 'ID')
     return t
 

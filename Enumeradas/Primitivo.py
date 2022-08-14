@@ -7,3 +7,6 @@ class tipoPrimitivo(Enum):
     CHAR = 'CHAR'
     STRING = 'STRING'
     STR = 'STR'
+    NULO = 'NULO'
+    TOS = 'TOS' #? Esto es para to_string y el to_ownewd
+    TOW = 'TOW'

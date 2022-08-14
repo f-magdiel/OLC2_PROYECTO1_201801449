@@ -1,29 +1,21 @@
 from Abstracta.Instruccion import Instruccion
-from Enumeradas.Primitivo import tipoPrimitivo
-from Entorno.Variable import Variable
 from Entorno.Entorno import Entorno
+from Entorno.Variable import Variable
+from Enumeradas.Primitivo import tipoPrimitivo
 
-
-class DeclaracionVariable(Instruccion):
-
-    def __init__(self, fila, tipo, nombre, expresion, mutable):
+class Asignacion(Instruccion):
+    def __init__(self, fila, nombre, expresion):
         super().__init__(fila)
-        self.fila = fila
-        self.mutable = mutable
-        self.tipo = tipo
         self.nombre = nombre
         self.expresion = expresion
 
     def ejecutar(self, entorno: Entorno):
-
-        if (self.tipo and self.nombre and self.expresion):
-            var = entorno.buscar_variable_entorno(self.nombre)
-            if not (var):
-                expre = self.expresion.ejecutar(entorno)
-                print("TIPO {}",expre.tipo)
+        if(self.nombre and self.expresion):
+            variable =entorno.buscar_variable(self.nombre)
+            if(variable):
+                expre =self.expresion.ejecutar(entorno)
                 if (expre):
-                    if not (isinstance(expre.valor, list)):
-
+                    if not(isinstance(expre.valor, list)):
                         if (expre.tipo == self.tipo):  # Si es el mismo tipo
                             variable = Variable(self.tipo, self.nombre, self.expresion, self.fila, self.mutable)
                             entorno.nueva_variable(variable)
@@ -44,9 +36,3 @@ class DeclaracionVariable(Instruccion):
                         else:
                             print("El tipo {} y la expresion {} no coinciden")
 
-                    else:
-                        msg_error = 'La variable no puede almacenar un arreglo'
-                        print(msg_error)
-            else:
-                msg_error = "Ya existe una variable con el nombre '{}' en la tabla de simbolos.".format(self.nombre)
-                print(msg_error)

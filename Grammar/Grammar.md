@@ -28,6 +28,16 @@ expresion -> ID
         | FALSE
         | CADENA
         | CARACTER
+        | STR
+        | NULO
+        | string
+
+string -> tostring
+        | toowned
+
+tostring -> CADENA PT TOSTRING PARIZ PARDER PTCOMA
+
+toowned -> CADENA PT TOOWNED PARIZ PARDER PTCOMA
 
 tipo -> I64
         | F64

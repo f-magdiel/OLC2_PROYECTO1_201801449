@@ -1,4 +1,5 @@
 from Abstracta.Instruccion import Instruccion
+from Entorno.Entorno import Entorno
 
 class Primitiva(Instruccion):
     def __init__(self, fila, tipo, valor):
@@ -6,5 +7,6 @@ class Primitiva(Instruccion):
         self.tipo = tipo
         self.valor = valor
 
-    def ejecutar(self, entorno):
+
+    def ejecutar(self, entorno: Entorno):
         return self

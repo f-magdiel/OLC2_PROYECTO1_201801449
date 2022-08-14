@@ -8,6 +8,6 @@ class Imprimir(Instruccion):
         self.expresion = expresion
         self.expresiones = expresiones
 
-    def ejecutar(self,entorno: Entorno):
+    def ejecutar(self, entorno: Entorno):
         print("Expresion {}".format(self.expresion))
         print("Expresiones {}".format(self.expresiones))

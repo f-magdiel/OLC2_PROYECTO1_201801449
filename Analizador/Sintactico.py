@@ -2,6 +2,10 @@ import ply.yacc as yacc
 from Analizador.Lexico import tokens
 from Instrucciones.Declaracion import DeclaracionVariable
 from Instrucciones.Imprimir import Imprimir
+from Entorno.Entorno import Entorno
+from Expresion.Id import Id
+from Expresion.Primitva import Primitiva
+from Enumeradas.Primitivo import tipoPrimitivo
 
 
 # ?-------------------PRODUCCIONES--------------------------
@@ -41,6 +45,7 @@ def p_instrucciones2(t):
 def p_instrucion(t):
     '''instruccion : declaracion
                     | imprimir
+                    | asignacion
     '''
     t[0] = t[1]
 
@@ -62,7 +67,7 @@ def p_declaracion1(t):
 
 def p_declaracion2(t):
     'declaracion : LET MUT ID IGUAL expresion PTCOMA'
-    t[0] = DeclaracionVariable(t.lineno(2), None, t[3], t[5], True)
+    t[0] = DeclaracionVariable(t.lineno(2), tipoPrimitivo.NULO, t[3], t[5], True)
 
 
 def p_declaracion3(t):
@@ -72,7 +77,7 @@ def p_declaracion3(t):
 
 def p_declaracion4(t):
     'declaracion : LET ID IGUAL expresion PTCOMA'
-    t[0] = DeclaracionVariable(t.lineno(2), None, t[2], t[4], False)
+    t[0] = DeclaracionVariable(t.lineno(2), tipoPrimitivo.NULO, t[2], t[4], False)
 
 
 def p_tipo1(t):
@@ -82,12 +87,22 @@ def p_tipo1(t):
             | CHAR
             | STRING
     '''
-    t[0] = t[1]
+    tipo = t[1]
+    if (tipo == 'i64'):
+        t[0] = tipoPrimitivo.I64
+    elif (tipo == 'f64'):
+        t[0] = tipoPrimitivo.F64
+    elif (tipo == 'bool'):
+        t[0] = tipoPrimitivo.BOOL
+    elif (tipo == 'char'):
+        t[0] = tipoPrimitivo.CHAR
+    elif (tipo == 'String'):
+        t[0] = tipoPrimitivo.STRING
 
 
 def p_tipo2(t):
     'tipo : SIGNOI STR'
-    t[0] = t[2]
+    t[0] = tipoPrimitivo.STR
 
 
 def p_expresiones1(t):
@@ -95,21 +110,66 @@ def p_expresiones1(t):
     t[1].append(t[3])
     t[0] = t[1]
 
+
 def p_expresiones2(t):
     'expresiones : expresion'
     t[0] = [t[1]]
 
 
-def p_expresion(t):
-    '''expresion : ID
-                | ENTERO
-                | DECIMAL
-                | TRUE
-                | FALSE
-                | CADENA
-                | CARACTER
-    '''
+def p_expresion_id(t):
+    'expresion : ID'
+    t[0] = Id(t.lineno(1), str(t[1]))
+
+
+def p_expresion_entero(t):
+    'expresion : ENTERO'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.I64, int(t[1]))
+
+
+def p_expresion_decimal(t):
+    'expresion : DECIMAL'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.F64, float(t[1]))
+
+
+def p_expresion_true(t):
+    'expresion : TRUE'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.BOOL, True)
+
+
+def p_expresion_false(t):
+    'expresion : FALSE'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.BOOL, False)
+
+
+def p_expresion_to(t):
+    '''expresion : tostring
+                | toowned'''
     t[0] = t[1]
+
+
+def p_expresion_tostring(t):
+    'tostring : CADENA PTO TOSTRING PARIZQ PARDER '
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.TOS, t[1])
+
+
+def p_expresion_toowned(t):
+    'toowned : CADENA PTO TOOWNED PARIZQ PARDER '
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.TOW, t[1])
+
+
+def p_expresion_cadena2(t):
+    'expresion : STR'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.STR, t[1])
+
+
+def p_expresion_cadena1(t):
+    'expresion : CADENA'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.STRING, str(t[1]))
+
+
+def p_expresion_caracter(t):
+    'expresion : CARACTER'
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.CHAR, str(t[1]))
 
 
 def p_error(t):
@@ -123,21 +183,22 @@ entrada = '''
 //hola
 fn main() {
 let mut var1 : i64 = 1;
-let var2 : f64 = 2;
+let var2 : f64 = 2.0;
 let mut var3 = 3;
 let var4 = 4;
 let mut var5 : bool = true;
-let mut var6 : String = "hola";
-let mut var7 : char = 'a';
-let mut var8 : &str = "hola";
-println!(1);
-println!("{} {} {}", 1, 2, 4);
+let mut var6 : String = "hola".to_owned();
+let mut var7 : &str = "hola";
+
+var1 = 20;
+
 }
 '''
 print("Inicia analizador...")
 instruc = parser.parse(entrada)
+entorno_global = [Entorno(None, None)]
 
 for instru in instruc:
-    instru.ejecutar(None)
+    instru.ejecutar(entorno_global[0])
 
 print("Finaliza analizador...")
