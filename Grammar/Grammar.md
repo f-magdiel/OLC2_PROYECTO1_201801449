@@ -8,12 +8,15 @@ instrucciones -> instrucciones instruccion
 
 instruccion -> declaracion
                 | imprimir
+                | asignacion
 
 
 declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
                 | LET MUT ID IGUAL expresion PTCOMA
                 | LET ID DOSTP tipo IGUAL expresion PTCOMA
                 | LET ID IGUAL expresion PTCOMA
+
+asignacion -> ID IGUAL expresion PTCOMA
 
 imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA
         | PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA

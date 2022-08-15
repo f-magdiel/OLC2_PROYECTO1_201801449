@@ -6,6 +6,7 @@ from Entorno.Entorno import Entorno
 from Expresion.Id import Id
 from Expresion.Primitva import Primitiva
 from Enumeradas.Primitivo import tipoPrimitivo
+from Instrucciones.Asignacion import AsignacionVariable
 
 
 # ?-------------------PRODUCCIONES--------------------------
@@ -50,6 +51,8 @@ def p_instrucion(t):
     t[0] = t[1]
 
 
+# !---------------------------------------------------IMPRIMIR-----------------------------------------------------
+
 def p_imprimir1(t):
     'imprimir : PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA'
     t[0] = Imprimir(t.lineno(2), t[4], t[6])
@@ -59,6 +62,8 @@ def p_imprimir2(t):
     'imprimir : PRINTLN EX PARIZQ expresion PARDER PTCOMA'
     t[0] = Imprimir(t.lineno(2), t[4], None)
 
+
+# !-------------------------------------DECLARACION-------------------------------------------------------
 
 def p_declaracion1(t):
     'declaracion : LET MUT ID DOSPT tipo IGUAL expresion PTCOMA'
@@ -79,6 +84,14 @@ def p_declaracion4(t):
     'declaracion : LET ID IGUAL expresion PTCOMA'
     t[0] = DeclaracionVariable(t.lineno(2), tipoPrimitivo.NULO, t[2], t[4], False)
 
+
+# !---------------------------------ASIGNACION------------------------------------------
+def p_asignacion1(t):
+    'asignacion : ID IGUAL expresion PTCOMA'
+    t[0] = AsignacionVariable(t.lineno(1), t[1], t[3])
+
+
+# !----------------------------------------TIPO----------------------------------------------
 
 def p_tipo1(t):
     '''tipo : I64
@@ -105,6 +118,7 @@ def p_tipo2(t):
     t[0] = tipoPrimitivo.STR
 
 
+# !------------------------------------------------EXPRESION--------------------------------------------------
 def p_expresiones1(t):
     ' expresiones : expresiones COMA expresion'
     t[1].append(t[3])
@@ -172,6 +186,7 @@ def p_expresion_caracter(t):
     t[0] = Primitiva(t.lineno(1), tipoPrimitivo.CHAR, str(t[1]))
 
 
+# !--------------------------------------------ERROR-----------------------------------------------
 def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
 
@@ -189,8 +204,6 @@ let var4 = 4;
 let mut var5 : bool = true;
 let mut var6 : String = "hola".to_owned();
 let mut var7 : &str = "hola";
-
-var1 = 20;
 
 }
 '''
