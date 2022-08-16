@@ -7,6 +7,7 @@ from Expresion.Id import Id
 from Expresion.Primitva import Primitiva
 from Enumeradas.Primitivo import tipoPrimitivo
 from Instrucciones.Asignacion import AsignacionVariable
+from Instrucciones.Imprimir import listimpresion
 
 
 # ?-------------------PRODUCCIONES--------------------------
@@ -204,7 +205,7 @@ let var4 = 4;
 let mut var5 : bool = true;
 let mut var6 : String = "hola".to_owned();
 let mut var7 : &str = "hola";
-
+println!(" Esto {} {} {}", var7, var7, var7);
 }
 '''
 print("Inicia analizador...")
@@ -213,5 +214,7 @@ entorno_global = [Entorno(None, None)]
 
 for instru in instruc:
     instru.ejecutar(entorno_global[0])
-
+print("------Consola-------")
+for i in listimpresion:
+    print(i)
 print("Finaliza analizador...")
