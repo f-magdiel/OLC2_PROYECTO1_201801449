@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'BOOL CADENA CARACTER CHAR COMA DECIMAL DOSPT ENTERO EX F64 FALSE FN I64 ID IGUAL LET LLAVEDER LLAVEIZQ MAIN MUT PARDER PARIZQ PRINTLN PTCOMA PTO SIGNOI STR STRING TOOWNED TOSTRING TRUEinicio : instrucciones maininicio : mainmain : FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDERinstrucciones : instrucciones instruccioninstrucciones : instruccioninstruccion : declaracion\n                    | imprimir\n                    | asignacion\n    imprimir : PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMAimprimir : PRINTLN EX PARIZQ expresion PARDER PTCOMAdeclaracion : LET MUT ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET MUT ID IGUAL expresion PTCOMAdeclaracion : LET ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET ID IGUAL expresion PTCOMAasignacion : ID IGUAL expresion PTCOMAtipo : I64\n            | F64\n            | BOOL\n            | CHAR\n            | STRING\n    tipo : SIGNOI STR expresiones : expresiones COMA expresionexpresiones : expresionexpresion : IDexpresion : ENTEROexpresion : DECIMALexpresion : TRUEexpresion : FALSEexpresion : tostring\n                | toownedtostring : CADENA PTO TOSTRING PARIZQ PARDER toowned : CADENA PTO TOOWNED PARIZQ PARDER expresion : STRexpresion : CADENAexpresion : CARACTER'
+_lr_signature = 'leftORleftANDleftIGUALQUENOIGUALQUEMENORQUEMENORIQUEMAYORQUEMAYORIQUEleftMASMENOSleftDIVIDIDOPORMODULOleftASleftUMENOSNOTAND AS BOOL CADENA CARACTER CHAR COMA DECIMAL DIVIDIDO DOSPT ENTERO EX F64 FALSE FN I64 ID IGUAL IGUALQUE LET LLAVEDER LLAVEIZQ MAIN MAS MAYORIQUE MAYORQUE MENORIQUE MENORQUE MENOS MODULO MUT NOIGUALQUE NOT OR PARDER PARIZQ POR PRINTLN PTCOMA PTO SIGNOI STR STRING TOOWNED TOSTRING TRUEinicio : instrucciones maininicio : mainmain : FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDERinstrucciones : instrucciones instruccioninstrucciones : instruccioninstruccion : declaracion\n                    | imprimir\n                    | asignacion\n    imprimir : PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMAimprimir : PRINTLN EX PARIZQ expresion PARDER PTCOMAdeclaracion : LET MUT ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET MUT ID IGUAL expresion PTCOMAdeclaracion : LET ID DOSPT tipo IGUAL expresion PTCOMAdeclaracion : LET ID IGUAL expresion PTCOMAasignacion : ID IGUAL expresion PTCOMAtipo : I64\n            | F64\n            | BOOL\n            | CHAR\n            | STRING\n    tipo : SIGNOI STR expresiones : expresiones COMA expresionexpresiones : expresionexpresion : IDexpresion : ENTEROexpresion : DECIMALexpresion : TRUEexpresion : FALSEexpresion : tostring\n                | toownedtostring : CADENA PTO TOSTRING PARIZQ PARDER toowned : CADENA PTO TOOWNED PARIZQ PARDER expresion : STRexpresion : CADENAexpresion : CARACTERexpresion : expresion MAS expresion\n                    | expresion MENOS expresion\n                    | expresion POR expresion\n                    | expresion DIVIDIDO expresion\n                    | expresion MODULO expresionexpresion : MENOS expresion %prec UMENOS\n                | NOT expresion'
     
-_lr_action_items = {'FN':([0,2,4,6,7,8,13,46,54,61,67,70,75,77,],[5,5,-5,-6,-7,-8,-4,-15,-14,-12,-10,-13,-11,-9,]),'LET':([0,2,4,6,7,8,13,46,49,54,59,61,67,70,75,77,],[9,9,-5,-6,-7,-8,-4,-15,9,-14,9,-12,-10,-13,-11,-9,]),'PRINTLN':([0,2,4,6,7,8,13,46,49,54,59,61,67,70,75,77,],[11,11,-5,-6,-7,-8,-4,-15,11,-14,11,-12,-10,-13,-11,-9,]),'ID':([0,2,4,6,7,8,9,13,15,17,22,34,37,46,49,52,54,57,59,60,61,67,70,73,75,77,],[10,10,-5,-6,-7,-8,16,-4,20,23,23,23,23,-15,10,23,-14,23,10,23,-12,-10,-13,23,-11,-9,]),'$end':([1,3,12,68,],[0,-2,-1,-3,]),'LLAVEDER':([4,6,7,8,13,46,54,59,61,67,70,75,77,],[-5,-6,-7,-8,-4,-15,-14,68,-12,-10,-13,-11,-9,]),'MAIN':([5,],[14,]),'MUT':([9,],[15,]),'IGUAL':([10,16,20,38,39,40,41,42,43,50,53,],[17,22,37,52,-16,-17,-18,-19,-20,60,-21,]),'EX':([11,],[18,]),'PARIZQ':([14,18,55,56,],[19,34,63,64,]),'DOSPT':([16,20,],[21,36,]),'ENTERO':([17,22,34,37,52,57,60,73,],[25,25,25,25,25,25,25,25,]),'DECIMAL':([17,22,34,37,52,57,60,73,],[26,26,26,26,26,26,26,26,]),'TRUE':([17,22,34,37,52,57,60,73,],[27,27,27,27,27,27,27,27,]),'FALSE':([17,22,34,37,52,57,60,73,],[28,28,28,28,28,28,28,28,]),'STR':([17,22,34,37,44,52,57,60,73,],[31,31,31,31,53,31,31,31,31,]),'CADENA':([17,22,34,37,52,57,60,73,],[32,32,32,32,32,32,32,32,]),'CARACTER':([17,22,34,37,52,57,60,73,],[33,33,33,33,33,33,33,33,]),'PARDER':([19,23,25,26,27,28,29,30,31,32,33,48,63,64,65,66,71,72,76,],[35,-24,-25,-26,-27,-28,-29,-30,-33,-34,-35,58,71,72,-23,74,-31,-32,-22,]),'I64':([21,36,],[39,39,]),'F64':([21,36,],[40,40,]),'BOOL':([21,36,],[41,41,]),'CHAR':([21,36,],[42,42,]),'STRING':([21,36,],[43,43,]),'SIGNOI':([21,36,],[44,44,]),'PTCOMA':([23,24,25,26,27,28,29,30,31,32,33,45,51,58,62,69,71,72,74,],[-24,46,-25,-26,-27,-28,-29,-30,-33,-34,-35,54,61,67,70,75,-31,-32,77,]),'COMA':([23,25,26,27,28,29,30,31,32,33,48,65,66,71,72,76,],[-24,-25,-26,-27,-28,-29,-30,-33,-34,-35,57,-23,73,-31,-32,-22,]),'PTO':([32,],[47,]),'LLAVEIZQ':([35,],[49,]),'TOSTRING':([47,],[55,]),'TOOWNED':([47,],[56,]),}
+_lr_action_items = {'FN':([0,2,4,6,7,8,13,48,63,75,81,84,89,91,],[5,5,-5,-6,-7,-8,-4,-15,-14,-12,-10,-13,-11,-9,]),'LET':([0,2,4,6,7,8,13,48,58,63,73,75,81,84,89,91,],[9,9,-5,-6,-7,-8,-4,-15,9,-14,9,-12,-10,-13,-11,-9,]),'PRINTLN':([0,2,4,6,7,8,13,48,58,63,73,75,81,84,89,91,],[11,11,-5,-6,-7,-8,-4,-15,11,-14,11,-12,-10,-13,-11,-9,]),'ID':([0,2,4,6,7,8,9,13,15,17,22,34,35,36,39,48,49,50,51,52,53,58,61,63,71,73,74,75,81,84,87,89,91,],[10,10,-5,-6,-7,-8,16,-4,20,23,23,23,23,23,23,-15,23,23,23,23,23,10,23,-14,23,10,23,-12,-10,-13,23,-11,-9,]),'$end':([1,3,12,82,],[0,-2,-1,-3,]),'LLAVEDER':([4,6,7,8,13,48,63,73,75,81,84,89,91,],[-5,-6,-7,-8,-4,-15,-14,82,-12,-10,-13,-11,-9,]),'MAIN':([5,],[14,]),'MUT':([9,],[15,]),'IGUAL':([10,16,20,40,41,42,43,44,45,59,62,],[17,22,39,61,-16,-17,-18,-19,-20,74,-21,]),'EX':([11,],[18,]),'PARIZQ':([14,18,69,70,],[19,36,77,78,]),'DOSPT':([16,20,],[21,38,]),'ENTERO':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,]),'DECIMAL':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,]),'TRUE':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,]),'FALSE':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,]),'STR':([17,22,34,35,36,39,46,49,50,51,52,53,61,71,74,87,],[31,31,31,31,31,31,62,31,31,31,31,31,31,31,31,31,]),'CADENA':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,]),'CARACTER':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,]),'MENOS':([17,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,39,47,49,50,51,52,53,55,56,57,60,61,64,65,66,67,68,71,74,76,79,83,85,86,87,90,],[34,34,-24,50,-25,-26,-27,-28,-29,-30,-33,-34,-35,34,34,34,34,50,34,34,34,34,34,-41,-42,50,50,34,-36,-37,-38,-39,-40,34,34,50,50,50,-31,-32,34,50,]),'NOT':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,]),'PARDER':([19,23,25,26,27,28,29,30,31,32,33,55,56,57,64,65,66,67,68,77,78,79,80,85,86,90,],[37,-24,-25,-26,-27,-28,-29,-30,-33,-34,-35,-41,-42,72,-36,-37,-38,-39,-40,85,86,-23,88,-31,-32,-22,]),'I64':([21,38,],[41,41,]),'F64':([21,38,],[42,42,]),'BOOL':([21,38,],[43,43,]),'CHAR':([21,38,],[44,44,]),'STRING':([21,38,],[45,45,]),'SIGNOI':([21,38,],[46,46,]),'PTCOMA':([23,24,25,26,27,28,29,30,31,32,33,47,55,56,60,64,65,66,67,68,72,76,83,85,86,88,],[-24,48,-25,-26,-27,-28,-29,-30,-33,-34,-35,63,-41,-42,75,-36,-37,-38,-39,-40,81,84,89,-31,-32,91,]),'MAS':([23,24,25,26,27,28,29,30,31,32,33,47,55,56,57,60,64,65,66,67,68,76,79,83,85,86,90,],[-24,49,-25,-26,-27,-28,-29,-30,-33,-34,-35,49,-41,-42,49,49,-36,-37,-38,-39,-40,49,49,49,-31,-32,49,]),'POR':([23,24,25,26,27,28,29,30,31,32,33,47,55,56,57,60,64,65,66,67,68,76,79,83,85,86,90,],[-24,51,-25,-26,-27,-28,-29,-30,-33,-34,-35,51,-41,-42,51,51,51,51,-38,-39,-40,51,51,51,-31,-32,51,]),'DIVIDIDO':([23,24,25,26,27,28,29,30,31,32,33,47,55,56,57,60,64,65,66,67,68,76,79,83,85,86,90,],[-24,52,-25,-26,-27,-28,-29,-30,-33,-34,-35,52,-41,-42,52,52,52,52,-38,-39,-40,52,52,52,-31,-32,52,]),'MODULO':([23,24,25,26,27,28,29,30,31,32,33,47,55,56,57,60,64,65,66,67,68,76,79,83,85,86,90,],[-24,53,-25,-26,-27,-28,-29,-30,-33,-34,-35,53,-41,-42,53,53,53,53,-38,-39,-40,53,53,53,-31,-32,53,]),'COMA':([23,25,26,27,28,29,30,31,32,33,55,56,57,64,65,66,67,68,79,80,85,86,90,],[-24,-25,-26,-27,-28,-29,-30,-33,-34,-35,-41,-42,71,-36,-37,-38,-39,-40,-23,87,-31,-32,-22,]),'PTO':([32,],[54,]),'LLAVEIZQ':([37,],[58,]),'TOSTRING':([54,],[69,]),'TOOWNED':([54,],[70,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,49,],[2,59,]),'main':([0,2,],[3,12,]),'instruccion':([0,2,49,59,],[4,13,4,13,]),'declaracion':([0,2,49,59,],[6,6,6,6,]),'imprimir':([0,2,49,59,],[7,7,7,7,]),'asignacion':([0,2,49,59,],[8,8,8,8,]),'expresion':([17,22,34,37,52,57,60,73,],[24,45,48,51,62,65,69,76,]),'tostring':([17,22,34,37,52,57,60,73,],[29,29,29,29,29,29,29,29,]),'toowned':([17,22,34,37,52,57,60,73,],[30,30,30,30,30,30,30,30,]),'tipo':([21,36,],[38,50,]),'expresiones':([57,],[66,]),}
+_lr_goto_items = {'inicio':([0,],[1,]),'instrucciones':([0,58,],[2,73,]),'main':([0,2,],[3,12,]),'instruccion':([0,2,58,73,],[4,13,4,13,]),'declaracion':([0,2,58,73,],[6,6,6,6,]),'imprimir':([0,2,58,73,],[7,7,7,7,]),'asignacion':([0,2,58,73,],[8,8,8,8,]),'expresion':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[24,47,55,56,57,60,64,65,66,67,68,76,79,83,90,]),'tostring':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,]),'toowned':([17,22,34,35,36,39,49,50,51,52,53,61,71,74,87,],[30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,]),'tipo':([21,38,],[40,59,]),'expresiones':([71,],[80,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,39 +27,46 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> inicio","S'",1,None,None,None),
-  ('inicio -> instrucciones main','inicio',2,'p_inicio1','Sintactico.py',14),
-  ('inicio -> main','inicio',1,'p_inicio2','Sintactico.py',23),
-  ('main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER','main',7,'p_main','Sintactico.py',29),
-  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_instrucciones1','Sintactico.py',34),
-  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones2','Sintactico.py',41),
-  ('instruccion -> declaracion','instruccion',1,'p_instrucion','Sintactico.py',47),
-  ('instruccion -> imprimir','instruccion',1,'p_instrucion','Sintactico.py',48),
-  ('instruccion -> asignacion','instruccion',1,'p_instrucion','Sintactico.py',49),
-  ('imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA','imprimir',8,'p_imprimir1','Sintactico.py',57),
-  ('imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA','imprimir',6,'p_imprimir2','Sintactico.py',62),
-  ('declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',8,'p_declaracion1','Sintactico.py',69),
-  ('declaracion -> LET MUT ID IGUAL expresion PTCOMA','declaracion',6,'p_declaracion2','Sintactico.py',74),
-  ('declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',7,'p_declaracion3','Sintactico.py',79),
-  ('declaracion -> LET ID IGUAL expresion PTCOMA','declaracion',5,'p_declaracion4','Sintactico.py',84),
-  ('asignacion -> ID IGUAL expresion PTCOMA','asignacion',4,'p_asignacion1','Sintactico.py',90),
-  ('tipo -> I64','tipo',1,'p_tipo1','Sintactico.py',97),
-  ('tipo -> F64','tipo',1,'p_tipo1','Sintactico.py',98),
-  ('tipo -> BOOL','tipo',1,'p_tipo1','Sintactico.py',99),
-  ('tipo -> CHAR','tipo',1,'p_tipo1','Sintactico.py',100),
-  ('tipo -> STRING','tipo',1,'p_tipo1','Sintactico.py',101),
-  ('tipo -> SIGNOI STR','tipo',2,'p_tipo2','Sintactico.py',117),
-  ('expresiones -> expresiones COMA expresion','expresiones',3,'p_expresiones1','Sintactico.py',123),
-  ('expresiones -> expresion','expresiones',1,'p_expresiones2','Sintactico.py',129),
-  ('expresion -> ID','expresion',1,'p_expresion_id','Sintactico.py',134),
-  ('expresion -> ENTERO','expresion',1,'p_expresion_entero','Sintactico.py',139),
-  ('expresion -> DECIMAL','expresion',1,'p_expresion_decimal','Sintactico.py',144),
-  ('expresion -> TRUE','expresion',1,'p_expresion_true','Sintactico.py',149),
-  ('expresion -> FALSE','expresion',1,'p_expresion_false','Sintactico.py',154),
-  ('expresion -> tostring','expresion',1,'p_expresion_to','Sintactico.py',159),
-  ('expresion -> toowned','expresion',1,'p_expresion_to','Sintactico.py',160),
-  ('tostring -> CADENA PTO TOSTRING PARIZQ PARDER','tostring',5,'p_expresion_tostring','Sintactico.py',165),
-  ('toowned -> CADENA PTO TOOWNED PARIZQ PARDER','toowned',5,'p_expresion_toowned','Sintactico.py',170),
-  ('expresion -> STR','expresion',1,'p_expresion_cadena2','Sintactico.py',175),
-  ('expresion -> CADENA','expresion',1,'p_expresion_cadena1','Sintactico.py',180),
-  ('expresion -> CARACTER','expresion',1,'p_expresion_caracter','Sintactico.py',185),
+  ('inicio -> instrucciones main','inicio',2,'p_inicio1','Sintactico.py',29),
+  ('inicio -> main','inicio',1,'p_inicio2','Sintactico.py',38),
+  ('main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER','main',7,'p_main','Sintactico.py',44),
+  ('instrucciones -> instrucciones instruccion','instrucciones',2,'p_instrucciones1','Sintactico.py',49),
+  ('instrucciones -> instruccion','instrucciones',1,'p_instrucciones2','Sintactico.py',56),
+  ('instruccion -> declaracion','instruccion',1,'p_instrucion','Sintactico.py',62),
+  ('instruccion -> imprimir','instruccion',1,'p_instrucion','Sintactico.py',63),
+  ('instruccion -> asignacion','instruccion',1,'p_instrucion','Sintactico.py',64),
+  ('imprimir -> PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA','imprimir',8,'p_imprimir1','Sintactico.py',72),
+  ('imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA','imprimir',6,'p_imprimir2','Sintactico.py',77),
+  ('declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',8,'p_declaracion1','Sintactico.py',84),
+  ('declaracion -> LET MUT ID IGUAL expresion PTCOMA','declaracion',6,'p_declaracion2','Sintactico.py',89),
+  ('declaracion -> LET ID DOSPT tipo IGUAL expresion PTCOMA','declaracion',7,'p_declaracion3','Sintactico.py',94),
+  ('declaracion -> LET ID IGUAL expresion PTCOMA','declaracion',5,'p_declaracion4','Sintactico.py',99),
+  ('asignacion -> ID IGUAL expresion PTCOMA','asignacion',4,'p_asignacion1','Sintactico.py',105),
+  ('tipo -> I64','tipo',1,'p_tipo1','Sintactico.py',112),
+  ('tipo -> F64','tipo',1,'p_tipo1','Sintactico.py',113),
+  ('tipo -> BOOL','tipo',1,'p_tipo1','Sintactico.py',114),
+  ('tipo -> CHAR','tipo',1,'p_tipo1','Sintactico.py',115),
+  ('tipo -> STRING','tipo',1,'p_tipo1','Sintactico.py',116),
+  ('tipo -> SIGNOI STR','tipo',2,'p_tipo2','Sintactico.py',132),
+  ('expresiones -> expresiones COMA expresion','expresiones',3,'p_expresiones1','Sintactico.py',138),
+  ('expresiones -> expresion','expresiones',1,'p_expresiones2','Sintactico.py',144),
+  ('expresion -> ID','expresion',1,'p_expresion_id','Sintactico.py',149),
+  ('expresion -> ENTERO','expresion',1,'p_expresion_entero','Sintactico.py',154),
+  ('expresion -> DECIMAL','expresion',1,'p_expresion_decimal','Sintactico.py',159),
+  ('expresion -> TRUE','expresion',1,'p_expresion_true','Sintactico.py',164),
+  ('expresion -> FALSE','expresion',1,'p_expresion_false','Sintactico.py',169),
+  ('expresion -> tostring','expresion',1,'p_expresion_to','Sintactico.py',174),
+  ('expresion -> toowned','expresion',1,'p_expresion_to','Sintactico.py',175),
+  ('tostring -> CADENA PTO TOSTRING PARIZQ PARDER','tostring',5,'p_expresion_tostring','Sintactico.py',180),
+  ('toowned -> CADENA PTO TOOWNED PARIZQ PARDER','toowned',5,'p_expresion_toowned','Sintactico.py',185),
+  ('expresion -> STR','expresion',1,'p_expresion_cadena2','Sintactico.py',190),
+  ('expresion -> CADENA','expresion',1,'p_expresion_cadena1','Sintactico.py',195),
+  ('expresion -> CARACTER','expresion',1,'p_expresion_caracter','Sintactico.py',200),
+  ('expresion -> expresion MAS expresion','expresion',3,'p_expresion_aritmetica1','Sintactico.py',205),
+  ('expresion -> expresion MENOS expresion','expresion',3,'p_expresion_aritmetica1','Sintactico.py',206),
+  ('expresion -> expresion POR expresion','expresion',3,'p_expresion_aritmetica1','Sintactico.py',207),
+  ('expresion -> expresion DIVIDIDO expresion','expresion',3,'p_expresion_aritmetica1','Sintactico.py',208),
+  ('expresion -> expresion MODULO expresion','expresion',3,'p_expresion_aritmetica1','Sintactico.py',209),
+  ('expresion -> MENOS expresion','expresion',2,'p_exp_unaria','Sintactico.py',214),
+  ('expresion -> NOT expresion','expresion',2,'p_exp_unaria','Sintactico.py',215),
 ]

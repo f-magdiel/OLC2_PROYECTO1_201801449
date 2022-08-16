@@ -34,6 +34,19 @@ expresion -> ID
         | STR
         | NULO
         | string
+        | expresion MAS expresion
+        | expresion MENOS expresion
+        | expresion POR expresion
+        | expresion DIVIDIDO expresion
+        | expresion MODULO expresion
+        | MENOS expresion %prec UMENOS 
+        | NOT expresion
+        | expresion IGUALQUE expresion
+        | expresion NIGUALQUE expresion
+        | expresion MENORQUE expresion
+        | expresion MAYORQUE expresion
+        | expresion MENORIQUE expresion
+        | expresion MAYORIQUE expresion
 
 string -> tostring
         | toowned

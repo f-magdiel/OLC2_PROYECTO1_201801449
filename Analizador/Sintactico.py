@@ -3,11 +3,25 @@ from Analizador.Lexico import tokens
 from Instrucciones.Declaracion import DeclaracionVariable
 from Instrucciones.Imprimir import Imprimir
 from Entorno.Entorno import Entorno
-from Expresion.Id import Id
-from Expresion.Primitva import Primitiva
+from Expresiones.Id import Id
+from Expresiones.Primitva import Primitiva
 from Enumeradas.Primitivo import tipoPrimitivo
 from Instrucciones.Asignacion import AsignacionVariable
 from Instrucciones.Imprimir import listimpresion
+from Expresiones.Aritmetica import Aritmetica
+from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
+
+# ?---------------------PRECEDENCIAS----------------------------
+precedence = (
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('left', 'IGUALQUE', 'NOIGUALQUE', 'MENORQUE', 'MENORIQUE', 'MAYORQUE', 'MAYORIQUE'),
+    ('left', 'MAS', 'MENOS'),
+    ('left', 'DIVIDIDO', 'POR', 'MODULO'),
+    ('left', 'AS'),
+    ('left', 'UMENOS', 'NOT'),
+
+)
 
 
 # ?-------------------PRODUCCIONES--------------------------
@@ -187,6 +201,28 @@ def p_expresion_caracter(t):
     t[0] = Primitiva(t.lineno(1), tipoPrimitivo.CHAR, str(t[1]))
 
 
+def p_expresion_aritmetica1(t):
+    '''expresion : expresion MAS expresion
+                    | expresion MENOS expresion
+                    | expresion POR expresion
+                    | expresion DIVIDIDO expresion
+                    | expresion MODULO expresion'''
+
+    operador = t[2]
+    if operador == '+':
+        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MAS, t[3])
+
+
+def p_exp_unaria(t):
+    '''expresion : MENOS expresion %prec UMENOS
+                | NOT expresion'''
+    operador = str(t[1])
+    if operador == '-':
+        t[0] = t[2]
+    else:
+        t[0] = t[2]
+
+
 # !--------------------------------------------ERROR-----------------------------------------------
 def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
@@ -199,13 +235,14 @@ entrada = '''
 //hola
 fn main() {
 let mut var1 : i64 = 1;
-let var2 : f64 = 2.0;
+let var2 : f64 = 2.0 ;
 let mut var3 = 3;
 let var4 = 4;
 let mut var5 : bool = true;
-let mut var6 : String = "hola".to_owned();
+let mut var6 : String = "mundo".to_owned();
 let mut var7 : &str = "hola";
-println!(" Esto {} {} {}", var7, var7, var7);
+let con = var7 + var6;
+println!("{}",con);
 }
 '''
 print("Inicia analizador...")

@@ -1,6 +1,6 @@
 from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
-
+from Enumeradas.Primitivo import tipoPrimitivo
 listimpresion = []
 
 
@@ -11,20 +11,22 @@ class Imprimir(Instruccion):
         self.expresiones = expresiones
 
     def ejecutar(self, entorno: Entorno):
-        if self.expresion is not None and self.expresiones is not None :
-            expre = self.expresion.ejecutar(entorno)
-            list_expre = str(expre.valor).split()
-            count_sep = list_expre.count("{}")
-            if count_sep == len(self.expresiones): #validar que tenga los mismos {} y parametros
-                #ejecutar
 
+        if self.expresion is not None and self.expresiones is not None :
+            expre = self.expresion.ejecutar(entorno) #? Primero ejecuta solo la expresion
+            cadena = str(expre.valor)
+            count_sep = str(expre.valor).count("{}")
+            if count_sep == len(self.expresiones): #? validar que tenga los mismos {} y parametros
+                for i in self.expresiones:
+                    val = i.ejecutar(entorno)
+                    cadena = cadena.replace("{}", str(val.valor), 1)
+
+                print(cadena)
 
         elif self.expresion:
             expre = self.expresion.ejecutar(entorno)
-            if expre:
-                if isinstance(expre.valor, str):
-                    val = str(expre.valor).split(sep="\n")
-                    for i in val:
-                        listimpresion.append(i)
-                else:
-                    listimpresion.append(expre.valor.valor)
+            if expre and expre.tipo == tipoPrimitivo.STRING :
+                print(expre.valor)
+            else:
+                print("Debe llevar un formato")
+

@@ -20,30 +20,29 @@ class DeclaracionVariable(Instruccion):
             var = entorno.buscar_variable_entorno(self.nombre)
             if not (var):
                 expre = self.expresion.ejecutar(entorno)
-
                 if (expre):
                     if not (isinstance(expre.valor, list)):
 
                         if (expre.tipo == self.tipo and self.tipo != tipoPrimitivo.STRING):  # Si es el mismo tipo
-                            variable = Variable(self.tipo, self.nombre, self.expresion, self.fila, self.mutable)
+                            variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                             entorno.nueva_variable(variable)
 
                         elif (self.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
-                            variable = Variable(self.tipo, self.nombre, self.expresion, self.fila, self.mutable)
+                            variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                             entorno.nueva_variable(variable)
 
                         elif (self.tipo == tipoPrimitivo.NULO):
                             #Si es string -> str
                             if(expre.tipo==tipoPrimitivo.STRING):#es str
-                                variable = Variable(tipoPrimitivo.STR, self.nombre, self.expresion, self.fila, self.mutable)
+                                variable = Variable(tipoPrimitivo.STR, self.nombre, expre.valor, self.fila, self.mutable)
                                 entorno.nueva_variable(variable)
                             else:
-                                variable = Variable(expre.tipo, self.nombre, self.expresion, self.fila, self.mutable)
+                                variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                                 entorno.nueva_variable(variable)
 
                         elif((expre.tipo == tipoPrimitivo.TOS or expre.tipo == tipoPrimitivo.TOW) and self.tipo == tipoPrimitivo.STRING):
                             #print("Expre tostring {}", expre.tipo)
-                            variable = Variable(expre.tipo, self.nombre, self.expresion, self.fila, self.mutable)
+                            variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                             entorno.nueva_variable(variable)
                         else:
                             print("El tipo {} y la expresion {} no coinciden")

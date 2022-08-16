@@ -16,8 +16,8 @@ reservadas={
     'main': 'MAIN',
     'println': 'PRINTLN',
     'to_string': 'TOSTRING',
-    'to_owned': 'TOOWNED'
-
+    'to_owned': 'TOOWNED',
+    'as': 'AS'
 
 }
 
@@ -38,6 +38,21 @@ tokens=[
     'COMA',
     'EX',
     'PTO',
+    'OR',
+    'AND',
+    'NOT',
+    'IGUALQUE',
+    'NOIGUALQUE',
+    'MENORQUE',
+    'MENORIQUE',
+    'MAYORQUE',
+    'MAYORIQUE',
+    'MAS',
+    'MENOS',
+    'DIVIDIDO',
+    'POR',
+    'MODULO',
+
 
 ]
 tokens += list(reservadas.values())
@@ -54,6 +69,21 @@ t_SIGNOI = r'&'
 t_COMA = r','
 t_EX = r'\!'
 t_PTO = r'.'
+t_OR = r'\|\|'
+t_AND = r'&&'
+t_NOT = r'!'
+t_IGUALQUE = r'=='
+t_NOIGUALQUE = r'!='
+t_MENORQUE = r'<'
+t_MENORIQUE = r'<='
+t_MAYORQUE = r'>'
+t_MAYORIQUE = r'>='
+t_MAS = r'\+'
+t_MENOS = r'-'
+t_DIVIDIDO = r'/'
+t_POR = r'\*'
+t_MODULO = r'%'
+
 
 
 #?---------------FUNCIONES----------------------------
