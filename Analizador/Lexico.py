@@ -17,7 +17,10 @@ reservadas={
     'println': 'PRINTLN',
     'to_string': 'TOSTRING',
     'to_owned': 'TOOWNED',
-    'as': 'AS'
+    'as': 'AS',
+    'pow': 'POW',
+    'powf': 'POWF',
+
 
 }
 
@@ -79,10 +82,10 @@ t_MENORIQUE = r'<='
 t_MAYORQUE = r'>'
 t_MAYORIQUE = r'>='
 t_MAS = r'\+'
-t_MENOS = r'-'
-t_DIVIDIDO = r'/'
+t_MENOS = r'\-'
+t_DIVIDIDO = r'\/'
 t_POR = r'\*'
-t_MODULO = r'%'
+t_MODULO = r'\%'
 
 
 

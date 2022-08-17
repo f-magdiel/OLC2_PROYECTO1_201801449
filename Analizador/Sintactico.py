@@ -10,6 +10,8 @@ from Instrucciones.Asignacion import AsignacionVariable
 from Instrucciones.Imprimir import listimpresion
 from Expresiones.Aritmetica import Aritmetica
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
+from Enumeradas.OperadorUnario import OPERADOR_UNARIO
+from Expresiones.Unaria import Unaria
 
 # ?---------------------PRECEDENCIAS----------------------------
 precedence = (
@@ -193,7 +195,7 @@ def p_expresion_cadena2(t):
 
 def p_expresion_cadena1(t):
     'expresion : CADENA'
-    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.STRING, str(t[1]))
+    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.STR, str(t[1]))
 
 
 def p_expresion_caracter(t):
@@ -210,7 +212,28 @@ def p_expresion_aritmetica1(t):
 
     operador = t[2]
     if operador == '+':
-        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MAS, t[3])
+        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MAS, t[3], None)
+    elif operador == '-':
+        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MENOS, t[3], None)
+    elif operador == '*':
+        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.POR, t[3], None)
+    elif operador == '/':
+        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.DIVIDIDO, t[3], None)
+    elif operador == '%':
+        t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MODULO, t[3], None)
+
+
+def p_expresion_aritmetica2(t):
+    '''expresion : tipo DOSPT DOSPT POW PARIZQ expresion COMA expresion PARDER
+                | tipo DOSPT DOSPT POWF PARIZQ expresion COMA expresion PARDER'''
+    reserv = t[4]
+
+    if reserv == 'powf':
+        t[0] = Aritmetica(t.lineno(2), t[6], OPERADOR_ARITMETICO.POTENCIAF, t[8], t[1])
+    elif reserv == 'pow':
+        t[0] = Aritmetica(t.lineno(2), t[6], OPERADOR_ARITMETICO.POTENCIA, t[8], t[1])
+    else:
+        print("Error de potencia")
 
 
 def p_exp_unaria(t):
@@ -218,7 +241,7 @@ def p_exp_unaria(t):
                 | NOT expresion'''
     operador = str(t[1])
     if operador == '-':
-        t[0] = t[2]
+        t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.MENOS, t[2])
     else:
         t[0] = t[2]
 
@@ -234,15 +257,16 @@ parser = yacc.yacc()
 entrada = ''' 
 //hola
 fn main() {
-let mut var1 : i64 = 1;
-let var2 : f64 = 2.0 ;
-let mut var3 = 3;
+let mut var1 : i64 = -10*50;
+let var2 : f64 = 1.0;
+let mut var3 = 6%3;
 let var4 = 4;
 let mut var5 : bool = true;
 let mut var6 : String = "mundo".to_owned();
 let mut var7 : &str = "hola";
-let con = var7 + var6;
-println!("{}",con);
+let mut con = var6 + var7;
+let mut pot = i64::pow(2,5);
+println!("{}",var1);
 }
 '''
 print("Inicia analizador...")

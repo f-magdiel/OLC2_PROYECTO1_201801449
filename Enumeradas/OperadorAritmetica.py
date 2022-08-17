@@ -7,3 +7,4 @@ class OPERADOR_ARITMETICO(Enum):
     DIVIDIDO = 3
     POTENCIA = 4
     MODULO = 5
+    POTENCIAF = 6

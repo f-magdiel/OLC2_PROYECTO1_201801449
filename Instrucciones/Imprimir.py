@@ -25,7 +25,7 @@ class Imprimir(Instruccion):
 
         elif self.expresion:
             expre = self.expresion.ejecutar(entorno)
-            if expre and expre.tipo == tipoPrimitivo.STRING :
+            if expre and expre.tipo == tipoPrimitivo.STR :
                 print(expre.valor)
             else:
                 print("Debe llevar un formato")

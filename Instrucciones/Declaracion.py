@@ -27,21 +27,20 @@ class DeclaracionVariable(Instruccion):
                             variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                             entorno.nueva_variable(variable)
 
-                        elif (self.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
-                            variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
-                            entorno.nueva_variable(variable)
+                        # elif (self.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
+                        #     variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
+                        #     entorno.nueva_variable(variable)
 
                         elif (self.tipo == tipoPrimitivo.NULO):
-                            #Si es string -> str
-                            if(expre.tipo==tipoPrimitivo.STRING):#es str
-                                variable = Variable(tipoPrimitivo.STR, self.nombre, expre.valor, self.fila, self.mutable)
+
+                            if expre.tipo == tipoPrimitivo.TOS or expre.tipo == tipoPrimitivo.TOW:
+                                variable = Variable(tipoPrimitivo.STRING, self.nombre, expre.valor, self.fila, self.mutable)
                                 entorno.nueva_variable(variable)
                             else:
                                 variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                                 entorno.nueva_variable(variable)
 
                         elif((expre.tipo == tipoPrimitivo.TOS or expre.tipo == tipoPrimitivo.TOW) and self.tipo == tipoPrimitivo.STRING):
-                            #print("Expre tostring {}", expre.tipo)
                             variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                             entorno.nueva_variable(variable)
                         else:

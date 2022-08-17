@@ -27,9 +27,9 @@ class AsignacionVariable(Instruccion):
                             entorno.editar_variable(variable.nombre, nueva_variable)
 
 
-                        elif(variable.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
-                            nueva_variable = Variable(variable.tipo, variable.nombre, self.expresion, self.fila, variable.mutable)
-                            entorno.editar_variable(variable.nombre, nueva_variable)
+                        # elif(variable.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
+                        #     nueva_variable = Variable(variable.tipo, variable.nombre, self.expresion, self.fila, variable.mutable)
+                        #     entorno.editar_variable(variable.nombre, nueva_variable)
 
 
                         else:
