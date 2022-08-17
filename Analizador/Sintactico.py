@@ -11,7 +11,9 @@ from Instrucciones.Imprimir import listimpresion
 from Expresiones.Aritmetica import Aritmetica
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.OperadorUnario import OPERADOR_UNARIO
+from Enumeradas.OperadorRelacional import OPERADOR_RELACIONAL
 from Expresiones.Unaria import Unaria
+from Expresiones.Relacional import Relacional
 
 # ?---------------------PRECEDENCIAS----------------------------
 precedence = (
@@ -236,6 +238,21 @@ def p_expresion_aritmetica2(t):
         print("Error de potencia")
 
 
+def p_expresion_relacional(t):
+    '''expresion : expresion IGUALQUE expresion
+            | expresion NOIGUALQUE expresion
+            | expresion MENORQUE expresion
+            | expresion MAYORQUE expresion
+            | expresion MENORIQUE expresion
+            | expresion MAYORIQUE expresion '''
+
+    operador = str(t[2])
+    if operador == '==':
+        t[0] = Relacional(t.lineno(2), t[1], OPERADOR_RELACIONAL.IGUALQUE, t[3])
+    elif operador == '>':
+        t[0] = Relacional(t.lineno(2), t[1], OPERADOR_RELACIONAL.MAYORQUE, t[3])
+
+
 def p_exp_unaria(t):
     '''expresion : MENOS expresion %prec UMENOS
                 | NOT expresion'''
@@ -257,7 +274,7 @@ parser = yacc.yacc()
 entrada = ''' 
 //hola
 fn main() {
-let mut var1 : i64 = 10/6;
+let mut var1 : i64 = 10;
 let var2 : f64 = 1.0;
 let mut var3 = 6%3;
 let var4 = 4;
@@ -266,7 +283,7 @@ let mut var6 : String = "mundo".to_owned();
 let mut var7 : &str = "hola";
 let mut con = var6 + var7;
 let mut pot = i64::pow(2,5);
-println!("{}",var1);
+println!("{}",-1 > );
 }
 '''
 print("Inicia analizador...")

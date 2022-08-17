@@ -49,6 +49,12 @@ expresion -> ID
         | expresion MAYORIQUE expresion
         | tipo DOSPT DOSPT POW PARIZQ expresion COMA expresion PARDER
         | tipo DOSPT DOSPT POWF PARIZQ expresion COMA expresion PARDER
+        | expresion IGUALQUE expresion
+        | expresion NOGUALQUE expresion
+        | expresion MENORQUE expresion
+        | expresion MAYORQUE expresion
+        | expresion MENORIQUE expresion
+        | expresion MAYORIQUE expresion
 
 string -> tostring
         | toowned
