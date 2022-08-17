@@ -257,7 +257,7 @@ parser = yacc.yacc()
 entrada = ''' 
 //hola
 fn main() {
-let mut var1 : i64 = -10*50;
+let mut var1 : i64 = 10/6;
 let var2 : f64 = 1.0;
 let mut var3 = 6%3;
 let var4 = 4;

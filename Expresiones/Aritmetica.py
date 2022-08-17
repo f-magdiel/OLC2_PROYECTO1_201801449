@@ -67,7 +67,7 @@ class Aritmetica(Instruccion):
                             return Primitiva(self.fila, tipoPrimitivo.F64, resultado)
 
                         elif expresion1.tipo == tipoPrimitivo.I64 and expresion2.tipo == tipoPrimitivo.I64:  # ! division de entero
-                            resultado = int(expresion1.valor) / int(expresion2.valor)
+                            resultado = round(int(expresion1.valor) / int(expresion2.valor), 2)
                             return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
 
                         else:
