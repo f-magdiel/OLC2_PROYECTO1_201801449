@@ -64,7 +64,7 @@ class Relacional(Instruccion):
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
                         print("Error de menor que")
-                #! Mayor igual que
+                #! Mayor igual que >=
                 elif self.operador == OPERADOR_RELACIONAL.MAYORIQUE:
                     # ! para entero
                     if expre1.tipo == tipoPrimitivo.I64 and expre2.tipo == tipoPrimitivo.I64:
@@ -80,4 +80,19 @@ class Relacional(Instruccion):
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
                         print("Error de mayor igual que")
-
+                #! Menor igual que <=
+                elif self.operador == OPERADOR_RELACIONAL.MENORIQUE:
+                    # ! para entero
+                    if expre1.tipo == tipoPrimitivo.I64 and expre2.tipo == tipoPrimitivo.I64:
+                        resultado = int(expre1.valor) <= int(expre2.valor)
+                        return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
+                    # ! para float
+                    elif expre1.tipo == tipoPrimitivo.F64 and expre2.tipo == tipoPrimitivo.F64:
+                        resultado = float(expre1.valor) <= float(expre2.valor)
+                        return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
+                    # ! para string
+                    elif expre1.tipo == tipoPrimitivo.STR and expre2.tipo == tipoPrimitivo.STR:
+                        resultado = str(expre1.valor) <= str(expre2.valor)
+                        return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
+                    else:
+                        print("Error de menor igual que")
