@@ -257,8 +257,8 @@ def p_expresion_relacional(t):
         t[0] = Relacional(t.lineno(2), t[1], OPERADOR_RELACIONAL.MAYORIQUE, t[3])
     elif operador == '<=':
         t[0] = Relacional(t.lineno(2), t[1], OPERADOR_RELACIONAL.MENORIQUE, t[3])
-
-
+    elif operador == '!=':
+        t[0] = Relacional(t.lineno(2), t[1], OPERADOR_RELACIONAL.NOGUALQUE, t[3])
 
 
 def p_exp_unaria(t):
@@ -291,7 +291,7 @@ let mut var6 : String = "mundo".to_owned();
 let mut var7 : &str = "hola";
 let mut con = var6 + var7;
 let mut pot = i64::pow(2,5);
-println!("{}","ho" <= "ho");
+println!("{}",3.3 != 3.3);
 }
 '''
 print("Inicia analizador...")
