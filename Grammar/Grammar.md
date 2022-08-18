@@ -55,6 +55,10 @@ expresion -> ID
         | expresion MAYORQUE expresion
         | expresion MENORIQUE expresion
         | expresion MAYORIQUE expresion
+        | expresion OR expresion
+        | expresion AND expresion
+        | PARIZQ expresion PARDER        
+
 
 string -> tostring
         | toowned

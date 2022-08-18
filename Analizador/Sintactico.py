@@ -12,10 +12,12 @@ from Expresiones.Aritmetica import Aritmetica
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.OperadorUnario import OPERADOR_UNARIO
 from Enumeradas.OperadorRelacional import OPERADOR_RELACIONAL
+from Enumeradas.OperadorLogico import OPERADOR_LOGICO
 from Expresiones.Unaria import Unaria
 from Expresiones.Relacional import Relacional
+from Expresiones.Logica import Logica
 
-# ?---------------------PRECEDENCIAS----------------------------
+# ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
@@ -23,12 +25,12 @@ precedence = (
     ('left', 'MAS', 'MENOS'),
     ('left', 'DIVIDIDO', 'POR', 'MODULO'),
     ('left', 'AS'),
-    ('left', 'UMENOS', 'NOT'),
+    ('right', 'UMENOS', 'NOT'),
 
 )
 
 
-# ?-------------------PRODUCCIONES--------------------------
+# ?--------------------------------------------PRODUCCIONES------------------------------------------------------------
 def p_inicio1(t):
     'inicio : instrucciones main'
 
@@ -40,7 +42,6 @@ def p_inicio1(t):
 
 def p_inicio2(t):
     'inicio : main'
-
     t[0] = t[1]
 
 
@@ -70,19 +71,19 @@ def p_instrucion(t):
     t[0] = t[1]
 
 
-# !---------------------------------------------------IMPRIMIR-----------------------------------------------------
+# !---------------------------------------------------IMPRIMIR---------------------------------------------------------
 
 def p_imprimir1(t):
-    'imprimir : PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA'
+    'imprimir : PRINTLN NOT PARIZQ expresion COMA expresiones PARDER PTCOMA'
     t[0] = Imprimir(t.lineno(2), t[4], t[6])
 
 
 def p_imprimir2(t):
-    'imprimir : PRINTLN EX PARIZQ expresion PARDER PTCOMA'
+    'imprimir : PRINTLN NOT PARIZQ expresion PARDER PTCOMA'
     t[0] = Imprimir(t.lineno(2), t[4], None)
 
 
-# !-------------------------------------DECLARACION-------------------------------------------------------
+# !--------------------------------------------DECLARACION-------------------------------------------------------------
 
 def p_declaracion1(t):
     'declaracion : LET MUT ID DOSPT tipo IGUAL expresion PTCOMA'
@@ -104,13 +105,13 @@ def p_declaracion4(t):
     t[0] = DeclaracionVariable(t.lineno(2), tipoPrimitivo.NULO, t[2], t[4], False)
 
 
-# !---------------------------------ASIGNACION------------------------------------------
+# !-----------------------------------------------ASIGNACION----------------------------------------------------------
 def p_asignacion1(t):
     'asignacion : ID IGUAL expresion PTCOMA'
     t[0] = AsignacionVariable(t.lineno(1), t[1], t[3])
 
 
-# !----------------------------------------TIPO----------------------------------------------
+# !----------------------------------------------------TIPO-----------------------------------------------------------
 
 def p_tipo1(t):
     '''tipo : I64
@@ -137,7 +138,7 @@ def p_tipo2(t):
     t[0] = tipoPrimitivo.STR
 
 
-# !------------------------------------------------EXPRESION--------------------------------------------------
+# !------------------------------------------------EXPRESION---------------------------------------------------------
 def p_expresiones1(t):
     ' expresiones : expresiones COMA expresion'
     t[1].append(t[3])
@@ -261,37 +262,45 @@ def p_expresion_relacional(t):
         t[0] = Relacional(t.lineno(2), t[1], OPERADOR_RELACIONAL.NOGUALQUE, t[3])
 
 
+def p_expresion_logica(t):
+    '''expresion : expresion OR expresion
+                | expresion AND expresion
+                '''
+    operador = t[2]
+    if operador == '&&':
+        t[0] = Logica(t.lineno(2), t[1], OPERADOR_LOGICO.AND, t[3])
+    elif operador == '||':
+        t[0] = Logica(t.lineno(2), t[1], OPERADOR_LOGICO.OR, t[3])
+
+
 def p_exp_unaria(t):
     '''expresion : MENOS expresion %prec UMENOS
                 | NOT expresion'''
     operador = str(t[1])
     if operador == '-':
         t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.MENOS, t[2])
-    else:
-        t[0] = t[2]
+    elif operador == '!':
+
+        t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.NOT, t[2])
 
 
-# !--------------------------------------------ERROR-----------------------------------------------
+def p_exp_agrupa(t):
+    'expresion : PARIZQ expresion PARDER'
+    t[0] = t[2]
+
+
+# !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
 
 
-# ? Se ejecuta el parser
+# !---------------------------------------Se ejecuta el parser---------------------------------------------------------
 parser = yacc.yacc()
 
-entrada = ''' 
-//hola
+entrada = r''' 
 fn main() {
-let mut var1 : i64 = 10;
-let var2 : f64 = 1.0;
-let mut var3 = 6%3;
-let var4 = 4;
-let mut var5 : bool = true;
-let mut var6 : String = "mundo".to_owned();
-let mut var7 : &str = "hola";
-let mut con = var6 + var7;
-let mut pot = i64::pow(2,5);
-println!("{}",3.3 != 3.3);
+let mut var1 : bool = 1>=2;
+println!("{}", var1);
 }
 '''
 print("Inicia analizador...")
@@ -300,7 +309,5 @@ entorno_global = [Entorno(None, None)]
 
 for instru in instruc:
     instru.ejecutar(entorno_global[0])
-print("------Consola-------")
-for i in listimpresion:
-    print(i)
+
 print("Finaliza analizador...")

@@ -12,10 +12,12 @@ class Unaria(Instruccion):
         self.operador = operador
         self.expresion = expresion
 
+
     def ejecutar(self, entorno: Entorno):
         if self.operador and self.expresion:
             expre = self.expresion.ejecutar(entorno)
             if expre:
+                #! para operador unario -
                 if self.operador == OPERADOR_UNARIO.MENOS:
                     if expre.tipo == tipoPrimitivo.I64:
                         valor = - expre.valor
@@ -24,3 +26,11 @@ class Unaria(Instruccion):
                     if expre.tipo == tipoPrimitivo.F64:
                         valor = - expre.valor
                         return Primitiva(self.fila, tipoPrimitivo.F64, valor)
+                #! para operador unario !
+                elif self.operador == OPERADOR_UNARIO.NOT:
+
+                    if expre.tipo == tipoPrimitivo.BOOL:
+                        valor = not expre.valor
+                        return Primitiva(self.fila, tipoPrimitivo.BOOL, valor)
+                else:
+                    print("Error en unarios")
