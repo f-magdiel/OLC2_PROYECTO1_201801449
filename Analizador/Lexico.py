@@ -20,6 +20,8 @@ reservadas = {
     'as': 'AS',
     'pow': 'POW',
     'powf': 'POWF',
+    'if': 'IF',
+    'else': 'ELSE',
 
 }
 

@@ -6,10 +6,21 @@ main -> FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
 instrucciones -> instrucciones instruccion
                 | instruccion
 
-instruccion -> declaracion
-                | imprimir
+instruccion -> imprimir 
+                | declaracion
                 | asignacion
-
+                | if
+                | match
+                | break PTCOMA
+                | continue PTCOMA
+                | loop 
+                | while
+                | return PTCOMA
+                | funcion
+                | llamada_funcion PTCOMA
+                
+imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA
+        | PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
 
 declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
                 | LET MUT ID IGUAL expresion PTCOMA
@@ -18,8 +29,20 @@ declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
 
 asignacion -> ID IGUAL expresion PTCOMA
 
-imprimir -> PRINTLN EX PARIZQ expresion PARDER PTCOMA
-        | PRINTLN EX PARIZQ expresion COMA expresiones PARDER PTCOMA
+if -> IF expresion LLAVEIZQ instrucciones LLAVEDER 
+      | IF expresion LLAVEIZQ instrucciones LLAVEDER else
+      | IF expresion LLAVEIZQ instrucciones LLAVEDER lelseif 
+      | IF expresion LLAVEIZQ instrucciones LLAVEDER lelseif else 
+
+lelseif -> lelseif elseif 
+        | elseif
+
+elseif -> ELSE IF expresion LLAVERIZQ instrucciones LLAVEDER
+
+else -> ELSE LLAVEIZQ instrucciones LLAVEDER
+        
+
+
 
 expresiones -> expresiones COMA expresion
         | expresion

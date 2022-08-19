@@ -16,6 +16,8 @@ from Enumeradas.OperadorLogico import OPERADOR_LOGICO
 from Expresiones.Unaria import Unaria
 from Expresiones.Relacional import Relacional
 from Expresiones.Logica import Logica
+from Instrucciones.If import If
+from Instrucciones.ElseIf import ElseIf
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -67,6 +69,7 @@ def p_instrucion(t):
     '''instruccion : declaracion
                     | imprimir
                     | asignacion
+                    | if
     '''
     t[0] = t[1]
 
@@ -109,6 +112,48 @@ def p_declaracion4(t):
 def p_asignacion1(t):
     'asignacion : ID IGUAL expresion PTCOMA'
     t[0] = AsignacionVariable(t.lineno(1), t[1], t[3])
+
+
+# !---------------------------------------------------IF------------------------------------------------------------
+def p_if(t):
+    'if : IF expresion LLAVEIZQ instrucciones LLAVEDER '
+    t[0] = If(t.lineno(1), t[2], t[4], [])
+
+
+def p_else_if(t):
+    'if : IF expresion LLAVEIZQ instrucciones LLAVEDER else'
+    t[0] = If(t.lineno(2), t[2], t[4], t[6])
+
+
+def p_else_if_else_if(t):
+    'if : IF expresion LLAVEIZQ instrucciones LLAVEDER lelseif'
+    t[0] = ElseIf(t.lineno(1), t[2], t[4], t[6], [])
+
+
+def p_else_if_else(t):
+    'if : IF expresion LLAVEIZQ instrucciones LLAVEDER lelseif else'
+    t[0] = ElseIf(t.lineno(1), t[2], t[4], t[6], t[7])
+
+
+def p_else_if1(t):
+    'lelseif : lelseif elseif'
+    t[1].append(t[2])
+    t[0] = t[1]
+
+
+def p_else_if2(t):
+    'lelseif : elseif'
+    t[0] = [t[1]]
+
+
+def p_else_if3(t):
+    'elseif : ELSE IF expresion LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = [t[3], t[5]]
+
+
+def p_else(t):
+    'else : ELSE LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = t[3]
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -297,10 +342,17 @@ def p_error(t):
 # !---------------------------------------Se ejecuta el parser---------------------------------------------------------
 parser = yacc.yacc()
 
-entrada = r''' 
+entrada = ''' 
 fn main() {
-let mut var1 : bool = 1>=2;
-println!("{}", var1);
+ let n = -1;
+
+    if n < 0 {
+        println!("{} is negative", n);
+    } else if n > 0 {
+        println!("{} is positive", n);
+    } else {
+        println!("{} is not equal", n);
+    }
 }
 '''
 print("Inicia analizador...")
