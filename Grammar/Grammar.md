@@ -9,7 +9,7 @@ instrucciones -> instrucciones instruccion
 instruccion -> imprimir 
                 | declaracion
                 | asignacion
-                | if
+                | if       
                 | match
                 | break PTCOMA
                 | continue PTCOMA
@@ -29,7 +29,7 @@ declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
 
 asignacion -> ID IGUAL expresion PTCOMA
 
-if -> IF expresion LLAVEIZQ instrucciones LLAVEDER 
+if -> IF expresion LLAVEIZQ instrucciones LLAVEDER      
       | IF expresion LLAVEIZQ instrucciones LLAVEDER else
       | IF expresion LLAVEIZQ instrucciones LLAVEDER lelseif 
       | IF expresion LLAVEIZQ instrucciones LLAVEDER lelseif else 
@@ -41,7 +41,6 @@ elseif -> ELSE IF expresion LLAVERIZQ instrucciones LLAVEDER
 
 else -> ELSE LLAVEIZQ instrucciones LLAVEDER
         
-
 
 
 expresiones -> expresiones COMA expresion
@@ -80,7 +79,26 @@ expresion -> ID
         | expresion MAYORIQUE expresion
         | expresion OR expresion
         | expresion AND expresion
-        | PARIZQ expresion PARDER        
+        | PARIZQ expresion PARDER      
+        | if_asig  
+
+#!--------------------------------------IF CON ASIGNACION------------------------------------
+if_asig -> IF expresion LLAVEIZQ bloque_expresion LLAVEDER
+        | IF expresion LLAVEIZQ bloque_expresion LLAVEDER else
+        | IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseif
+        | IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseif else
+
+elseif -> elseif lif
+        | lif
+
+lif -> ELSE IF expresion LLAVEIZQ bloque_expresion LLAVEDER
+
+
+else -> ELSE LLAVEIZQ bloque_expresion LLAVEDER
+
+bloque_expresion -> bloque_expresion PTCOMA expresion
+             | expresion
+
 
 
 string -> tostring

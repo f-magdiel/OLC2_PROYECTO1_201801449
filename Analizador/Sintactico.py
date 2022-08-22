@@ -18,6 +18,7 @@ from Expresiones.Relacional import Relacional
 from Expresiones.Logica import Logica
 from Instrucciones.If import If
 from Instrucciones.ElseIf import ElseIf
+from Instrucciones.IfAsignacion import IfAsignacion, ElseIfAsignacion
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -334,6 +335,66 @@ def p_exp_agrupa(t):
     t[0] = t[2]
 
 
+def p_if_asignacion_inicio(t):
+    'expresion : if_asig'
+    t[0] = t[1]
+
+
+def p_if_asig(t):
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER'
+    t[0] = IfAsignacion(t.lineno(1), t[2], t[4], [])
+
+
+def p_if_else_asig(t):
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER else'
+    t[0] = IfAsignacion(t.lineno(1), t[2], t[4], t[6])
+
+
+def p_else_if_else_if_asignacion(t):
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseif'
+    t[0] = ElseIfAsignacion(t.lineno(1), t[2], t[4], t[6], [])
+
+
+def p_else_if_else_asignacion(t):
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseif else'
+    t[0] = ElseIfAsignacion(t.lineno(1), t[2], t[4], t[6], t[7])
+
+
+def p_elseif1_asig(t):
+    'elseif : elseif lif'
+    t[1].append(t[2])
+    t[0] = t[1]
+    print(t[0])
+
+
+#
+#
+def p_elseif2_asig(t):
+    'elseif : lif'
+    t[0] = [t[1]]
+
+
+def p_lif_asig(t):
+    'lif : ELSE IF expresion LLAVEIZQ bloque_expresion LLAVEDER'
+    t[0] = [t[3], t[5]]
+
+
+def p_else_asig(t):
+    'else : ELSE LLAVEIZQ bloque_expresion LLAVEDER'
+    t[0] = t[3]
+
+
+def p_bloque_expre_asig(t):
+    ' bloque_expresion : bloque_expresion PTCOMA expresion'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_bloque_expre2_asig(t):
+    'bloque_expresion : expresion'
+    t[0] = [t[1]]
+
+
 # !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
@@ -344,15 +405,20 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main() {
- let n = -1;
+let n = 2;
+let ope = 
+if n > 5{
+    n*5
+}else if n ==1 {
+    n*6;
+    n*50
+} else{
+    n*105;
+    n*3;
+    n*6
+};
+println!("{}",ope);
 
-    if n < 0 {
-        println!("{} is negative", n);
-    } else if n > 0 {
-        println!("{} is positive", n);
-    } else {
-        println!("{} is not equal", n);
-    }
 }
 '''
 print("Inicia analizador...")
