@@ -19,6 +19,8 @@ from Expresiones.Logica import Logica
 from Instrucciones.If import If
 from Instrucciones.ElseIf import ElseIf
 from Instrucciones.IfAsignacion import IfAsignacion, ElseIfAsignacion
+from Enumeradas.TipoMatch import TIPO_MATCH
+from Instrucciones.Match import Match
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -71,6 +73,7 @@ def p_instrucion(t):
                     | imprimir
                     | asignacion
                     | if
+                    | match
     '''
     t[0] = t[1]
 
@@ -155,6 +158,80 @@ def p_else_if3(t):
 def p_else(t):
     'else : ELSE LLAVEIZQ instrucciones LLAVEDER'
     t[0] = t[3]
+
+
+# !-------------------------------------------MATCH---------------------------------------------------
+def p_match_inicio(t):
+    'match : MATCH expresion LLAVEIZQ imatch LLAVEDER'
+    t[0] = Match(t.lineno(1), t[2], t[4])
+
+
+def p_imatch(t):
+    'imatch : opmatch COMA dmatch'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_opmatch(t):
+    '''opmatch : opmatch COMA cmatch
+                | opmatch COMA rmatch'''
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_opmatch2(t):
+    '''opmatch : cmatch
+                | rmatch '''
+    t[0] = [t[1]]
+
+
+def p_cmatch(t):
+    'cmatch : bloque_match IGUAL MAYORQUE LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = [t[1], t[5], TIPO_MATCH.MATCHBARRAS]
+
+
+def p_cmatch2(t):
+    'cmatch : bloque_match IGUAL MAYORQUE instruccion'
+    t[0] = [t[1], [t[4]], TIPO_MATCH.MATCHBARRAS]
+
+
+def p_bloque_match(t):
+    'bloque_match : bloque_match BARRAS expresion'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_bloque_match2(t):
+    'bloque_match : expresion'
+    t[0] = [t[1]]
+
+
+def p_dmatch(t):
+    'dmatch : GUIONB IGUAL MAYORQUE  LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = [[t[1]], [t[5]], TIPO_MATCH.MATCHDEFAULT]
+
+
+def p_dmatch2(t):
+    'dmatch : GUIONB IGUAL MAYORQUE instruccion'
+    t[0] = [[t[1]], [t[4]], TIPO_MATCH.MATCHDEFAULT]
+
+
+def p_rmatch(t):
+    'rmatch : expresion PTO PTO IGUAL expresion IGUAL MAYORQUE rrmatch'
+    var = []
+    var.append(t[1])
+    var.append(t[5])
+    t[0] = [var, t[8], TIPO_MATCH.MATCHRANGO]
+
+
+def p_rrmatch2(t):
+    'rrmatch : instruccion'
+    t[0] = [t[1]]
+
+
+def p_rrmatch(t):
+    'rrmatch : LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = t[2]
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -405,19 +482,23 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main() {
-let n = 2;
-let ope = 
-if n > 5{
-    n*5
-}else if n ==1 {
-    n*6;
-    n*50
-} else{
-    n*105;
-    n*3;
-    n*6
-};
-println!("{}",ope);
+match 4 {
+    1 ..= 3 => {
+    println!("Rango {}","1");
+    println!("Rango {}","2");
+    },
+    4 => println!("{}","4 al 5");,
+    6|7|8 => {
+        let n =1;
+        if n ==1 {
+            println!("{}","Entramos al brazo con if");
+        }
+        
+    },
+    _ => println!("{}","def");
+    
+}
+
 
 }
 '''

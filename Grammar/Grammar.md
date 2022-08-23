@@ -42,6 +42,34 @@ elseif -> ELSE IF expresion LLAVERIZQ instrucciones LLAVEDER
 else -> ELSE LLAVEIZQ instrucciones LLAVEDER
         
 
+match -> MATCH expresion LLAVEIZQ imatch LLAVEDER
+
+imatch -> opmatch COMA dmatch
+
+opmatch -> opmatch COMA cmatch
+        | opmatch COMA rmatch
+        | cmatch
+        | rmatch
+
+cmatch -> bloque_match IGUAL MAYORQUE instruccion
+        | bloque_match IGUAL MAYORQUE LLAVEIZQ instrucciones LLAVEDER
+
+bloque_match -> expresion BARRAS expresion
+                | expresion
+
+dmatch -> GUIONB IGUAL MAYORQUE instruccion 
+        | GUIONB IGUAL MAYORQUE  LLAVEIZQ instrucciones LLAVEDER
+
+rmatch -> expresion PTO PTO IGUAL expresion IGUAL MAYORQUE rrmatch
+
+rrmatch -> instruccion 
+        | LLAVEIZQ instrucciones LLAVEDER
+        
+
+
+
+
+# ---------------------------------------------------EXPRESIONES---------------------------------------------------------------
 
 expresiones -> expresiones COMA expresion
         | expresion
@@ -117,3 +145,18 @@ tipo -> I64
 
 
                 
+#----->               Case                                                 instrucciones
+
+[
+       0[[<Expresiones.Primitva.Primitiva object at 0x00000206BF9F6BF0>], [<Instrucciones.Imprimir.Imprimir object at 0x00000206BF7A38E0>]], 
+       1[[<Expresiones.Primitva.Primitiva object at 0x00000206BF2A1A20>], [<Instrucciones.Imprimir.Imprimir object at 0x00000206BF9F98A0>]]
+]
+
+
+1 =>   ---> [[[1],[Ins]]]
+2 =>   ---> [[[1],[Ins]],[[2],[Ins]]]
+
+3|4|5 ---> [[[1],[Ins]],[[2],[Ins]],[[3,4,5],[Inst],TIPOBARRA]]
+6..=8 ---> [[[1],[Ins]],[[2],[Ins]],[[3,4,5],[Inst]],[[[6],[8]],[Inst],TIPORANGO]]
+
+

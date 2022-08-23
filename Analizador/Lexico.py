@@ -22,6 +22,7 @@ reservadas = {
     'powf': 'POWF',
     'if': 'IF',
     'else': 'ELSE',
+    'match': 'MATCH',
 
 }
 
@@ -56,6 +57,8 @@ tokens = [
     'PARIZQ',
     'PARDER',
     'SIGNOI',
+    'BARRAS',
+    'GUIONB',
 
 ]
 tokens += list(reservadas.values())
@@ -85,6 +88,8 @@ t_LLAVEDER = r'\}'
 t_PARIZQ = r'\('
 t_PARDER = r'\)'
 t_SIGNOI = r'\&'
+t_BARRAS = r'\|'
+t_GUIONB = r'\_'
 
 
 # ?---------------FUNCIONES----------------------------
