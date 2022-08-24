@@ -21,6 +21,7 @@ from Instrucciones.ElseIf import ElseIf
 from Instrucciones.IfAsignacion import IfAsignacion, ElseIfAsignacion
 from Enumeradas.TipoMatch import TIPO_MATCH
 from Instrucciones.Match import Match
+from Instrucciones.MatchAsignacion import MatchAsignacion
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -412,6 +413,9 @@ def p_exp_agrupa(t):
     t[0] = t[2]
 
 
+# *----------------------------------------------- IF ASIGNACION--------------------------------------------------
+
+
 def p_if_asignacion_inicio(t):
     'expresion : if_asig'
     t[0] = t[1]
@@ -472,6 +476,70 @@ def p_bloque_expre2_asig(t):
     t[0] = [t[1]]
 
 
+# *-----------------------------------MATCH ASIGNACION-------------------------------------------
+#
+def p_match_inicio_asig(t):
+    'expresion : match_asig'
+    t[0] = t[1]
+
+
+def p_match_asig(t):
+    'match_asig : MATCH expresion LLAVEIZQ imatch_asig LLAVEDER '
+    t[0] = MatchAsignacion(t.lineno(1), t[2], t[4])
+
+
+def p_imatch_asig(t):
+    'imatch_asig : opmatch_asig COMA dmatch_asig '
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_dmatch_asig(t):
+    'dmatch_asig : GUIONB IGUAL MAYORQUE LLAVEIZQ bloque_expresion LLAVEDER'
+    t[0] = [[t[1]], t[5], TIPO_MATCH.MATCHDEFAULT]
+
+
+def p_dmatch_asig2(t):
+    'dmatch_asig : GUIONB IGUAL MAYORQUE expresion'
+    t[0] = [[t[1]], [t[4]], TIPO_MATCH.MATCHDEFAULT]
+
+
+def p_opmatch_asig1(t):
+    'opmatch_asig : opmatch_asig COMA cmatch_asig'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_opmatch_asig2(t):
+    'opmatch_asig : cmatch_asig'
+    t[0] = [t[1]]
+
+
+def p_cmatch_asig(t):
+    'cmatch_asig : bloque_match_asig IGUAL MAYORQUE LLAVEIZQ bloque_expresion LLAVEDER'
+    t[0] = [t[1], t[5], TIPO_MATCH.MATCHBARRAS]
+
+
+def p_cmatch_asig2(t):
+    'cmatch_asig : bloque_match_asig IGUAL MAYORQUE expresion'
+    t[0] = [t[1], [t[4]], TIPO_MATCH.MATCHBARRAS]
+
+
+def p_bloque_match_asig(t):
+    'bloque_match_asig : bloque_match_asig BARRAS expresion'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_bloque_match_asign2(t):
+    'bloque_match_asig : expresion'
+    t[0] = [t[1]]
+#
+# def p_bloque_expre_match_asig(t):
+#     ' bloque_expresion_match : bloque_expresion_match PTCOMA expresion'
+#     t[1].append(t[3])
+#     t[0] = t[1]
+
 # !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
@@ -482,22 +550,14 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main() {
-match 4 {
-    1 ..= 3 => {
-    println!("Rango {}","1");
-    println!("Rango {}","2");
-    },
-    4 => println!("{}","4 al 5");,
-    6|7|8 => {
-        let n =1;
-        if n ==1 {
-            println!("{}","Entramos al brazo con if");
-        }
-        
-    },
-    _ => println!("{}","def");
-    
-}
+let booleano = false;
+let binario = match booleano {
+false => 0,
+true => 1,
+_ => "nada"
+};
+
+println!("{}",binario);
 
 
 }

@@ -39,8 +39,9 @@ class Match(Instruccion):
                             val2 = self.listaglobal[i][0][1].ejecutar(entorno)
                             #     2        >=      1                    2          <=        3
                             if valorexpre.valor >= val1.valor  and valorexpre.valor  <= val2.valor:
+                                nuevo_entorno = Entorno(entorno,None)
                                 for k in range(len(self.listaglobal[i][1])):
-                                    self.listaglobal[i][1][k].ejecutar(entorno)
+                                    self.listaglobal[i][1][k].ejecutar(nuevo_entorno)
 
                                 return #! Se usa retun para multiples bucles
 
@@ -49,12 +50,14 @@ class Match(Instruccion):
                             for k in range(len(self.listaglobal[i][0])):
                                 val = self.listaglobal[i][0][k].ejecutar(entorno)
                                 if val.valor == valorexpre.valor:
+                                    nuevo_entorno = Entorno(entorno, None)
                                     for l in range(len(self.listaglobal[i][1])):
-                                        self.listaglobal[i][1][l].ejecutar(entorno)
+                                        self.listaglobal[i][1][l].ejecutar(nuevo_entorno)
 
                                     return
 
                         elif self.listaglobal[i][j] == TIPO_MATCH.MATCHDEFAULT:
+                            nuevo_entorno = Entorno(entorno, None)
                             for l in range(len(self.listaglobal[i][1])):
-                                self.listaglobal[i][1][l].ejecutar(entorno)
+                                self.listaglobal[i][1][l].ejecutar(nuevo_entorno)
 
