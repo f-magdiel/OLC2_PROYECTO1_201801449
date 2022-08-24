@@ -1,7 +1,7 @@
 from Abstracta.Instruccion import Instruccion
 from Enumeradas.Primitivo import tipoPrimitivo
 from Enumeradas.OperadorLogico import OPERADOR_LOGICO
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 from Entorno.Entorno import Entorno
 
 

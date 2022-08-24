@@ -23,6 +23,7 @@ reservadas = {
     'if': 'IF',
     'else': 'ELSE',
     'match': 'MATCH',
+    'loop': 'LOOP',
 
 }
 

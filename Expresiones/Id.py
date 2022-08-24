@@ -1,7 +1,7 @@
 from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
 from Entorno.Variable import Variable
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 
 
 class Id(Instruccion):

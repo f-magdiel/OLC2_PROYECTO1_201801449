@@ -2,7 +2,7 @@ from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.Primitivo import tipoPrimitivo
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 
 
 class Aritmetica(Instruccion):

@@ -1,7 +1,7 @@
 from Abstracta.Instruccion import Instruccion
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Entorno import Entorno
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 from Enumeradas.TipoMatch import TIPO_MATCH
 
 
@@ -43,10 +43,10 @@ class MatchAsignacion(Instruccion):
                                     for l in range(len(self.listaexpresion[i][1])):
                                         var = self.listaexpresion[i][1][l].ejecutar(nuevo_entorno)
 
-                                        return Primitiva(self.fila, self.TipoGlobal, var.valor)
+                                        return Primitiva(self.fila, var.tipo, var.valor)
 
                         elif self.listaexpresion[i][j] == TIPO_MATCH.MATCHDEFAULT:
                             nuevo_entorno = Entorno(entorno, None)
                             for l in range(len(self.listaexpresion[i][1])):
                                 var = self.listaexpresion[i][1][l].ejecutar(nuevo_entorno)
-                                return Primitiva(self.fila, self.TipoGlobal, var.valor)
+                                return Primitiva(self.fila, var.tipo, var.valor)

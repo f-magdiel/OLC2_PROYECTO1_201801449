@@ -2,7 +2,7 @@ from Entorno.Entorno import Entorno
 from Enumeradas.Primitivo import tipoPrimitivo
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.OperadorUnario import OPERADOR_UNARIO
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 from Abstracta.Instruccion import Instruccion
 
 

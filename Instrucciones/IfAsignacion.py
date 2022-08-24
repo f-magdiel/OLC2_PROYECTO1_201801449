@@ -1,7 +1,7 @@
 from Abstracta.Instruccion import Instruccion
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Entorno import Entorno
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 
 
 class IfAsignacion(Instruccion):

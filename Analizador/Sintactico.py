@@ -4,7 +4,7 @@ from Instrucciones.Declaracion import DeclaracionVariable
 from Instrucciones.Imprimir import Imprimir
 from Entorno.Entorno import Entorno
 from Expresiones.Id import Id
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 from Enumeradas.Primitivo import tipoPrimitivo
 from Instrucciones.Asignacion import AsignacionVariable
 from Instrucciones.Imprimir import listimpresion
@@ -22,6 +22,7 @@ from Instrucciones.IfAsignacion import IfAsignacion, ElseIfAsignacion
 from Enumeradas.TipoMatch import TIPO_MATCH
 from Instrucciones.Match import Match
 from Instrucciones.MatchAsignacion import MatchAsignacion
+from Instrucciones.Loop import Loop
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -75,6 +76,7 @@ def p_instrucion(t):
                     | asignacion
                     | if
                     | match
+                    | loop
     '''
     t[0] = t[1]
 
@@ -233,6 +235,12 @@ def p_rrmatch2(t):
 def p_rrmatch(t):
     'rrmatch : LLAVEIZQ instrucciones LLAVEDER'
     t[0] = t[2]
+
+
+# * --------------------------------------------------LOOP--------------------------------------------------
+def p_loop_inicio(t):
+    'loop : LOOP LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = Loop(t.lineno(1), t[3])
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -534,6 +542,8 @@ def p_bloque_match_asig(t):
 def p_bloque_match_asign2(t):
     'bloque_match_asig : expresion'
     t[0] = [t[1]]
+
+
 #
 # def p_bloque_expre_match_asig(t):
 #     ' bloque_expresion_match : bloque_expresion_match PTCOMA expresion'
@@ -550,14 +560,11 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main() {
-let booleano = false;
-let binario = match booleano {
-false => 0,
-true => 1,
-_ => "nada"
-};
-
-println!("{}",binario);
+let mut cont = 0;
+loop {
+    cont = cont+1;
+    println!("{}",cont);
+}
 
 
 }

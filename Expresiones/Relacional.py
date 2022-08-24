@@ -1,5 +1,5 @@
 from Abstracta.Instruccion import Instruccion
-from Expresiones.Primitva import Primitiva
+from Expresiones.Primitiva import Primitiva
 from Entorno.Entorno import Entorno
 from Enumeradas.OperadorRelacional import OPERADOR_RELACIONAL
 from Enumeradas.Primitivo import tipoPrimitivo

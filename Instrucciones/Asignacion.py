@@ -18,12 +18,12 @@ class AsignacionVariable(Instruccion):
                 if (expre):
                     if not (isinstance(expre.valor, list)):
                         if (expre.tipo == variable.tipo and expre.tipo != tipoPrimitivo.STRING):  # Si es el mismo tipo
-                            nueva_variable = Variable(variable.tipo, variable.nombre, self.expresion, self.fila, variable.mutable)
+                            nueva_variable = Variable(variable.tipo, variable.nombre, expre.valor, self.fila, variable.mutable)
                             entorno.editar_variable(variable.nombre, nueva_variable)
 
 
                         elif ((expre.tipo == tipoPrimitivo.TOS or expre.tipo == tipoPrimitivo.TOW) and variable.tipo == tipoPrimitivo.STRING):# si es tipo string o str
-                            nueva_variable = Variable(variable.tipo, variable.nombre, self.expresion, self.fila, variable.mutable)
+                            nueva_variable = Variable(variable.tipo, variable.nombre, expre.valor, self.fila, variable.mutable)
                             entorno.editar_variable(variable.nombre, nueva_variable)
 
 
