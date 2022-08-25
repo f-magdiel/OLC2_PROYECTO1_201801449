@@ -23,6 +23,7 @@ from Enumeradas.TipoMatch import TIPO_MATCH
 from Instrucciones.Match import Match
 from Instrucciones.MatchAsignacion import MatchAsignacion
 from Instrucciones.Loop import Loop
+from Instrucciones.While import While
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -77,6 +78,7 @@ def p_instrucion(t):
                     | if
                     | match
                     | loop
+                    | while
     '''
     t[0] = t[1]
 
@@ -238,9 +240,16 @@ def p_rrmatch(t):
 
 
 # * --------------------------------------------------LOOP--------------------------------------------------
+# ! -----------------------LOOP----------------------------
 def p_loop_inicio(t):
     'loop : LOOP LLAVEIZQ instrucciones LLAVEDER'
     t[0] = Loop(t.lineno(1), t[3])
+
+
+# ! -------------------WHILE-------------------------------
+def p_while_inicio(t):
+    'while : WHILE expresion LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = While(t.lineno(1), t[2], t[4])
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -561,11 +570,10 @@ parser = yacc.yacc()
 entrada = ''' 
 fn main() {
 let mut cont = 0;
-loop {
-    cont = cont+1;
+while cont <= 5{
+    cont = cont + 1;
     println!("{}",cont);
 }
-
 
 }
 '''
