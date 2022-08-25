@@ -77,6 +77,8 @@ break -> BREAK PTCOMA
 
 break_expres -> BREAK expresion PTCOMA
 
+continue -> CONTINUE PTCOMA
+
 # ---------------------------------------------------EXPRESIONES---------------------------------------------------------------
 
 expresiones -> expresiones COMA expresion

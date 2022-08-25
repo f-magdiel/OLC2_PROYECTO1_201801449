@@ -3,6 +3,7 @@ from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Entorno import Entorno
 from Instrucciones.Break import Break
 from Instrucciones.BreakExpresion import BreakExpresion
+from Instrucciones.Continue import Continue
 
 
 class If(Instruccion):
@@ -29,6 +30,9 @@ class If(Instruccion):
                                 if isinstance(inst, BreakExpresion):
                                     return inst
 
+                                if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
+                                    return inst
+
                     else:
                         if self.instruc_else:
                             nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return,
@@ -40,6 +44,9 @@ class If(Instruccion):
                                         return inst
 
                                     if isinstance(inst, BreakExpresion):
+                                        return inst
+
+                                    if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
                                         return inst
                 else:
                     print("La expresion debe de ser de tipo BOOL")

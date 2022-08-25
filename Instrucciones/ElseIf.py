@@ -3,6 +3,7 @@ from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Entorno import Entorno
 from Instrucciones.Break import Break
 from Instrucciones.BreakExpresion import BreakExpresion
+from Instrucciones.Continue import Continue
 
 class ElseIf(Instruccion):
     def __init__(self, fila, expresion, instrucciones: list, elseif: list, instelse: list):
@@ -28,6 +29,9 @@ class ElseIf(Instruccion):
                                 if isinstance(inst, BreakExpresion):
                                     return inst
 
+                                if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
+                                    return inst
+
                     else:
                         cumple = False
                         for else_if in self.elseif:
@@ -45,6 +49,9 @@ class ElseIf(Instruccion):
 
                                                 if isinstance(inst, BreakExpresion):
                                                     return inst
+
+                                                if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
+                                                    return inst
                                         break
 
                         if not cumple:
@@ -57,4 +64,7 @@ class ElseIf(Instruccion):
                                             return inst
 
                                         if isinstance(inst, BreakExpresion):
+                                            return inst
+
+                                        if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
                                             return inst

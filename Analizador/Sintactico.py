@@ -26,6 +26,7 @@ from Instrucciones.Loop import Loop
 from Instrucciones.While import While
 from Instrucciones.Break import Break
 from Instrucciones.BreakExpresion import BreakExpresion
+from Instrucciones.Continue import Continue
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -80,6 +81,7 @@ def p_instrucion(t):
                     | loop
                     | while
                     | break
+                    | continue
     '''
     t[0] = t[1]
 
@@ -262,6 +264,13 @@ def p_break_inicio(t):
 def p_break_expresion(t):
     'break : BREAK expresion PTCOMA'
     t[0] = BreakExpresion(t.lineno(1), t[2])
+
+
+# * --------------------------------------CONTINUE-------------------------------------
+def p_continue_inicio(t):
+    'continue : CONTINUE PTCOMA'
+    t[0] = Continue(t.lineno(2))
+
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -476,6 +485,7 @@ def p_elseif1_asig(t):
     t[0] = t[1]
     print(t[0])
 
+
 def p_elseif2_asig(t):
     'elseifa : lif'
     t[0] = [t[1]]
@@ -562,9 +572,6 @@ def p_bloque_match_asign2(t):
     t[0] = [t[1]]
 
 
-
-
-
 # !---------------------------------------------LOOP EXPRESION-----------------------------------------------
 def p_loop_expresion_inicio(t):
     'expresion : loop_asig'
@@ -586,23 +593,14 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main() {
-
-let cont = 0;
-while cont < 5{
-    cont = cont +1;
-    if cont == 14{
-        println!("{}","SI llego");
-        break;
-    }else if cont == 12{
-        println!("{}","SI 2");
-        break;
-    }else{
-        println!("{}","Nada");
-        break;
-    }
-}
-println!("{}",cont);
-
+let mut num = 0;
+while num < 10 {
+   num = num + 1;
+  if num == 5 {
+   continue;
+   }
+println!("{}", num); 
+  }
 }
 '''
 print("Inicia analizador...")

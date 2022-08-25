@@ -26,6 +26,7 @@ reservadas = {
     'loop': 'LOOP',
     'while': 'WHILE',
     'break': 'BREAK',
+    'continue': 'CONTINUE',
 
 }
 
