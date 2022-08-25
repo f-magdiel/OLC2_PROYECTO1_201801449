@@ -87,7 +87,8 @@ class ElseIfAsignacion(Instruccion):
             expre = self.expresion.ejecutar(entorno)
             if expre:
                 if expre.tipo == tipoPrimitivo.BOOL:
-                    nuevo_entorno = Entorno(entorno, None)
+                    nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return,
+                                                    entorno.flag_continue)
                     self.obtenerTipoGlobal(nuevo_entorno)
                     if expre.valor:
                         contador_expres = 0
@@ -117,7 +118,7 @@ class ElseIfAsignacion(Instruccion):
 
                                         cumple = True  # aqui le digo que mas de algun condcion cumplio
 
-                                        nuevo_entorno = Entorno(entorno, None)
+                                        nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
 
                                         # ya que estamos veremos la ejecucion:
 
@@ -142,7 +143,7 @@ class ElseIfAsignacion(Instruccion):
                         if not cumple:
 
                             if self.expresion_else:
-                                nuevo_entorno = Entorno(entorno, None)
+                                nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
 
                                 contador_expres = 0
                                 for expres in self.expresion_else:

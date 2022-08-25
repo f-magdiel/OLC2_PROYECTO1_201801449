@@ -24,6 +24,8 @@ from Instrucciones.Match import Match
 from Instrucciones.MatchAsignacion import MatchAsignacion
 from Instrucciones.Loop import Loop
 from Instrucciones.While import While
+from Instrucciones.Break import Break
+from Instrucciones.BreakExpresion import BreakExpresion
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -60,14 +62,12 @@ def p_main(t):
 
 def p_instrucciones1(t):
     'instrucciones : instrucciones instruccion'
-
     t[1].append(t[2])
     t[0] = t[1]
 
 
 def p_instrucciones2(t):
     'instrucciones : instruccion'
-
     t[0] = [t[1]]
 
 
@@ -79,6 +79,7 @@ def p_instrucion(t):
                     | match
                     | loop
                     | while
+                    | break
     '''
     t[0] = t[1]
 
@@ -250,6 +251,17 @@ def p_loop_inicio(t):
 def p_while_inicio(t):
     'while : WHILE expresion LLAVEIZQ instrucciones LLAVEDER'
     t[0] = While(t.lineno(1), t[2], t[4])
+
+
+# * ---------------------------------------BREAK------------------------------------
+def p_break_inicio(t):
+    'break : BREAK PTCOMA'
+    t[0] = Break(t.lineno(1))
+
+
+def p_break_expresion(t):
+    'break : BREAK expresion PTCOMA'
+    t[0] = BreakExpresion(t.lineno(1), t[2])
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -444,31 +456,28 @@ def p_if_asig(t):
 
 
 def p_if_else_asig(t):
-    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER else'
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elsea'
     t[0] = IfAsignacion(t.lineno(1), t[2], t[4], t[6])
 
 
 def p_else_if_else_if_asignacion(t):
-    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseif'
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseifa'
     t[0] = ElseIfAsignacion(t.lineno(1), t[2], t[4], t[6], [])
 
 
 def p_else_if_else_asignacion(t):
-    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseif else'
+    'if_asig : IF expresion LLAVEIZQ bloque_expresion LLAVEDER elseifa elsea'
     t[0] = ElseIfAsignacion(t.lineno(1), t[2], t[4], t[6], t[7])
 
 
 def p_elseif1_asig(t):
-    'elseif : elseif lif'
+    'elseifa : elseifa lif'
     t[1].append(t[2])
     t[0] = t[1]
     print(t[0])
 
-
-#
-#
 def p_elseif2_asig(t):
-    'elseif : lif'
+    'elseifa : lif'
     t[0] = [t[1]]
 
 
@@ -478,7 +487,7 @@ def p_lif_asig(t):
 
 
 def p_else_asig(t):
-    'else : ELSE LLAVEIZQ bloque_expresion LLAVEDER'
+    'elsea : ELSE LLAVEIZQ bloque_expresion LLAVEDER'
     t[0] = t[3]
 
 
@@ -553,11 +562,19 @@ def p_bloque_match_asign2(t):
     t[0] = [t[1]]
 
 
-#
-# def p_bloque_expre_match_asig(t):
-#     ' bloque_expresion_match : bloque_expresion_match PTCOMA expresion'
-#     t[1].append(t[3])
-#     t[0] = t[1]
+
+
+
+# !---------------------------------------------LOOP EXPRESION-----------------------------------------------
+def p_loop_expresion_inicio(t):
+    'expresion : loop_asig'
+    t[0] = t[1]
+
+
+def p_lopp_expresion(t):
+    'loop_asig : LOOP LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = Loop(t.lineno(2), t[3])
+
 
 # !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
@@ -569,17 +586,28 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main() {
-let mut cont = 0;
-while cont <= 5{
-    cont = cont + 1;
-    println!("{}",cont);
+
+let cont = 0;
+while cont < 5{
+    cont = cont +1;
+    if cont == 14{
+        println!("{}","SI llego");
+        break;
+    }else if cont == 12{
+        println!("{}","SI 2");
+        break;
+    }else{
+        println!("{}","Nada");
+        break;
+    }
 }
+println!("{}",cont);
 
 }
 '''
 print("Inicia analizador...")
 instruc = parser.parse(entrada)
-entorno_global = [Entorno(None, None)]
+entorno_global = [Entorno(None, None, None, None)]
 
 for instru in instruc:
     instru.ejecutar(entorno_global[0])

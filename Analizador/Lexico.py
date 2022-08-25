@@ -25,6 +25,7 @@ reservadas = {
     'match': 'MATCH',
     'loop': 'LOOP',
     'while': 'WHILE',
+    'break': 'BREAK',
 
 }
 

@@ -39,14 +39,14 @@ class MatchAsignacion(Instruccion):
                             for k in range(len(self.listaexpresion[i][0])):
                                 val = self.listaexpresion[i][0][k].ejecutar(entorno)
                                 if val.valor == valorexpre.valor:
-                                    nuevo_entorno = Entorno(entorno, None)
+                                    nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
                                     for l in range(len(self.listaexpresion[i][1])):
                                         var = self.listaexpresion[i][1][l].ejecutar(nuevo_entorno)
 
                                         return Primitiva(self.fila, var.tipo, var.valor)
 
                         elif self.listaexpresion[i][j] == TIPO_MATCH.MATCHDEFAULT:
-                            nuevo_entorno = Entorno(entorno, None)
+                            nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
                             for l in range(len(self.listaexpresion[i][1])):
                                 var = self.listaexpresion[i][1][l].ejecutar(nuevo_entorno)
                                 return Primitiva(self.fila, var.tipo, var.valor)

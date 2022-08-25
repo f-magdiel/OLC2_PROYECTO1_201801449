@@ -1,9 +1,12 @@
 from Entorno.Variable import Variable
 
+
 class Entorno:
-    def __init__(self, padre, tipo):
+    def __init__(self, padre, flag_break, flag_return, flag_continue):
         self.padre = padre  # ! Entorno principal
-        self.tipo = tipo
+        self.flag_break = flag_break
+        self.flag_return = flag_return
+        self.flag_continue = flag_continue
         self.tabla_variables = {}  # ? Tabla solo para variables
         self.tabla_funcion = {}  # ? Tabla solo para funciones
         self.tabla_struct = {}  # ? Tabla solo para struct
