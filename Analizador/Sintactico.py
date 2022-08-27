@@ -29,6 +29,7 @@ from Instrucciones.Continue import Continue
 from Instrucciones.MainInstru import MainInstru
 from Funciones.Funciones import Funciones, Parametros
 from Instrucciones.LLamadaFunciones import LlamadaFunciones
+from Instrucciones.Return import Return
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -97,18 +98,24 @@ def p_instrucion(t):
                     | loop
                     | while
                     | break
+                    | return
                     | continue
                     | funciones
-                    | llamada_funciones
+                    | llamada_funciones PTCOMA
     '''
     t[0] = t[1]
 
 
 # !----------------------------------------------FUNCIONES---------------------------------------------------------
+
+def p_funciones_2(t):
+    'funciones : FN ID PARIZQ lparametros PARDER MENOS MAYORQUE tipo LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = Funciones(t.lineno(2), t[8], t[2], t[4], t[10])
+
+
 def p_funciones_1(t):
     'funciones : FN ID PARIZQ lparametros PARDER LLAVEIZQ instrucciones LLAVEDER '
     t[0] = Funciones(t.lineno(1), tipoPrimitivo.NULO, t[2], t[4], t[7])
-
 
 
 def p_parametros(t):
@@ -128,7 +135,7 @@ def p_parametro_2(t):
 
 
 def p_llamada_funcion_inicio(t):
-    'llamada_funciones : ID PARIZQ largumentos PARDER PTCOMA'
+    'llamada_funciones : ID PARIZQ largumentos PARDER'
     t[0] = LlamadaFunciones(t.lineno(1), t[1], t[3])
 
 
@@ -329,6 +336,13 @@ def p_continue_inicio(t):
     t[0] = Continue(t.lineno(2))
 
 
+# * -------------------------------------------RETURN-----------------------------------
+
+def p_instruccion_return(t):
+    'return : RETURN expresion PTCOMA'
+    t[0] = Return(t.lineno(1), t[2])
+
+
 # !----------------------------------------------------TIPO-----------------------------------------------------------
 
 def p_tipo1(t):
@@ -507,6 +521,11 @@ def p_exp_agrupa(t):
     t[0] = t[2]
 
 
+def p_llamada_funcion_asig(t):
+    'expresion : llamada_funciones'
+    t[0] = t[1]
+
+
 # *----------------------------------------------- IF ASIGNACION--------------------------------------------------
 
 
@@ -652,25 +671,35 @@ def report(self):
 parser = yacc.yacc()
 
 entrada = ''' 
-fn uno(x: i64,y:i64){
-    println!("{}",x+y);
+fn uno(x: f64,y:f64) -> f64 {
+    
+    return x+y;
 }
 
-fn dos(x: i64){
-    println!("{}",x);
+fn dos(x: &str) -> &str {
+
+    let string1: String = "hello".to_string();
+    let string2: &str = "world";
+    let string3 = string1 + x;
+    return string3;
+
 }
 
 fn main() {
     let mut a = 10;
+    let mut ca = dos(" mundo");
+    println!("{}",ca);
+    
+    let mut b = uno(1.9,8.1);
+    println!("{}",b);
+    
+    a = tres(3);
     println!("{}",a);
-    uno(1,10);
-    dos(2);
-    tres(3);
 }
-fn tres(x: i64){
+fn tres(x: i64) -> i64{
     println!("{}",x);
+    return x+5 ;
 }
-
 
 '''
 print("Inicia analizador...")
@@ -678,11 +707,10 @@ instruc = parser.parse(entrada)
 entorno_global = [Entorno(None, None, None, None)]
 
 for instru in instruc:
-    #print("Instrucciones fuera del main {}".format(instru))
+    # print("Instrucciones fuera del main {}".format(instru))
     if isinstance(instru, MainInstru):
         instru.ejecutar(entorno_global[0])
     elif isinstance(instru, Funciones):
         instru.ejecutar(entorno_global[0])
-
 
 print("Finaliza analizador...")

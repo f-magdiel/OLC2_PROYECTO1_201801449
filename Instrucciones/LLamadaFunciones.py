@@ -5,6 +5,7 @@ from Instrucciones.Break import Break
 from Instrucciones.Continue import Continue
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Variable import Variable
+from Instrucciones.Return import Return
 
 
 class LlamadaFunciones(Instruccion):
@@ -31,7 +32,8 @@ class LlamadaFunciones(Instruccion):
                                     # por si vienen Arreglos........................................
                                     # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
                                     parametros_procesados.append(
-                                        Variable(parametro.tipo, parametro.nombre, parametro_ref.valor,self.fila, True))
+                                        Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila,
+                                                 True))
                                 else:
                                     desc = "El tipo ({}) del parametro de llamada no coincide con el tipo ({}) declarado.".format(
                                         parametro_ref.tipo.value, funcion.parametros[indice].tipo.value)
@@ -56,7 +58,29 @@ class LlamadaFunciones(Instruccion):
                     for instruccion in funcion.instrucciones:
                         if (instruccion):
                             instr = instruccion.ejecutar(nuevo_entorno)
-                            # FALTA VALIDAR SI VIENE BREAK O RETURN PARA VALICAION DE RETORNO DE VALORES
+                            if (isinstance(instr, Return) and nuevo_entorno.flag_return):
+
+                                if (instr.primitiva.tipo == funcion.tipo):
+                                    if not (isinstance(instr.primitiva.valor, list)):
+                                        return instr.primitiva
+                                    else:
+                                        desc = 'Las funciones no pueden retornar arreglos.'
+                                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, instr.fila))
+                                        print(desc)
+                                else:
+                                    desc = 'La funcion de tipo ({}) no puede retornar un valor de tipo ({}).'.format(
+                                        funcion.tipo.value, instr.primitiva.tipo.value)
+                                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, instr.fila))
+                                    print(desc)
+                            elif (isinstance(instr, Return) and not nuevo_entorno.flag_return):
+                                desc = 'La instruccion return solo puede estar dentro de funciones que retornen valores.'
+                                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, instr.fila))
+                                print(desc)
+                    if (funcion.tipo != tipoPrimitivo.NULO):
+                        desc = 'La funcion es de tipo ({}) con lo cual, debe retornar un valor.'.format(
+                            funcion.tipo.value)
+                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                        print(desc)
             else:
                 desc = "No existe una funcion con el nombre '{}' en la tabla de simbolos.".format(self.nombre)
                 # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
