@@ -1,4 +1,5 @@
 from Entorno.Variable import Variable
+from Entorno.Funcion import Funcion
 
 
 class Entorno:
@@ -8,7 +9,7 @@ class Entorno:
         self.flag_return = flag_return
         self.flag_continue = flag_continue
         self.tabla_variables = {}  # ? Tabla solo para variables
-        self.tabla_funcion = {}  # ? Tabla solo para funciones
+        self.tabla_funciones = {}  # ? Tabla solo para funciones
         self.tabla_struct = {}  # ? Tabla solo para struct
 
     def nueva_variable(self, variable: Variable):
@@ -38,4 +39,24 @@ class Entorno:
         if (var):
             return True
 
+        return False
+
+    # ! -------------------------------------PARA FUNCIONES------------------------------------------
+    def nueva_funcion(self, funcion: Funcion):
+        #print(funcion.nombre)
+        self.tabla_funciones[funcion.nombre] = funcion
+
+    def buscar_funcion(self, nombre):
+        entorno_actual = self
+        while entorno_actual:
+            f = entorno_actual.tabla_funciones.get(nombre)
+            if (f):
+                return f
+            entorno_actual = entorno_actual.padre
+        return None
+
+    def buscar_funcion_entorno(self, nombre):
+        f = self.tabla_funciones.get(nombre)
+        if (f):
+            return True
         return False

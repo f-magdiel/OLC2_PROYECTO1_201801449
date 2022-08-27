@@ -79,6 +79,12 @@ break_expres -> BREAK expresion PTCOMA
 
 continue -> CONTINUE PTCOMA
 
+# -------------------------------------------------FUNCIONES---------------------------------------------------------
+funciones -> FN ID PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER
+        | FN ID PARIZQ parametros PARDER LLAVEIZQ instrucciones LLAVEDER
+        | FN ID PARIZQ parametros PARDER MENOS MAYORQUE TIPOF LLAVEIZQ instrucciones LLAVEDER 
+
+
 # ---------------------------------------------------EXPRESIONES---------------------------------------------------------------
 
 expresiones -> expresiones COMA expresion

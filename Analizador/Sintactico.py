@@ -7,7 +7,6 @@ from Expresiones.Id import Id
 from Expresiones.Primitiva import Primitiva
 from Enumeradas.Primitivo import tipoPrimitivo
 from Instrucciones.Asignacion import AsignacionVariable
-from Instrucciones.Imprimir import listimpresion
 from Expresiones.Aritmetica import Aritmetica
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.OperadorUnario import OPERADOR_UNARIO
@@ -27,6 +26,9 @@ from Instrucciones.While import While
 from Instrucciones.Break import Break
 from Instrucciones.BreakExpresion import BreakExpresion
 from Instrucciones.Continue import Continue
+from Instrucciones.MainInstru import MainInstru
+from Funciones.Funciones import Funciones, Parametros
+from Instrucciones.LLamadaFunciones import LlamadaFunciones
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -42,23 +44,37 @@ precedence = (
 
 
 # ?--------------------------------------------PRODUCCIONES------------------------------------------------------------
-def p_inicio1(t):
-    'inicio : instrucciones main'
-
-    t.lexer.lineno = 1
-    t.lineno = 1
+def p_inicio_inicio(t):
+    'inicio : instrucciones main instrucciones'
+    ins = t[3]
+    for ele in ins:
+        t[1].append(ele)
     t[1].append(t[2])
     t[0] = t[1]
 
 
+def p_inicio1(t):
+    'inicio : instrucciones main'
+    t.lexer.lineno = 1
+    t.lineno = 1
+    t[1].append(t[2])  # ?----> como una lista
+    t[0] = t[1]
+
+
+def p_inicio3(t):
+    'inicio : main instrucciones'
+    t[2].append(t[1])
+    t[0] = t[2]
+
+
 def p_inicio2(t):
     'inicio : main'
-    t[0] = t[1]
+    t[0] = [t[1]]  # ? ----> como una lista
 
 
 def p_main(t):
     'main : FN MAIN PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER'
-    t[0] = t[6]
+    t[0] = MainInstru(t.lineno(1), t[6])
 
 
 def p_instrucciones1(t):
@@ -82,8 +98,49 @@ def p_instrucion(t):
                     | while
                     | break
                     | continue
+                    | funciones
+                    | llamada_funciones
     '''
     t[0] = t[1]
+
+
+# !----------------------------------------------FUNCIONES---------------------------------------------------------
+def p_funciones_1(t):
+    'funciones : FN ID PARIZQ lparametros PARDER LLAVEIZQ instrucciones LLAVEDER '
+    t[0] = Funciones(t.lineno(1), tipoPrimitivo.NULO, t[2], t[4], t[7])
+
+
+
+def p_parametros(t):
+    'lparametros : lparametros COMA lparame'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_parametro_1(t):
+    'lparametros : lparame'
+    t[0] = [t[1]]
+
+
+def p_parametro_2(t):
+    'lparame : ID DOSPT tipo'
+    t[0] = Parametros(t[3], t[1])
+
+
+def p_llamada_funcion_inicio(t):
+    'llamada_funciones : ID PARIZQ largumentos PARDER PTCOMA'
+    t[0] = LlamadaFunciones(t.lineno(1), t[1], t[3])
+
+
+def p_argumentos1(t):
+    'largumentos : largumentos COMA expresion'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_argumetnos2(t):
+    'largumentos : expresion'
+    t[0] = [t[1]]
 
 
 # !---------------------------------------------------IMPRIMIR---------------------------------------------------------
@@ -270,7 +327,6 @@ def p_break_expresion(t):
 def p_continue_inicio(t):
     'continue : CONTINUE PTCOMA'
     t[0] = Continue(t.lineno(2))
-
 
 
 # !----------------------------------------------------TIPO-----------------------------------------------------------
@@ -588,26 +644,45 @@ def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
 
 
+def report(self):
+    return self.errors
+
+
 # !---------------------------------------Se ejecuta el parser---------------------------------------------------------
 parser = yacc.yacc()
 
 entrada = ''' 
-fn main() {
-let mut num = 0;
-while num < 10 {
-   num = num + 1;
-  if num == 5 {
-   continue;
-   }
-println!("{}", num); 
-  }
+fn uno(x: i64,y:i64){
+    println!("{}",x+y);
 }
+
+fn dos(x: i64){
+    println!("{}",x);
+}
+
+fn main() {
+    let mut a = 10;
+    println!("{}",a);
+    uno(1,10);
+    dos(2);
+    tres(3);
+}
+fn tres(x: i64){
+    println!("{}",x);
+}
+
+
 '''
 print("Inicia analizador...")
 instruc = parser.parse(entrada)
 entorno_global = [Entorno(None, None, None, None)]
 
 for instru in instruc:
-    instru.ejecutar(entorno_global[0])
+    #print("Instrucciones fuera del main {}".format(instru))
+    if isinstance(instru, MainInstru):
+        instru.ejecutar(entorno_global[0])
+    elif isinstance(instru, Funciones):
+        instru.ejecutar(entorno_global[0])
+
 
 print("Finaliza analizador...")
