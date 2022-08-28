@@ -6,6 +6,7 @@ from Instrucciones.Continue import Continue
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Variable import Variable
 from Instrucciones.Return import Return
+from Instrucciones.While import While
 
 
 class LlamadaFunciones(Instruccion):
@@ -51,13 +52,15 @@ class LlamadaFunciones(Instruccion):
                     if (funcion.tipo == tipoPrimitivo.NULO):
                         nuevo_entorno = Entorno(entorno, False, False, False)
                     else:
-                        nuevo_entorno = Entorno(entorno, False, True, False)
+                        nuevo_entorno = Entorno(entorno, False, True, False) #! se manda para retornar en funciones
                     if (parametros_procesados):
                         for variable in parametros_procesados:
                             nuevo_entorno.nueva_variable(variable)
                     for instruccion in funcion.instrucciones:
                         if (instruccion):
+
                             instr = instruccion.ejecutar(nuevo_entorno)
+
                             if (isinstance(instr, Return) and nuevo_entorno.flag_return):
 
                                 if (instr.primitiva.tipo == funcion.tipo):

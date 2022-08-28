@@ -3,6 +3,7 @@ from Entorno.Entorno import Entorno
 from Enumeradas.Primitivo import tipoPrimitivo
 from Instrucciones.Break import Break
 from Instrucciones.Continue import Continue
+from Instrucciones.Return import Return
 
 
 class While(Instruccion):
@@ -19,15 +20,16 @@ class While(Instruccion):
                     if inst:
                         instruc = inst.ejecutar(nuevo_entorno)
 
-                        if isinstance(instruc, Break):# * Cuando es un break
+                        if isinstance(instruc, Break):  # * Cuando es un break
                             return None
 
                         if isinstance(instruc, Continue):
                             break
 
+                        if isinstance(instruc, Return) and nuevo_entorno.flag_return:
+                            return instruc
+
                         # TODO erorres break expresion y retunr
-
-
 
     def evaluar_expresion(self, expres, entorno: Entorno):
         cond = expres.ejecutar(entorno)

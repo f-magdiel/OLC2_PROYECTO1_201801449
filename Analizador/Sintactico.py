@@ -113,9 +113,19 @@ def p_funciones_2(t):
     t[0] = Funciones(t.lineno(2), t[8], t[2], t[4], t[10])
 
 
+def p_funciones_3(t):
+    'funciones : FN ID PARIZQ PARDER MENOS MAYORQUE tipo LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = Funciones(t.lineno(1), t[7], t[2], [], t[9])
+
+
 def p_funciones_1(t):
     'funciones : FN ID PARIZQ lparametros PARDER LLAVEIZQ instrucciones LLAVEDER '
     t[0] = Funciones(t.lineno(1), tipoPrimitivo.NULO, t[2], t[4], t[7])
+
+
+def p_funciones_4(t):
+    'funciones : FN ID PARIZQ PARDER LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = Funciones(t.lineno(1), tipoPrimitivo.NULO, t[2], [], t[6])
 
 
 def p_parametros(t):
@@ -137,6 +147,11 @@ def p_parametro_2(t):
 def p_llamada_funcion_inicio(t):
     'llamada_funciones : ID PARIZQ largumentos PARDER'
     t[0] = LlamadaFunciones(t.lineno(1), t[1], t[3])
+
+
+def p_llamada_funcion_1(t):
+    'llamada_funciones : ID PARIZQ PARDER'
+    t[0] = LlamadaFunciones(t.lineno(1), t[1], [])
 
 
 def p_argumentos1(t):
@@ -671,35 +686,24 @@ def report(self):
 parser = yacc.yacc()
 
 entrada = ''' 
-fn uno(x: f64,y:f64) -> f64 {
-    
-    return x+y;
-}
 
-fn dos(x: &str) -> &str {
-
-    let string1: String = "hello".to_string();
-    let string2: &str = "world";
-    let string3 = string1 + x;
-    return string3;
-
-}
 
 fn main() {
-    let mut a = 10;
-    let mut ca = dos(" mundo");
-    println!("{}",ca);
-    
-    let mut b = uno(1.9,8.1);
-    println!("{}",b);
-    
-    a = tres(3);
-    println!("{}",a);
+  let mut a = funcion();
+  println!("es a {}",a);
 }
-fn tres(x: i64) -> i64{
-    println!("{}",x);
-    return x+5 ;
+
+fn funcion()->64{
+let mut num = 0;
+    while num < 10{
+        num = num +1;
+        if num == 5{
+            return 5;
+        }
+        println!("{}",num);
+    }
 }
+
 
 '''
 print("Inicia analizador...")

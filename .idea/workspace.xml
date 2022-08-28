@@ -167,7 +167,10 @@
       <workItem from="1661486608631" duration="2153000" />
       <workItem from="1661531293545" duration="2818000" />
       <workItem from="1661548761493" duration="13768000" />
-      <workItem from="1661572533837" duration="5301000" />
+      <workItem from="1661572533837" duration="5802000" />
+      <workItem from="1661631208900" duration="13000" />
+      <workItem from="1661643989094" duration="2578000" />
+      <workItem from="1661646638024" duration="4110000" />
     </task>
     <servers />
   </component>
@@ -176,7 +179,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/OLC2_PROYECTO1_201801449$Declaracion.coverage" NAME="Declaracion Coverage Results" MODIFIED="1659586378028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Instrucciones" />
-    <SUITE FILE_PATH="coverage/OLC2_PROYECTO1_201801449$Sintactico.coverage" NAME="Sintactico Coverage Results" MODIFIED="1661581150970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Analizador" />
+    <SUITE FILE_PATH="coverage/OLC2_PROYECTO1_201801449$Sintactico.coverage" NAME="Sintactico Coverage Results" MODIFIED="1661650748015" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Analizador" />
     <SUITE FILE_PATH="coverage/OLC2_PROYECTO1_201801449$Lexico.coverage" NAME="Lexico Coverage Results" MODIFIED="1659735486316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Analizador" />
   </component>
 </project>

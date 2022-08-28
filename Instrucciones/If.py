@@ -4,6 +4,7 @@ from Entorno.Entorno import Entorno
 from Instrucciones.Break import Break
 from Instrucciones.BreakExpresion import BreakExpresion
 from Instrucciones.Continue import Continue
+from Instrucciones.Return import Return
 
 
 class If(Instruccion):
@@ -22,8 +23,10 @@ class If(Instruccion):
                         nuevo_entorno = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
                         # ! --------------PARA EJECUTAR INSTRUCCIOENS------------------
                         for instruccion in self.instrucciones:
+
                             if (instruccion):  # ! no debe vernir vacio
                                 inst = instruccion.ejecutar(nuevo_entorno)  # ! --> Ejecutan una instruccion simple
+
                                 if isinstance(inst, Break) and nuevo_entorno.flag_break:
                                     return inst
 
@@ -31,6 +34,9 @@ class If(Instruccion):
                                     return inst
 
                                 if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
+                                    return inst
+
+                                if isinstance(inst, Return) and nuevo_entorno.flag_return:
                                     return inst
 
                     else:
@@ -47,6 +53,9 @@ class If(Instruccion):
                                         return inst
 
                                     if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
+                                        return inst
+
+                                    if isinstance(inst, Return) and nuevo_entorno.flag_return:
                                         return inst
                 else:
                     print("La expresion debe de ser de tipo BOOL")

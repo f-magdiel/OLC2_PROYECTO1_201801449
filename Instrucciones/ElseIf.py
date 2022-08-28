@@ -4,6 +4,7 @@ from Entorno.Entorno import Entorno
 from Instrucciones.Break import Break
 from Instrucciones.BreakExpresion import BreakExpresion
 from Instrucciones.Continue import Continue
+from Instrucciones.Return import Return
 
 class ElseIf(Instruccion):
     def __init__(self, fila, expresion, instrucciones: list, elseif: list, instelse: list):
@@ -32,6 +33,9 @@ class ElseIf(Instruccion):
                                 if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
                                     return inst
 
+                                if isinstance(inst, Return) and nuevo_entorno.flag_return:
+                                    return inst
+
                     else:
                         cumple = False
                         for else_if in self.elseif:
@@ -52,6 +56,9 @@ class ElseIf(Instruccion):
 
                                                 if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
                                                     return inst
+
+                                                if isinstance(inst, Return) and nuevo_entorno.flag_return:
+                                                    return inst
                                         break
 
                         if not cumple:
@@ -67,4 +74,7 @@ class ElseIf(Instruccion):
                                             return inst
 
                                         if isinstance(inst, Continue) and nuevo_entorno.flag_continue:
+                                            return inst
+
+                                        if isinstance(inst, Return) and nuevo_entorno.flag_return:
                                             return inst
