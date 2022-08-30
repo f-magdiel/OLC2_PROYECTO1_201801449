@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class tipoPrimitivo(Enum):
     I64 = 'I64'
     F64 = 'F64'
@@ -8,5 +9,8 @@ class tipoPrimitivo(Enum):
     STRING = 'STRING'
     STR = 'STR'
     NULO = 'NULO'
-    TOS = 'TOS' #? Esto es para to_string y el to_ownewd
+    TOS = 'TOS'  # ? Esto es para to_string y el to_ownewd
     TOW = 'TOW'
+    ARREGLO = 'ARREGLO'
+    VECTOR = 'VECTOR'
+    USIZE = 'USIZE'

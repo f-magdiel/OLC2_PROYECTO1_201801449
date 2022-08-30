@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 from Analizador.Lexico import tokens
+from Instrucciones.Arreglo import Arreglo
 from Instrucciones.Declaracion import DeclaracionVariable
 from Instrucciones.Imprimir import Imprimir
 from Entorno.Entorno import Entorno
@@ -30,6 +31,8 @@ from Instrucciones.MainInstru import MainInstru
 from Funciones.Funciones import Funciones, Parametros
 from Instrucciones.LLamadaFunciones import LlamadaFunciones
 from Instrucciones.Return import Return
+from Instrucciones.DeclaracionArreglos import DeclaracionArreglos
+from Instrucciones.Arregloacceso import Arregloacceso
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -102,8 +105,26 @@ def p_instrucion(t):
                     | continue
                     | funciones
                     | llamada_funciones PTCOMA
+                    | declaracion_arreglos
     '''
     t[0] = t[1]
+
+
+# !----------------------------------------ARREGLOS---------------------------------------------------------------
+def p_arreglo_inicio(t):
+    'declaracion_arreglos : LET MUT ID DOSPT tipo_arreglo IGUAL expresion PTCOMA'
+    t[0] = DeclaracionArreglos(t.lineno(1), t[3], t[5], t[7], True)
+
+
+def p_arreglo_tipo(t):
+    'tipo_arreglo : CORIZQ tipo_arreglo PTCOMA expresion CORDER'
+    t[2].append(t[4])
+    t[0] = t[2]
+
+
+def p_arreglo_tipo2(t):
+    'tipo_arreglo : CORIZQ tipo PTCOMA expresion CORDER'
+    t[0] = [t[2], t[4]]
 
 
 # !----------------------------------------------FUNCIONES---------------------------------------------------------
@@ -174,7 +195,7 @@ def p_imprimir1(t):
 
 def p_imprimir2(t):
     'imprimir : PRINTLN NOT PARIZQ expresion PARDER PTCOMA'
-    t[0] = Imprimir(t.lineno(2), t[4], None)
+    t[0] = Imprimir(t.lineno(2), t[4], [])
 
 
 # !--------------------------------------------DECLARACION-------------------------------------------------------------
@@ -366,6 +387,7 @@ def p_tipo1(t):
             | BOOL
             | CHAR
             | STRING
+            | USIZE
     '''
     tipo = t[1]
     if (tipo == 'i64'):
@@ -378,6 +400,8 @@ def p_tipo1(t):
         t[0] = tipoPrimitivo.CHAR
     elif (tipo == 'String'):
         t[0] = tipoPrimitivo.STRING
+    elif (tipo == 'usize'):
+        t[0] = tipoPrimitivo.I64
 
 
 def p_tipo2(t):
@@ -541,6 +565,27 @@ def p_llamada_funcion_asig(t):
     t[0] = t[1]
 
 
+def p_expresion_arreglo(t):
+    'expresion : CORIZQ expresiones CORDER '
+    t[0] = Arreglo(t.lineno(1), t[2])
+
+
+def p_expresion_Accesarreglo(t):
+    'expresion : ID lindices'
+    t[0] = Arregloacceso(t.lineno(1), t[1], t[2])
+
+
+def p_indices1(t):
+    'lindices : lindices CORIZQ expresion CORDER'
+    t[1].append(t[3])
+    t[0] = t[1]
+
+
+def p_indices2(t):
+    'lindices : CORIZQ expresion CORDER'
+    t[0] = [t[2]]
+
+
 # *----------------------------------------------- IF ASIGNACION--------------------------------------------------
 
 
@@ -686,23 +731,18 @@ def report(self):
 parser = yacc.yacc()
 
 entrada = ''' 
+fn main (){
+   let mut i: usize = 0;
+    println!("{}",i);
 
+    let mut ar1: [[[[i64;2];2];2];2] = [[[[1,2],[3,4]],[[5,6],[7,8]]],[[[9,10],[11,12]],[[13,14],[15,16]]]];
 
-fn main() {
-  let mut a = funcion();
-  println!("es a {}",a);
+    let mut a = ar1[1][1][1][1];
+
+    println!("{}",a);
+   
 }
 
-fn funcion()->64{
-let mut num = 0;
-    while num < 10{
-        num = num +1;
-        if num == 5{
-            return 5;
-        }
-        println!("{}",num);
-    }
-}
 
 
 '''

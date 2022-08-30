@@ -28,6 +28,7 @@ reservadas = {
     'break': 'BREAK',
     'continue': 'CONTINUE',
     'return': 'RETURN',
+    'usize': 'USIZE',
 
 }
 
@@ -64,6 +65,8 @@ tokens = [
     'SIGNOI',
     'BARRAS',
     'GUIONB',
+    'CORIZQ',
+    'CORDER',
 
 ]
 tokens += list(reservadas.values())
@@ -88,6 +91,8 @@ t_PTO = r'.'
 t_COMA = r'\,'
 t_PTCOMA = r'\;'
 t_DOSPT = '\:'
+t_CORIZQ = '\['
+t_CORDER = '\]'
 t_LLAVEIZQ = r'\{'
 t_LLAVEDER = r'\}'
 t_PARIZQ = r'\('

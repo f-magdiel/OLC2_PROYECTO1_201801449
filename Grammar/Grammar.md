@@ -26,6 +26,14 @@ declaracion -> LET MUT ID DOSPT tipo IGUAL expresion PTCOMA
                 | LET MUT ID IGUAL expresion PTCOMA
                 | LET ID DOSTP tipo IGUAL expresion PTCOMA
                 | LET ID IGUAL expresion PTCOMA
+                | arreglo
+
+
+arreglo -> LET MUT ID DOSPT tipo_arreglo IGUAL expresion PTCOMA
+
+tipo_arreglo -> CORCHETEIZQ tipo_arreglo PTCOMA expresion CORCHETEDER
+                | CORCHETEIZQ tipo PTCOMA expresion CORCHETEDER
+
 
 asignacion -> ID IGUAL expresion PTCOMA
 
@@ -159,6 +167,7 @@ tipo -> I64
         | CHAR
         | SIGNO STR
         | STRING
+
 
 
 

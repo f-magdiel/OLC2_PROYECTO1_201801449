@@ -12,7 +12,6 @@ class Imprimir(Instruccion):
         self.expresiones = expresiones
 
     def ejecutar(self, entorno: Entorno):
-
         if self.expresion is not None and self.expresiones is not None:
             expre = self.expresion.ejecutar(entorno)  # ? Primero ejecuta solo la expresion
             cadena = str(expre.valor)
@@ -20,7 +19,13 @@ class Imprimir(Instruccion):
             if count_sep == len(self.expresiones):  # ? validar que tenga los mismos {} y parametros
                 for i in self.expresiones:
                     val = i.ejecutar(entorno)
-                    cadena = cadena.replace("{}", str(val.valor), 1)
+                    if val.tipo == tipoPrimitivo.ARREGLO:
+                        arr = []
+                        self.transformar(val.valor, arr)
+                        cadena = cadena.replace("{}", str(arr), 1)
+
+                    else:
+                        cadena = cadena.replace("{}", str(val.valor), 1)
 
                 print(cadena)
 
@@ -31,3 +36,13 @@ class Imprimir(Instruccion):
             else:
                 print("Debe llevar un formato")
                 # TODO
+
+    def transformar(self, valor, arreglo):  # Convierte un arreglo de primitivas en un arreglo con valores normales
+        if isinstance(valor, list):
+            for elemento in valor:
+                if isinstance(elemento.valor, list):
+                    arreglo_hijo = []
+                    self.transformar(elemento.valor, arreglo_hijo)
+                    arreglo.append(arreglo_hijo)
+                else:
+                    arreglo.append(elemento.valor)
