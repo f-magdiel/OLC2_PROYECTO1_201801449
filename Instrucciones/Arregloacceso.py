@@ -62,7 +62,6 @@ class Arregloacceso(Instruccion):
 
                         for pos in posiciones:
                             valor_arreglo = arreglo_aux[pos]
-                            # print(valor_arreglo)
                             arreglo_aux = valor_arreglo.valor
 
                         return Primitiva(self.fila, valor_arreglo.tipo, valor_arreglo.valor)

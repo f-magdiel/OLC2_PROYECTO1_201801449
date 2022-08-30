@@ -7,7 +7,7 @@ from Entorno.Entorno import Entorno
 from Expresiones.Id import Id
 from Expresiones.Primitiva import Primitiva
 from Enumeradas.Primitivo import tipoPrimitivo
-from Instrucciones.Asignacion import AsignacionVariable
+from Instrucciones.Asignacion import AsignacionVariable, AsignacionArreglo
 from Expresiones.Aritmetica import Aritmetica
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.OperadorUnario import OPERADOR_UNARIO
@@ -224,6 +224,11 @@ def p_declaracion4(t):
 def p_asignacion1(t):
     'asignacion : ID IGUAL expresion PTCOMA'
     t[0] = AsignacionVariable(t.lineno(1), t[1], t[3])
+
+
+def p_asignacionarreglo(t):
+    'asignacion : ID lindices IGUAL expresion PTCOMA'
+    t[0] = AsignacionArreglo(t.lineno(1), t[1], t[2], t[4])
 
 
 # !---------------------------------------------------IF------------------------------------------------------------
@@ -732,14 +737,17 @@ parser = yacc.yacc()
 
 entrada = ''' 
 fn main (){
-   let mut i: usize = 0;
+    let mut i: usize = 0;
     println!("{}",i);
 
     let mut ar1: [[[[i64;2];2];2];2] = [[[[1,2],[3,4]],[[5,6],[7,8]]],[[[9,10],[11,12]],[[13,14],[15,16]]]];
 
     let mut a = ar1[1][1][1][1];
-
     println!("{}",a);
+    ar1[1][1][1][1] = 20;
+    let mut b = ar1[1][1][1][1];
+    println!("{}",b);
+    
    
 }
 
