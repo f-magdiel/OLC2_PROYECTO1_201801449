@@ -25,16 +25,25 @@ class LlamadaFunciones(Instruccion):
                     if (len(funcion.parametros) == len(self.parametros_referencia)):
                         indice = 0
                         for p_ref in self.parametros_referencia:
-                            parametro_ref = p_ref.ejecutar(entorno)
+                            parametro_ref = p_ref[0].ejecutar(entorno)
                             if (parametro_ref):
                                 parametro = funcion.parametros[indice]  # vamos obteniedo uno a uno los valores
                                 if (parametro_ref.tipo == parametro.tipo):
-                                    valor_arreglo = []
+
+                                    if (parametro_ref.tipo == tipoPrimitivo.ARREGLO):
+                                        if not (p_ref[1]):
+                                            desc = "No se hiso referencia al valor del arreglo"
+                                            todo_correcto = False
+                                        else:
+                                            parametros_procesados.append(Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
+                                        # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
+                                    else:
+                                        parametros_procesados.append(Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
+                                    #valor_arreglo = []
                                     # por si vienen Arreglos........................................
                                     # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
-                                    parametros_procesados.append(
-                                        Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila,
-                                                 True))
+                                    # parametros_procesados.append(
+                                    #     Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
                                 else:
                                     desc = "El tipo ({}) del parametro de llamada no coincide con el tipo ({}) declarado.".format(
                                         parametro_ref.tipo.value, funcion.parametros[indice].tipo.value)

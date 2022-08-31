@@ -8,9 +8,11 @@ from Entorno.Entorno import Entorno
 
 
 class Parametros():
-    def __init__(self, tipo, nombre):  # * Aquí debe ir arreglos
+    def __init__(self, tipo, nombre, si_arreglo, dimensiones):  # * Aquí debe ir arreglos
         self.tipo = tipo
         self.nombre = nombre
+        self.si_arreglo = si_arreglo
+        self.dimensiones = dimensiones
 
 
 class Funciones(Instruccion):

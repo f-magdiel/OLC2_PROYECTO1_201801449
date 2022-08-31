@@ -162,7 +162,12 @@ def p_parametro_1(t):
 
 def p_parametro_2(t):
     'lparame : ID DOSPT tipo'
-    t[0] = Parametros(t[3], t[1])
+    t[0] = Parametros(t[3], t[1], False, None)
+
+
+def p_parametro_3(t):
+    'lparame : ID DOSPT SIGNOI MUT tipo_arreglo'
+    t[0] = Parametros(tipoPrimitivo.ARREGLO, t[1], True, t[5])
 
 
 def p_llamada_funcion_inicio(t):
@@ -175,15 +180,27 @@ def p_llamada_funcion_1(t):
     t[0] = LlamadaFunciones(t.lineno(1), t[1], [])
 
 
-def p_argumentos1(t):
-    'largumentos : largumentos COMA expresion'
+def p_argumentos_0(t):
+    'largumentos : largumentos COMA largumento'  # se quito expresion por largunto
     t[1].append(t[3])
     t[0] = t[1]
 
 
-def p_argumetnos2(t):
-    'largumentos : expresion'
+def p_argumentos_2(t):
+    'largumentos : largumento'
     t[0] = [t[1]]
+
+
+def p_argumentos_3(t):
+    'largumento : expresion'
+    li = [t[1], False]
+    t[0] = li
+
+
+def p_argumentos_4(t):
+    'largumento : SIGNOI MUT expresion'
+    li = [t[3], True]
+    t[0] = li
 
 
 # !---------------------------------------------------IMPRIMIR---------------------------------------------------------
@@ -736,21 +753,33 @@ def report(self):
 parser = yacc.yacc()
 
 entrada = ''' 
-fn main (){
+fn ordIntercambio(arr: &mut [[[[i64;2];2];2];2]) {
+    let mut i: usize = 0;
+    let mut j: usize = 0;
+    println!("{}",arr);
+    arr[0][1][1][1] = 200;
+
+
+}
+fn main() {
+
     let mut i: usize = 0;
     println!("{}",i);
 
     let mut ar1: [[[[i64;2];2];2];2] = [[[[1,2],[3,4]],[[5,6],[7,8]]],[[[9,10],[11,12]],[[13,14],[15,16]]]];
 
-    let mut a = ar1[1][1][1][1];
+    let mut a = ar1[0][1][1][1];
     println!("{}",a);
-    ar1[1][1][1][1] = 20;
-    let mut b = ar1[1][1][1][1];
-    println!("{}",b);
-    
-   
-}
 
+    //ar1[0][1][1][1] = 18;
+    //let mut b = ar1[0][1][1][1];
+    //println!("{}",b);
+
+
+    ordIntercambio(&mut ar1);
+    println!("{}",ar1);
+
+}
 
 
 '''
