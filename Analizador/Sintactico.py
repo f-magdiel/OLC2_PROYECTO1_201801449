@@ -114,6 +114,7 @@ def p_instrucion(t):
                     | declaracion_arreglos
                     | declaracion_vector
                     | forin
+                    | nativas_vector
 
     '''
     t[0] = t[1]
@@ -157,6 +158,20 @@ def p_nativa_len(t):
     'nativas_vec : ID PTO LEN PARIZQ PARDER'
     nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.LEN)
+
+
+# * -------------------------------CAPACITY-------------------------------
+def p_nativa_capacity(t):
+    'expresion : ID PTO CAPACITY PARIZQ PARDER '
+    nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.CAPACITY)
+
+
+# * ---------------------------------PUSH------------------------------------
+def p_nativa_push(t):
+    'nativas_vector : ID PTO PUSH PARIZQ expresion PARDER PTCOMA'
+    nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.PUSH, t[5])
 
 
 # !----------------------------------------ARREGLOS---------------------------------------------------------------
@@ -815,9 +830,14 @@ parser = yacc.yacc()
 entrada = ''' 
 
 fn main() {
-    
-let v = vec![2,4,6,8,10];
-println!("{}", v.len());
+let mut v: Vec<i64> = Vec::new();
+v.push(1);
+v.push(2);
+v.push(3);
+v.push(4);
+println!("{}", v);
+v.push(5);
+println!("{}", v);
 }
 
 

@@ -9,7 +9,7 @@ from Enumeradas.Primitivo import tipoPrimitivo
 class NativasVectores(Instruccion):
     def __init__(self, fila, expresion1, funcion, expresion2=None):
         super().__init__(fila)
-        self.expresion1 = expresion1
+        self.expresion1 = expresion1  # es el ID también
         self.expresion2 = expresion2
         self.funcion = funcion
 
@@ -21,9 +21,14 @@ class NativasVectores(Instruccion):
             tam = len(var.valor)
             return Primitiva(self.fila, tipoPrimitivo.I64, tam)
         elif NATIVE_VECTORES.CAPACITY == self.funcion:
-            pass
+            var = entorno.buscar_variable(self.expresion1.nombre)
+
         elif NATIVE_VECTORES.PUSH == self.funcion:
-            pass
+            var = entorno.buscar_variable(self.expresion1.nombre)
+            var.valor.append(self.expresion2)
+            entorno.editar_variable(self.expresion1.nombre, var)
+
+
         elif NATIVE_VECTORES.CONTAINS == self.funcion:
             pass
         elif NATIVE_VECTORES.REMOVE == self.funcion:

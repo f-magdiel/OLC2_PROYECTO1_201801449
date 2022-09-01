@@ -22,6 +22,7 @@ class Imprimir(Instruccion):
 
                     if val.tipo == tipoPrimitivo.ARREGLO or val.tipo == tipoPrimitivo.VECTOR:
                         arr = []
+
                         self.transformar(val.valor, arr)
                         cadena = cadena.replace("{}", str(arr), 1)
 
@@ -41,9 +42,11 @@ class Imprimir(Instruccion):
     def transformar(self, valor, arreglo):  # Convierte un arreglo de primitivas en un arreglo con valores normales
         if isinstance(valor, list):
             for elemento in valor:
+
                 if isinstance(elemento.valor, list):
                     arreglo_hijo = []
                     self.transformar(elemento.valor, arreglo_hijo)
                     arreglo.append(arreglo_hijo)
                 else:
+
                     arreglo.append(elemento.valor)
