@@ -80,8 +80,7 @@ class DeclaracionArreglos(Instruccion):
 
         # RECURSIVO
 
-    def obtener_dimensiones(self, valor,
-                            dimensiones):  # Obtiene los tamaños de las dimensiones de un arreglo de uni/multidimensional
+    def obtener_dimensiones(self, valor, dimensiones):  # Obtiene los tamaños de las dimensiones de un arreglo de uni/multidimensional
         if isinstance(valor, list):
             if isinstance(valor[0].valor, list):
                 self.obtener_dimensiones(valor[0].valor, dimensiones)

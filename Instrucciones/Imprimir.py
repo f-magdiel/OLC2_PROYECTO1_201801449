@@ -19,6 +19,7 @@ class Imprimir(Instruccion):
             if count_sep == len(self.expresiones):  # ? validar que tenga los mismos {} y parametros
                 for i in self.expresiones:
                     val = i.ejecutar(entorno)
+
                     if val.tipo == tipoPrimitivo.ARREGLO:
                         arr = []
                         self.transformar(val.valor, arr)

@@ -33,6 +33,7 @@ from Instrucciones.LLamadaFunciones import LlamadaFunciones
 from Instrucciones.Return import Return
 from Instrucciones.DeclaracionArreglos import DeclaracionArreglos
 from Instrucciones.Arregloacceso import Arregloacceso
+from Instrucciones.ForIn import ForIn
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -106,6 +107,7 @@ def p_instrucion(t):
                     | funciones
                     | llamada_funciones PTCOMA
                     | declaracion_arreglos
+                    | forin
     '''
     t[0] = t[1]
 
@@ -375,6 +377,17 @@ def p_loop_inicio(t):
 def p_while_inicio(t):
     'while : WHILE expresion LLAVEIZQ instrucciones LLAVEDER'
     t[0] = While(t.lineno(1), t[2], t[4])
+
+
+# ! ------------------------------FORIN--------------------------------
+def p_forin_inicio(t):
+    'forin : FOR ID IN expresion LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = ForIn(t.lineno(1), t[2], t[4], t[6])
+
+
+def p_forin_2(t):
+    'forin : FOR ID IN expresion PTO PTO expresion LLAVEIZQ instrucciones LLAVEDER'
+    t[0] = ForIn(t.lineno(1), t[2], t[4], t[9], t[7])
 
 
 # * ---------------------------------------BREAK------------------------------------
@@ -753,31 +766,14 @@ def report(self):
 parser = yacc.yacc()
 
 entrada = ''' 
-fn ordIntercambio(arr: &mut [[[[i64;2];2];2];2]) {
-    let mut i: usize = 0;
-    let mut j: usize = 0;
-    println!("{}",arr);
-    arr[0][1][1][1] = 200;
 
+fn main() {
+    
+for letra in ["perro", "gato", "tortuga"] {
+    println!("{} es mi favorito, ", letra);
 
 }
-fn main() {
 
-    let mut i: usize = 0;
-    println!("{}",i);
-
-    let mut ar1: [[[[i64;2];2];2];2] = [[[[1,2],[3,4]],[[5,6],[7,8]]],[[[9,10],[11,12]],[[13,14],[15,16]]]];
-
-    let mut a = ar1[0][1][1][1];
-    println!("{}",a);
-
-    //ar1[0][1][1][1] = 18;
-    //let mut b = ar1[0][1][1][1];
-    //println!("{}",b);
-
-
-    ordIntercambio(&mut ar1);
-    println!("{}",ar1);
 
 }
 

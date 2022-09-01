@@ -29,6 +29,8 @@ reservadas = {
     'continue': 'CONTINUE',
     'return': 'RETURN',
     'usize': 'USIZE',
+    'for': 'FOR',
+    'in': 'IN',
 
 }
 

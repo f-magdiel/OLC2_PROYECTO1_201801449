@@ -2,6 +2,7 @@ from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
 from Entorno.Variable import Variable
 from Expresiones.Primitiva import Primitiva
+from Enumeradas.Primitivo import tipoPrimitivo
 
 
 class Id(Instruccion):
@@ -17,4 +18,5 @@ class Id(Instruccion):
                 valor = variable.valor
                 return Primitiva(self.fila, tipo, valor)
             else:
-                print("No existe variable")
+                print("No existe variable en ID")
+
