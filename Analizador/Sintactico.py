@@ -34,6 +34,11 @@ from Instrucciones.Return import Return
 from Instrucciones.DeclaracionArreglos import DeclaracionArreglos
 from Instrucciones.Arregloacceso import Arregloacceso
 from Instrucciones.ForIn import ForIn
+from Instrucciones.Vector import Vector
+from Instrucciones.CreacionVector import CreacionVector
+from Instrucciones.DeclaracionVector import DeclaracionVector
+from Instrucciones.NativasVectores import NativasVectores
+from Enumeradas.NativeVectores import NATIVE_VECTORES
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -107,9 +112,51 @@ def p_instrucion(t):
                     | funciones
                     | llamada_funciones PTCOMA
                     | declaracion_arreglos
+                    | declaracion_vector
                     | forin
+
     '''
     t[0] = t[1]
+
+
+# !-------------------------------------VECTORES-----------------------------------------------------------------
+def p_declaracion_vec1(t):
+    'declaracion_vector : LET MUT ID DOSPT VVEC MENORQUE tipo MAYORQUE IGUAL expresion PTCOMA'
+    t[0] = DeclaracionVector(t.lineno(1), t[3], t[10], t[7], True)
+
+
+def p_declaracion_vec2(t):
+    'declaracion_vector : LET ID DOSPT VVEC MENORQUE tipo MAYORQUE IGUAL expresion PTCOMA'
+    t[0] = DeclaracionVector(t.lineno(1), t[2], t[9], t[6], False)
+
+
+def p_vector_inicio(t):
+    'expresion : VEC NOT CORIZQ expresiones CORDER'
+    vec = Arreglo(t.lineno(1), t[4])
+    t[0] = Vector(t.lineno(1), vec)
+
+
+def p_vector1(t):
+    'expresion : VVEC DOSPT DOSPT NEW PARIZQ PARDER'
+    t[0] = CreacionVector(t.lineno(1))
+
+
+def p_vecto2(t):
+    'expresion : VVEC DOSPT DOSPT WITH_CAPACITY PARIZQ expresion PARDER'
+    t[0] = CreacionVector(t.lineno(1), t[6])
+
+
+# !-------------------------------------NATIVAS VECTORES-------------------------------------------
+# * --------------------------------LEN-------------------------------------
+def p_nativa_vec(t):
+    'expresion : nativas_vec'
+    t[0] = t[1]
+
+
+def p_nativa_len(t):
+    'nativas_vec : ID PTO LEN PARIZQ PARDER'
+    nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.LEN)
 
 
 # !----------------------------------------ARREGLOS---------------------------------------------------------------
@@ -769,12 +816,8 @@ entrada = '''
 
 fn main() {
     
-for letra in ["perro", "gato", "tortuga"] {
-    println!("{} es mi favorito, ", letra);
-
-}
-
-
+let v = vec![2,4,6,8,10];
+println!("{}", v.len());
 }
 
 

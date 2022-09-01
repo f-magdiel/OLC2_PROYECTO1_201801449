@@ -47,8 +47,10 @@ class DeclaracionVariable(Instruccion):
                             print("El tipo {} y la expresion {} no coinciden")
 
                     else:
-                        msg_error = 'La variable no puede almacenar un arreglo'
-                        print(msg_error)
+                        variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
+                        entorno.nueva_variable(variable)
+                        # msg_error = 'La variable no puede almacenar un arreglo'
+                        # print(msg_error)
             else:
                 msg_error = "Ya existe una variable con el nombre '{}' en la tabla de simbolos.".format(self.nombre)
                 print(msg_error)

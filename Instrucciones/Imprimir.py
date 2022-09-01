@@ -20,7 +20,7 @@ class Imprimir(Instruccion):
                 for i in self.expresiones:
                     val = i.ejecutar(entorno)
 
-                    if val.tipo == tipoPrimitivo.ARREGLO:
+                    if val.tipo == tipoPrimitivo.ARREGLO or val.tipo == tipoPrimitivo.VECTOR:
                         arr = []
                         self.transformar(val.valor, arr)
                         cadena = cadena.replace("{}", str(arr), 1)

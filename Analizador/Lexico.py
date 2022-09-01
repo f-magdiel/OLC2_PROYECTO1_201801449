@@ -1,6 +1,5 @@
 import ply.lex as lex
 
-
 reservadas = {
     'i64': 'I64',
     'f64': 'F64',
@@ -31,7 +30,16 @@ reservadas = {
     'usize': 'USIZE',
     'for': 'FOR',
     'in': 'IN',
-
+    'vec': 'VEC',
+    'Vec': 'VVEC',
+    'new': 'NEW',
+    'with_capacity': 'WITH_CAPACITY',
+    'len': 'LEN',
+    'capacity': 'CAPACITY',
+    'contains': 'CONTAINS',
+    'remove': 'REMOVE',
+    'insert': 'INSERT',
+    'push': 'PUSH',
 }
 
 tokens = [
