@@ -174,6 +174,13 @@ def p_nativa_push(t):
     t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.PUSH, t[5])
 
 
+# * -------------------------------INSERT--------------------------------------
+def p_nativa_insert(t):
+    'nativas_vector : ID PTO INSERT PARIZQ expresion COMA expresion PARDER PTCOMA'
+    nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.INSERT, t[5], t[7])
+
+
 # !----------------------------------------ARREGLOS---------------------------------------------------------------
 def p_arreglo_inicio(t):
     'declaracion_arreglos : LET MUT ID DOSPT tipo_arreglo IGUAL expresion PTCOMA'
@@ -830,13 +837,12 @@ parser = yacc.yacc()
 entrada = ''' 
 
 fn main() {
-let mut v: Vec<i64> = Vec::new();
-v.push(1);
-v.push(2);
-v.push(3);
-v.push(4);
+let mut v = vec![2,4,6,8,10];
+v.insert(0, 10);
 println!("{}", v);
-v.push(5);
+v.insert(1, 10);
+println!("{}", v);
+v.insert(2, 10);
 println!("{}", v);
 }
 

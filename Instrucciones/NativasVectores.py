@@ -7,9 +7,10 @@ from Enumeradas.Primitivo import tipoPrimitivo
 
 
 class NativasVectores(Instruccion):
-    def __init__(self, fila, expresion1, funcion, expresion2=None):
+    def __init__(self, fila, id, funcion, expresion1=None, expresion2=None):
         super().__init__(fila)
-        self.expresion1 = expresion1  # es el ID también
+        self.id = id
+        self.expresion1 = expresion1
         self.expresion2 = expresion2
         self.funcion = funcion
 
@@ -17,24 +18,26 @@ class NativasVectores(Instruccion):
 
         if NATIVE_VECTORES.LEN == self.funcion:
             # ! Busco el nombre = id
-            var = self.expresion1.ejecutar(entorno)
+            var = self.id.ejecutar(entorno)
             tam = len(var.valor)
             return Primitiva(self.fila, tipoPrimitivo.I64, tam)
         elif NATIVE_VECTORES.CAPACITY == self.funcion:
             var = entorno.buscar_variable(self.expresion1.nombre)
 
         elif NATIVE_VECTORES.PUSH == self.funcion:
-            var = entorno.buscar_variable(self.expresion1.nombre)
-            var.valor.append(self.expresion2)
-            entorno.editar_variable(self.expresion1.nombre, var)
-
+            var = entorno.buscar_variable(self.id.nombre)
+            var.valor.append(self.expresion1)
+            entorno.editar_variable(self.id.nombre, var)
 
         elif NATIVE_VECTORES.CONTAINS == self.funcion:
             pass
         elif NATIVE_VECTORES.REMOVE == self.funcion:
             pass
         elif NATIVE_VECTORES.INSERT == self.funcion:
-            pass
+            var = entorno.buscar_variable(self.id.nombre)
+            pos = self.expresion1.ejecutar(entorno)
+            var.valor.insert(pos.valor, self.expresion2)
+            entorno.editar_variable(self.id.nombre, var)
         else:
             pass
             # ! Errores
