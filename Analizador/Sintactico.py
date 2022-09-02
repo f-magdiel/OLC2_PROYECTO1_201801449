@@ -39,6 +39,7 @@ from Instrucciones.CreacionVector import CreacionVector
 from Instrucciones.DeclaracionVector import DeclaracionVector
 from Instrucciones.NativasVectores import NativasVectores
 from Enumeradas.NativeVectores import NATIVE_VECTORES
+from Expresiones.Casteos import Casteos
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -842,6 +843,12 @@ def p_lopp_expresion(t):
     t[0] = Loop(t.lineno(2), t[3])
 
 
+# !------------------------------------CASTEO---------------------------------------------------------------------
+def p_casteo(t):
+    'expresion : PARIZQ expresion AS tipo PARDER'
+    t[0] = Casteos(t.lineno(1), t[2], t[4])
+
+
 # !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
     print("Error sintáctico. %s" % t.value[0])
@@ -857,13 +864,9 @@ parser = yacc.yacc()
 entrada = ''' 
 
 fn main(){
-let v = vec![2,4,6,8,10];
-if v.contains(&10) {
-    println!("true");
-} else {
-    println!("false");
-}
 
+    let m = (4 as f64) - 3.44;
+    println!("{}",m);
 }
 
 '''

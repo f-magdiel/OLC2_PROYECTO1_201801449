@@ -26,10 +26,11 @@ class ForIn(Instruccion):
             tipin = None
             # ! validar si viene expre2
             if self.exp2:
-                print(self.exp2)
                 data2 = self.exp2.ejecutar(entorno)
+
                 if data2:
                     type2 = data2.tipo
+
                     # ! ambos tienen que ser de tipo i64
                     if type1 == tipoPrimitivo.I64 and type2 == tipoPrimitivo.I64:
                         # ! proceso del ciclo for
