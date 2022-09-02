@@ -37,6 +37,13 @@ class NativasVectores(Instruccion):
             var.valor.pop(pos.valor)
             entorno.editar_variable(self.id.nombre, var)
 
+        elif NATIVE_VECTORES.REMOVE_EXPRE == self.funcion:
+            var = entorno.buscar_variable(self.id.nombre)
+            pos = self.expresion1.ejecutar(entorno)
+            newvariable = var.valor.pop(pos.valor)
+            entorno.editar_variable(self.id.nombre, var)
+            return Primitiva(self.fila, pos.tipo, newvariable.valor)
+
         elif NATIVE_VECTORES.INSERT == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
             pos = self.expresion1.ejecutar(entorno)

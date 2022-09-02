@@ -188,6 +188,12 @@ def p_nativa_remove(t):
     t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.REMOVE, t[5])
 
 
+def p_nativa_remove_expre(t):
+    'expresion : ID PTO REMOVE PARIZQ expresion PARDER'
+    nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.REMOVE_EXPRE, t[5])
+
+
 # !----------------------------------------ARREGLOS---------------------------------------------------------------
 def p_arreglo_inicio(t):
     'declaracion_arreglos : LET MUT ID DOSPT tipo_arreglo IGUAL expresion PTCOMA'
@@ -843,12 +849,12 @@ parser = yacc.yacc()
 
 entrada = ''' 
 
-fn main() {
+fn main(){
 let mut v = vec![2,4,6,8,10];
-v.remove(0);
+let num = v.remove(3);
+println!("{}", num);
 println!("{}",v);
 }
-
 
 '''
 print("Inicia analizador...")

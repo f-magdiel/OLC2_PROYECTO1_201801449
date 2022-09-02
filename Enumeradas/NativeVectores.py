@@ -8,3 +8,4 @@ class NATIVE_VECTORES(Enum):
     CONTAINS = 4
     CAPACITY = 5
     INSERT = 6
+    REMOVE_EXPRE = 7
