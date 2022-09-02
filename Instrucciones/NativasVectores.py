@@ -30,7 +30,22 @@ class NativasVectores(Instruccion):
             entorno.editar_variable(self.id.nombre, var)
 
         elif NATIVE_VECTORES.CONTAINS == self.funcion:
-            pass
+            flag_contain = False
+            var = entorno.buscar_variable(self.id.nombre)
+            buscar = self.expresion1.valor
+            # print(var.valor[0].ejecutar(entorno).valor)
+            for i in var.valor:
+                auxi = i.ejecutar(entorno).valor
+                if auxi == buscar:
+                    flag_contain = True
+                    break
+
+            if flag_contain:
+                return Primitiva(self.fila, tipoPrimitivo.BOOL, True)
+            else:
+                return Primitiva(self.fila, tipoPrimitivo.BOOL, False)
+
+
         elif NATIVE_VECTORES.REMOVE == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
             pos = self.expresion1.ejecutar(entorno)
