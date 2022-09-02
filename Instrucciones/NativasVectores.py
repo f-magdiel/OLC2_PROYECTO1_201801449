@@ -32,7 +32,11 @@ class NativasVectores(Instruccion):
         elif NATIVE_VECTORES.CONTAINS == self.funcion:
             pass
         elif NATIVE_VECTORES.REMOVE == self.funcion:
-            pass
+            var = entorno.buscar_variable(self.id.nombre)
+            pos = self.expresion1.ejecutar(entorno)
+            var.valor.pop(pos.valor)
+            entorno.editar_variable(self.id.nombre, var)
+
         elif NATIVE_VECTORES.INSERT == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
             pos = self.expresion1.ejecutar(entorno)

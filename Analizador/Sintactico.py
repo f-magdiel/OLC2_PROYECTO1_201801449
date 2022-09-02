@@ -181,6 +181,13 @@ def p_nativa_insert(t):
     t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.INSERT, t[5], t[7])
 
 
+# * --------------------------REMOVE-------------------------------------------
+def p_nativa_remove(t):
+    'nativas_vector : ID PTO REMOVE PARIZQ expresion PARDER PTCOMA'
+    nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.REMOVE, t[5])
+
+
 # !----------------------------------------ARREGLOS---------------------------------------------------------------
 def p_arreglo_inicio(t):
     'declaracion_arreglos : LET MUT ID DOSPT tipo_arreglo IGUAL expresion PTCOMA'
@@ -838,12 +845,8 @@ entrada = '''
 
 fn main() {
 let mut v = vec![2,4,6,8,10];
-v.insert(0, 10);
-println!("{}", v);
-v.insert(1, 10);
-println!("{}", v);
-v.insert(2, 10);
-println!("{}", v);
+v.remove(0);
+println!("{}",v);
 }
 
 
