@@ -40,6 +40,8 @@ from Instrucciones.DeclaracionVector import DeclaracionVector
 from Instrucciones.NativasVectores import NativasVectores
 from Enumeradas.NativeVectores import NATIVE_VECTORES
 from Expresiones.Casteos import Casteos
+from Expresiones.FuncionesNativas import FuncionesNativas
+from Enumeradas.Nativas import NATIVAS
 
 # ?--------------------------------------------------PRECEDENCIAS-----------------------------------------------------
 precedence = (
@@ -156,50 +158,50 @@ def p_nativa_vec(t):
 
 
 def p_nativa_len(t):
-    'nativas_vec : ID PTO LEN PARIZQ PARDER'
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.LEN)
+    'nativas_vec : expresion PTO LEN PARIZQ PARDER'
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.LEN)
 
 
 # * -------------------------------CAPACITY-------------------------------
 def p_nativa_capacity(t):
-    'expresion : ID PTO CAPACITY PARIZQ PARDER '
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.CAPACITY)
+    'expresion : expresion PTO CAPACITY PARIZQ PARDER '
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.CAPACITY)
 
 
 # * ---------------------------------PUSH------------------------------------
 def p_nativa_push(t):
-    'nativas_vector : ID PTO PUSH PARIZQ expresion PARDER PTCOMA'
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.PUSH, t[5])
+    'nativas_vector : expresion PTO PUSH PARIZQ expresion PARDER PTCOMA'
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.PUSH, t[5])
 
 
 # * -------------------------------INSERT--------------------------------------
 def p_nativa_insert(t):
-    'nativas_vector : ID PTO INSERT PARIZQ expresion COMA expresion PARDER PTCOMA'
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.INSERT, t[5], t[7])
+    'nativas_vector : expresion PTO INSERT PARIZQ expresion COMA expresion PARDER PTCOMA'
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.INSERT, t[5], t[7])
 
 
 # * --------------------------REMOVE-------------------------------------------
 def p_nativa_remove(t):
-    'nativas_vector : ID PTO REMOVE PARIZQ expresion PARDER PTCOMA'
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.REMOVE, t[5])
+    'nativas_vector : expresion PTO REMOVE PARIZQ expresion PARDER PTCOMA'
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.REMOVE, t[5])
 
 
 def p_nativa_remove_expre(t):
-    'expresion : ID PTO REMOVE PARIZQ expresion PARDER'
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.REMOVE_EXPRE, t[5])
+    'expresion : expresion PTO REMOVE PARIZQ expresion PARDER'
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.REMOVE_EXPRE, t[5])
 
 
 # * ---------------------------------CONTAINS----------------------------------
 def p_nativa_contain(t):
-    'expresion : ID PTO CONTAINS PARIZQ SIGNOI expresion PARDER'
-    nat = Id(t.lineno(1), t[1])
-    t[0] = NativasVectores(t.lineno(1), nat, NATIVE_VECTORES.CONTAINS, t[6])
+    'expresion : ID expresion CONTAINS PARIZQ SIGNOI expresion PARDER'
+    #nat = Id(t.lineno(1), t[1])
+    t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.CONTAINS, t[6])
 
 
 # !----------------------------------------ARREGLOS---------------------------------------------------------------
@@ -849,9 +851,31 @@ def p_casteo(t):
     t[0] = Casteos(t.lineno(1), t[2], t[4])
 
 
+# !----------------------------------------FUNCIONES NATIVAS--------------------------------------------------
+def p_funciones_nat_inicio(t):
+    'expresion : nativas_fun '
+    t[0] = t[1]
+
+
+def p_funciones_nat1(t):
+    '''nativas_fun : expresion PTO ABS PARIZQ PARDER
+                    | expresion PTO SQRT PARIZQ PARDER'''
+    fun = t[3]
+
+    if fun == 'abs':
+        t[0] = FuncionesNativas(t.lineno(1), NATIVAS.ABS, t[1])
+    elif fun == 'sqrt':
+        t[0] = FuncionesNativas(t.lineno(1), NATIVAS.SQRT, t[1])
+
+
+def p_funciones_nat2(t):
+    'nativas_fun : expresion PTO CLONE PARIZQ PARDER'
+    t[0] = FuncionesNativas(t.lineno(2), NATIVAS.CLONE, t[1])
+
+
 # !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
-    print("Error sintáctico. %s" % t.value[0])
+    print("Error sintáctico. %s" % t.value[0], )
 
 
 def report(self):
@@ -864,11 +888,22 @@ parser = yacc.yacc()
 entrada = ''' 
 
 fn main(){
-    let arreglo = vec!["Este", "semestre", "si", "sale"];
-    for valor in 0 .. arreglo.len() {
-        println!("{}", arreglo[valor]);
-        
-    }
+    
+    let abs1:i64 = 7-11;
+    let abs2:f64 = 10.0;
+    let raiz1:i64 = 9;
+    let raiz2:f64 = 100.0;
+    
+    
+    println!("");
+    println!("*************PRUEBA DE NATIVAS");
+   
+    
+    println!(" valor absoluto1: {}",abs1.abs());
+    println!(" valor absoluto2: {}",abs2.abs());
+    println!(" valor raiz1: {}",(9.0).sqrt());
+    println!(" valor raiz2: {}",raiz2.sqrt());
+    
 
 }
 

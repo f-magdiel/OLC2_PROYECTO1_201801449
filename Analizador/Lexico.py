@@ -40,6 +40,9 @@ reservadas = {
     'remove': 'REMOVE',
     'insert': 'INSERT',
     'push': 'PUSH',
+    'abs': 'ABS',
+    'sqrt': 'SQRT',
+    'clone': 'CLONE',
 }
 
 tokens = [
