@@ -3,6 +3,7 @@ from Entorno.Entorno import Entorno
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Variable import Variable
 
+
 class DeclaracionVector(Instruccion):
     def __init__(self, fila, id, expresion, tipo, mutable):
         super().__init__(fila)
@@ -23,9 +24,10 @@ class DeclaracionVector(Instruccion):
                 #         iguales = False
                 #         break
 
-                #validar
+                # validar
                 if iguales:
-                    variable = Variable(tipoPrimitivo.VECTOR, self.id, data.valor, self.fila, self.mutable)
+                    #print(self.id)
+                    variable = Variable(tipoPrimitivo.VECTOR, self.id, data.valor, self.fila, self.mutable, data.capacidad)
                     entorno.nueva_variable(variable)
                 else:
                     pass

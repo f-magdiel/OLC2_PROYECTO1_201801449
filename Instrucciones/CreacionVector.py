@@ -22,7 +22,7 @@ class CreacionVector(Instruccion):
                 if tipo == tipoPrimitivo.I64:
                     valor = data.valor
                     if valor > 0:
-                        return Primitiva(self.fila, tipoPrimitivo.VECTOR, [], data.valor)
+                        return Primitiva(self.fila, tipoPrimitivo.VECTOR, [], valor)
                     else:
                         pass
                 else:

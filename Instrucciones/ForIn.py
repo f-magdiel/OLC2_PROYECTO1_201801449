@@ -57,7 +57,7 @@ class ForIn(Instruccion):
                     # ! aqui va error
             if tipin is not None:
                 entorno_for = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
-                variable = Variable(arreglo[0].valor, self.id, tipin, self.fila, True)
+                variable = Variable(tipin, self.id, arreglo[0].valor, self.fila, True)
                 entorno_for.nueva_variable(variable)
                 for i in range(len(arreglo)):
                     var_index = entorno_for.buscar_variable(self.id)

@@ -864,9 +864,12 @@ parser = yacc.yacc()
 entrada = ''' 
 
 fn main(){
+    let arreglo = vec!["Este", "semestre", "si", "sale"];
+    for valor in 0 .. arreglo.len() {
+        println!("{}", arreglo[valor]);
+        
+    }
 
-    let m = (4 as f64) - 3.44;
-    println!("{}",m);
 }
 
 '''

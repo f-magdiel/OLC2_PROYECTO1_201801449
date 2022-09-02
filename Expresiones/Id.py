@@ -16,6 +16,7 @@ class Id(Instruccion):
             if (variable):
                 tipo = variable.tipo
                 valor = variable.valor
+
                 return Primitiva(self.fila, tipo, valor)
             else:
                 print("No existe variable en ID")

@@ -19,6 +19,7 @@ class Arregloacceso(Instruccion):
                     posiciones = []
 
                     for indice in self.indices:
+
                         expresion = indice.ejecutar(entorno)
 
                         if (expresion):
@@ -56,11 +57,12 @@ class Arregloacceso(Instruccion):
                         else:
                             return None
                     arreglo_aux = variable.valor
-                    # print(arreglo_aux)
+                    #print(arreglo_aux)
                     valor_arreglo = None
                     try:
 
                         for pos in posiciones:
+
                             valor_arreglo = arreglo_aux[pos]
                             arreglo_aux = valor_arreglo.valor
 

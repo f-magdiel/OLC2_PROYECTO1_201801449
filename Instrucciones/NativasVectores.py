@@ -22,7 +22,8 @@ class NativasVectores(Instruccion):
             tam = len(var.valor)
             return Primitiva(self.fila, tipoPrimitivo.I64, tam)
         elif NATIVE_VECTORES.CAPACITY == self.funcion:
-            var = entorno.buscar_variable(self.expresion1.nombre)
+            var = entorno.buscar_variable(self.id.nombre)
+            return Primitiva(self.fila, tipoPrimitivo.I64, var.capacidad)
 
         elif NATIVE_VECTORES.PUSH == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
