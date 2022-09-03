@@ -52,6 +52,7 @@ precedence = (
     ('left', 'DIVIDIDO', 'POR', 'MODULO'),
     ('left', 'AS'),
     ('right', 'UMENOS', 'NOT'),
+    ('nonassoc', 'PTO'),
 
 )
 
@@ -82,6 +83,8 @@ def p_inicio3(t):
 
 def p_inicio2(t):
     'inicio : main'
+    t.lexer.lineno = 1
+    t.lineno = 1
     t[0] = [t[1]]  # ? ----> como una lista
 
 
@@ -159,48 +162,48 @@ def p_nativa_vec(t):
 
 def p_nativa_len(t):
     'nativas_vec : expresion PTO LEN PARIZQ PARDER'
-    #nat = Id(t.lineno(1), t[1])
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.LEN)
 
 
 # * -------------------------------CAPACITY-------------------------------
 def p_nativa_capacity(t):
     'expresion : expresion PTO CAPACITY PARIZQ PARDER '
-    #nat = Id(t.lineno(1), t[1])
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.CAPACITY)
 
 
 # * ---------------------------------PUSH------------------------------------
 def p_nativa_push(t):
     'nativas_vector : expresion PTO PUSH PARIZQ expresion PARDER PTCOMA'
-    #nat = Id(t.lineno(1), t[1])
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.PUSH, t[5])
 
 
 # * -------------------------------INSERT--------------------------------------
 def p_nativa_insert(t):
     'nativas_vector : expresion PTO INSERT PARIZQ expresion COMA expresion PARDER PTCOMA'
-    #nat = Id(t.lineno(1), t[1])
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.INSERT, t[5], t[7])
 
 
 # * --------------------------REMOVE-------------------------------------------
 def p_nativa_remove(t):
     'nativas_vector : expresion PTO REMOVE PARIZQ expresion PARDER PTCOMA'
-    #nat = Id(t.lineno(1), t[1])
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.REMOVE, t[5])
 
 
 def p_nativa_remove_expre(t):
     'expresion : expresion PTO REMOVE PARIZQ expresion PARDER'
-    #nat = Id(t.lineno(1), t[1])
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.REMOVE_EXPRE, t[5])
 
 
 # * ---------------------------------CONTAINS----------------------------------
 def p_nativa_contain(t):
-    'expresion : ID expresion CONTAINS PARIZQ SIGNOI expresion PARDER'
-    #nat = Id(t.lineno(1), t[1])
+    'expresion : expresion PTO CONTAINS PARIZQ SIGNOI expresion PARDER'
+    # nat = Id(t.lineno(1), t[1])
     t[0] = NativasVectores(t.lineno(1), t[1], NATIVE_VECTORES.CONTAINS, t[6])
 
 
@@ -208,6 +211,11 @@ def p_nativa_contain(t):
 def p_arreglo_inicio(t):
     'declaracion_arreglos : LET MUT ID DOSPT tipo_arreglo IGUAL expresion PTCOMA'
     t[0] = DeclaracionArreglos(t.lineno(1), t[3], t[5], t[7], True)
+
+
+def p_arreglo_inicio2(t):
+    'declaracion_arreglos : LET ID DOSPT tipo_arreglo IGUAL expresion PTCOMA'
+    t[0] = DeclaracionArreglos(t.lineno(1), t[2], t[4], t[6], False)
 
 
 def p_arreglo_tipo(t):
@@ -262,6 +270,11 @@ def p_parametro_2(t):
 def p_parametro_3(t):
     'lparame : ID DOSPT SIGNOI MUT tipo_arreglo'
     t[0] = Parametros(tipoPrimitivo.ARREGLO, t[1], True, t[5])
+
+
+def p_parametro_4(t):
+    'lparame : ID DOSPT SIGNOI MUT VVEC MENORQUE tipo MAYORQUE'
+    t[0] = Parametros(tipoPrimitivo.VECTOR, t[1], False, [t[7]])
 
 
 def p_llamada_funcion_inicio(t):
@@ -526,7 +539,7 @@ def p_tipo1(t):
     elif (tipo == 'char'):
         t[0] = tipoPrimitivo.CHAR
     elif (tipo == 'String'):
-        t[0] = tipoPrimitivo.STRING
+        t[0] = tipoPrimitivo.TOS
     elif (tipo == 'usize'):
         t[0] = tipoPrimitivo.I64
 
@@ -536,7 +549,7 @@ def p_tipo2(t):
     t[0] = tipoPrimitivo.STR
 
 
-# !------------------------------------------------EXPRESION---------------------------------------------------------
+# !------------------------------------------------EXPRESIONES---------------------------------------------------------
 def p_expresiones1(t):
     ' expresiones : expresiones COMA expresion'
     t[1].append(t[3])
@@ -580,13 +593,13 @@ def p_expresion_to(t):
 
 
 def p_expresion_tostring(t):
-    'tostring : CADENA PTO TOSTRING PARIZQ PARDER '
-    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.TOS, t[1])
+    'tostring : expresion PTO TOSTRING PARIZQ PARDER '
+    t[0] = FuncionesNativas(t.lineno(2), NATIVAS.TOSTRING, t[1])
 
 
 def p_expresion_toowned(t):
-    'toowned : CADENA PTO TOOWNED PARIZQ PARDER '
-    t[0] = Primitiva(t.lineno(1), tipoPrimitivo.TOW, t[1])
+    'toowned : expresion PTO TOOWNED PARIZQ PARDER '
+    t[0] = FuncionesNativas(t.lineno(2), NATIVAS.TOOWNED, t[1])
 
 
 def p_expresion_cadena2(t):
@@ -612,6 +625,7 @@ def p_expresion_aritmetica1(t):
                     | expresion MODULO expresion'''
 
     operador = t[2]
+
     if operador == '+':
         t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MAS, t[3], None)
     elif operador == '-':
@@ -622,6 +636,18 @@ def p_expresion_aritmetica1(t):
         t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.DIVIDIDO, t[3], None)
     elif operador == '%':
         t[0] = Aritmetica(t.lineno(2), t[1], OPERADOR_ARITMETICO.MODULO, t[3], None)
+
+
+def p_exp_unaria(t):
+    '''expresion : MENOS expresion %prec UMENOS
+                | NOT expresion'''
+
+    operador = str(t[1])
+
+    if operador == '-':
+        t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.MENOS, t[2])
+    elif operador == '!':
+        t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.NOT, t[2])
 
 
 def p_expresion_aritmetica2(t):
@@ -669,17 +695,6 @@ def p_expresion_logica(t):
         t[0] = Logica(t.lineno(2), t[1], OPERADOR_LOGICO.AND, t[3])
     elif operador == '||':
         t[0] = Logica(t.lineno(2), t[1], OPERADOR_LOGICO.OR, t[3])
-
-
-def p_exp_unaria(t):
-    '''expresion : MENOS expresion %prec UMENOS
-                | NOT expresion'''
-    operador = str(t[1])
-    if operador == '-':
-        t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.MENOS, t[2])
-    elif operador == '!':
-
-        t[0] = Unaria(t.lineno(1), OPERADOR_UNARIO.NOT, t[2])
 
 
 def p_exp_agrupa(t):
@@ -875,7 +890,7 @@ def p_funciones_nat2(t):
 
 # !-----------------------------------------------ERROR----------------------------------------------------------------
 def p_error(t):
-    print("Error sintáctico. %s" % t.value[0], )
+    print("Error sintáctico. %s" % t)
 
 
 def report(self):
@@ -885,26 +900,119 @@ def report(self):
 # !---------------------------------------Se ejecuta el parser---------------------------------------------------------
 parser = yacc.yacc()
 
-entrada = ''' 
+entrada = r''' 
+fn pila_vacia(vec1: &mut Vec<i64>) -> bool {
+    return vec1.len() == 0;
+}
 
-fn main(){
+fn apilar(capacidad: usize, vec1: &mut Vec<i64>, value: i64) {
+    if vec1.len() < capacidad {
+        vec1.insert(vec1.len(), value);
+    } else {
+        println!("La pila ha llegado a su maxima capacidad");
+    }
+}
+
+fn desapilar(vec1: &mut Vec<i64>) -> i64 {
+    if !pila_vacia(&mut vec1) {
+        return vec1.remove(vec1.len()-1);
+    } else {
+        println!("La pila no tiene elementos");
+    }
+    return 0;
+}
+
+// COLA
+fn cola_vacia(vec1: &mut Vec<i64>) -> bool {
+    return vec1.len() == 0;
+}
+
+fn encolar(capacidad: usize, vec1: &mut Vec<i64>, value: i64) {
+    if vec1.len() < capacidad {
+        vec1.push(value);
+    } else {
+        println!("La cola ha llegado a su maxima capacidad");
+    }
+}
+
+fn desencolar(vec1: &mut Vec<i64>) -> i64 {
+    if !cola_vacia(&mut vec1) {
+        return vec1.remove(0);
+    } else {
+        println!("La cola no tiene elementos");
+    }
+    return 0;
+}
+
+fn main() {
+    let capacidad: usize = 10;
+    let mut pila: Vec<i64> = Vec::with_capacity(capacidad - 2);
+    let mut cola: Vec<i64> = vec![1,2,3,4,5];
+
+    let datos: [i64; 5] = [10,20,30,40,50];
+
+    for dato in datos {
+        apilar(capacidad, &mut pila, dato);
+    }
     
-    let abs1:i64 = 7-11;
-    let abs2:f64 = 10.0;
-    let raiz1:i64 = 9;
-    let raiz2:f64 = 100.0;
-    
-    
+    println!("{}", pila);
+    println!("{}", desapilar(&mut pila));
+    apilar(capacidad, &mut pila, 100);
+    apilar(capacidad, &mut pila, 200);
+    apilar(capacidad, &mut pila, 300);
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", desapilar(&mut pila));
+    println!("{}", pila);
+    println!("Capacidad de pila");
+    println!("{}", pila.capacity());
     println!("");
-    println!("*************PRUEBA DE NATIVAS");
-   
-    
-    println!(" valor absoluto1: {}",abs1.abs());
-    println!(" valor absoluto2: {}",abs2.abs());
-    println!(" valor raiz1: {}",(9.0).sqrt());
-    println!(" valor raiz2: {}",raiz2.sqrt());
-    
 
+    encolar(capacidad, &mut cola, 800);
+    println!("{}", cola);
+    println!("{}", desencolar(&mut cola));
+    encolar(capacidad, &mut cola, 100);
+    encolar(capacidad, &mut cola, 200);
+    encolar(capacidad, &mut cola, 300);
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", desencolar(&mut cola));
+    println!("{}", cola);
+    println!("Capacidad de cola");
+    println!("{}", cola.capacity());
+    println!("");
+
+    // vectores entre vectores
+    //let mut lista: Vec<Vec<i64>> = Vec::new();
+    //lista.push(vec![0; 10]);
+    //lista.push(vec![1; 10]);
+    //lista.push(vec![2; 10]);
+    //lista.push(vec![3; 10]);
+    //lista.push(vec![75,23,10,29,30,12,49,10,93]);
+    //println!("{}", lista);
+    //println!("");
+    //println!("{}", lista[0]);
+    //println!("{}", lista[1]);
+    //println!("{}", lista[2]);
+    //println!("{}", lista[3]);
+    //println!("{}", lista[4]);
+    //println!("{}", lista[4][8]);
+    //println!("");
+
+    let vec1 = vec!["Hola", "!", "Sale", "Este", "Semestre", "2022"];
+    println!("{}", vec1.contains(&"Semestre") || vec1.contains(&"2023"));
+    println!("{}", vec1.contains(&"Semestre") && vec1.contains(&"2023"));
+    println!("{}", vec1.contains(&"Hola"));
 }
 
 '''

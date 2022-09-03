@@ -27,8 +27,11 @@ class NativasVectores(Instruccion):
 
         elif NATIVE_VECTORES.PUSH == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
-            var.valor.append(self.expresion1)
-            entorno.editar_variable(self.id.nombre, var)
+            data = self.expresion1.ejecutar(entorno)
+            if data:
+                var.valor.append(data)
+                entorno.editar_variable(self.id.nombre, var)
+
 
         elif NATIVE_VECTORES.CONTAINS == self.funcion:
             flag_contain = False
@@ -36,7 +39,8 @@ class NativasVectores(Instruccion):
             buscar = self.expresion1.valor
             # print(var.valor[0].ejecutar(entorno).valor)
             for i in var.valor:
-                auxi = i.ejecutar(entorno).valor
+                auxi = i.valor
+
                 if auxi == buscar:
                     flag_contain = True
                     break
@@ -62,9 +66,12 @@ class NativasVectores(Instruccion):
 
         elif NATIVE_VECTORES.INSERT == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
+            data = self.expresion2.ejecutar(entorno)
             pos = self.expresion1.ejecutar(entorno)
-            var.valor.insert(pos.valor, self.expresion2)
-            entorno.editar_variable(self.id.nombre, var)
+            if data and pos:
+                var.valor.insert(pos.valor, data)
+                entorno.editar_variable(self.id.nombre, var)
+
         else:
             pass
             # ! Errores

@@ -7,6 +7,7 @@ from Enumeradas.Nativas import NATIVAS
 from Enumeradas.Primitivo import tipoPrimitivo
 from Expresiones.Primitiva import Primitiva
 
+
 class FuncionesNativas(Instruccion):
     def __init__(self, fila, funcion, expresion):
         super().__init__(fila)
@@ -26,7 +27,7 @@ class FuncionesNativas(Instruccion):
                 # ! F64
                 elif tipo_data == tipoPrimitivo.F64:
                     val = abs(data.valor)
-                    return  Primitiva(self.fila, tipoPrimitivo.F64, val)
+                    return Primitiva(self.fila, tipoPrimitivo.F64, val)
                 else:
                     pass
             # ! RAIZ
@@ -47,4 +48,4 @@ class FuncionesNativas(Instruccion):
 
             # ! ERRROR DE NATIVAS
             else:
-                pass
+                return Primitiva(self.fila, tipoPrimitivo.TOS, data.valor)

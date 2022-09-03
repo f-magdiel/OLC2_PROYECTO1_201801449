@@ -50,8 +50,7 @@ class ForIn(Instruccion):
 
                 if type1 in [tipoPrimitivo.ARREGLO, tipoPrimitivo.VECTOR]:
                     arreglo = data1.valor
-
-                    tipin = type1
+                    tipin = arreglo[0].tipo
                 else:
                     pass
                     # ! aqui va error
@@ -62,7 +61,7 @@ class ForIn(Instruccion):
                 for i in range(len(arreglo)):
                     var_index = entorno_for.buscar_variable(self.id)
                     var_index.valor = arreglo[i].valor
-                    entorno_for.editar_variable(self.id, variable)
+                    entorno_for.editar_variable(self.id, var_index)
 
                     # ! se iteran instrucciones
 

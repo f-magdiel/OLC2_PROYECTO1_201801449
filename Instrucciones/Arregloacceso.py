@@ -13,7 +13,8 @@ class Arregloacceso(Instruccion):
 
     def ejecutar(self, entorno: Entorno):
         if (self.nombre and self.indices):
-            variable: Variable = entorno.buscar_variable(self.nombre)
+            variable = entorno.buscar_variable(self.nombre)
+
             if (variable):
                 if (isinstance(variable.valor, list)):
                     posiciones = []
@@ -33,7 +34,6 @@ class Arregloacceso(Instruccion):
                                         if (expresion.valor >= 0):
                                             posiciones.append(expresion.valor)
                                             # print("valor de posicion: ",expresion.valor)
-
                                         else:
                                             desc = 'El indice del arreglo no puede ser un entero negativo.'
                                             # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
@@ -57,12 +57,11 @@ class Arregloacceso(Instruccion):
                         else:
                             return None
                     arreglo_aux = variable.valor
-                    #print(arreglo_aux)
+                    # print(arreglo_aux)
                     valor_arreglo = None
                     try:
 
                         for pos in posiciones:
-
                             valor_arreglo = arreglo_aux[pos]
                             arreglo_aux = valor_arreglo.valor
 

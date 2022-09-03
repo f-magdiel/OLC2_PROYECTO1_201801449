@@ -30,16 +30,16 @@ class LlamadaFunciones(Instruccion):
                                 parametro = funcion.parametros[indice]  # vamos obteniedo uno a uno los valores
                                 if (parametro_ref.tipo == parametro.tipo):
 
-                                    if (parametro_ref.tipo == tipoPrimitivo.ARREGLO):
+                                    if (parametro_ref.tipo in [tipoPrimitivo.ARREGLO, tipoPrimitivo.VECTOR]):
                                         if not (p_ref[1]):
-                                            desc = "No se hiso referencia al valor del arreglo"
+                                            desc = "No se hizo referencia al valor del arreglo"
                                             todo_correcto = False
                                         else:
                                             parametros_procesados.append(Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
                                         # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
                                     else:
                                         parametros_procesados.append(Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
-                                    #valor_arreglo = []
+                                    # valor_arreglo = []
                                     # por si vienen Arreglos........................................
                                     # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
                                     # parametros_procesados.append(
@@ -61,7 +61,7 @@ class LlamadaFunciones(Instruccion):
                     if (funcion.tipo == tipoPrimitivo.NULO):
                         nuevo_entorno = Entorno(entorno, False, False, False)
                     else:
-                        nuevo_entorno = Entorno(entorno, False, True, False) #! se manda para retornar en funciones
+                        nuevo_entorno = Entorno(entorno, False, True, False)  # ! se manda para retornar en funciones
                     if (parametros_procesados):
                         for variable in parametros_procesados:
                             nuevo_entorno.nueva_variable(variable)

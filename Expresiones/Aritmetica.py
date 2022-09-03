@@ -32,12 +32,13 @@ class Aritmetica(Instruccion):
 
                         elif (expresion1.tipo == tipoPrimitivo.TOS or expresion1.tipo == tipoPrimitivo.TOW) and expresion2.tipo == tipoPrimitivo.STR:  # ! para concatenar string
                             resultado = str(expresion1.valor) + str(expresion2.valor)
-                            return Primitiva(self.fila, tipoPrimitivo.STR, resultado)
+                            return Primitiva(self.fila, tipoPrimitivo.TOS, resultado)
 
                         else:
                             print("Error de suma")
                     # ! Operacion Resta
                     elif self.operador == OPERADOR_ARITMETICO.MENOS:
+
                         if expresion1.tipo == tipoPrimitivo.F64 and expresion2.tipo == tipoPrimitivo.F64:  # ! resta de float
                             resultado = round(float(expresion1.valor) - float(expresion2.valor), 2)
                             return Primitiva(self.fila, tipoPrimitivo.F64, resultado)
