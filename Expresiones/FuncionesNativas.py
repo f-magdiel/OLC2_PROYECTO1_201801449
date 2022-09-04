@@ -6,7 +6,8 @@ from Entorno.Entorno import Entorno
 from Enumeradas.Nativas import NATIVAS
 from Enumeradas.Primitivo import tipoPrimitivo
 from Expresiones.Primitiva import Primitiva
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class FuncionesNativas(Instruccion):
     def __init__(self, fila, funcion, expresion):
@@ -29,7 +30,9 @@ class FuncionesNativas(Instruccion):
                     val = abs(data.valor)
                     return Primitiva(self.fila, tipoPrimitivo.F64, val)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar ABS"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             # ! RAIZ
             elif self.funcion == NATIVAS.SQRT:
                 # ! I64 & F64
@@ -38,9 +41,13 @@ class FuncionesNativas(Instruccion):
                         val = math.sqrt(data.valor)
                         return Primitiva(self.fila, tipoPrimitivo.F64, val)
                     else:
-                        pass
+                        alert = "Error expresion negativo no se puede aplicar SQRT"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar SQRT"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             # ! CLONE
             elif self.funcion == NATIVAS.CLONE:
                 val = copy.deepcopy(data.valor)
@@ -49,3 +56,8 @@ class FuncionesNativas(Instruccion):
             # ! ERRROR DE NATIVAS
             else:
                 return Primitiva(self.fila, tipoPrimitivo.TOS, data.valor)
+
+        else:
+            alert = "Error al realizar funciones nativas"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)

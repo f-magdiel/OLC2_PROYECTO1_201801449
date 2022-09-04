@@ -2,7 +2,8 @@ from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
 from Entorno.Variable import Variable
 from Enumeradas.Primitivo import tipoPrimitivo
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class DeclaracionArreglos(Instruccion):
     def __init__(self, fila, nombre, tipo_arreglo: list, expresion, mutable):
@@ -56,27 +57,33 @@ class DeclaracionArreglos(Instruccion):
                             # Validar que el tipo de la variable sea compatible con el tipo del dato
                             if tipo_prim_dato in [tipo_prim_var, tipoPrimitivo.ARREGLO]:
                                 variable = Variable(tipoPrimitivo.ARREGLO, self.nombre, dato.valor, self.fila, self.mutable)
-                                #print(variable.valor[0].valor[0].valor)
+
                                 entorno.nueva_variable(variable)
 
                             else:
-                                # TODO: Error
-                                pass
+                                alert = "Error el tipo de datos es incorrecto en expresion de arreglo"
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                         else:
-                            # TODO: Error
-                            pass
+                            alert = "Error la dimension de la expresion en arregles no es correcta"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                            print(alert)
                     else:
-                        # TODO: Error
-                        pass
+                        alert = "Error ambos arreglos no tiene la misma longitud"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 else:
-                    # TODO: Error
-                    pass
+                    alert = "Error la dimension de un arreglo es incorrecta"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             else:
-                # TODO: Error
-                pass
+                alert = "Error el tipo de dato no es de tipo arreglo"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
         else:
-            # TODO: Error
-            pass
+            alert = "Error al ejecutar expresion de arreglos"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)
 
         # RECURSIVO
 
@@ -102,9 +109,4 @@ class DeclaracionArreglos(Instruccion):
             if len(dato.valor) > 0:
                 return self.obtener_tipo(dato.valor[0])
         return dato.tipo
-    # def obtener_dimensiones(dato,
-    #                         dimensiones):  # Obtiene los tamaños de las dimensiones de un dato arreglo (del más exterior al más interior)
-    #     if isinstance(dato.dato, list):  # el objeto tipoprimitivo.valor
-    #         dimensiones.append(len(dato.dato))
-    #         if len(dato.dato) > 0:
-    #             obtener_dimensiones(dato.dato[0], dimensiones)
+

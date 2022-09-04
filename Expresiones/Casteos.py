@@ -1,7 +1,8 @@
 from Abstracta.Instruccion import Instruccion
 from Enumeradas.Primitivo import tipoPrimitivo
 from Expresiones.Primitiva import Primitiva
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class Casteos(Instruccion):
     def __init__(self, fila, expresion, tipo):
@@ -24,21 +25,27 @@ class Casteos(Instruccion):
 
                     return Primitiva(self.fila, tipoPrimitivo.I64, val)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar CASTEO"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             # ! F64
             elif self.tipo == tipoPrimitivo.F64:
                 if data.tipo in [tipoPrimitivo.I64, tipoPrimitivo.F64]:
                     val = float(data.valor)
                     return Primitiva(self.fila, tipoPrimitivo.F64, val)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar CASTEO"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             # ! BOOL
             elif self.tipo == tipoPrimitivo.BOOL:
                 if data.tipo == tipoPrimitivo.BOOL:
                     val = data.valor
                     return Primitiva(self.fila, tipoPrimitivo.BOOL, val)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar CASTEO"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             # ! CHAR
             elif self.tipo == tipoPrimitivo.CHAR:
                 if data.tipo in [tipoPrimitivo.I64, tipoPrimitivo.CHAR]:
@@ -46,14 +53,22 @@ class Casteos(Instruccion):
                         val = chr(data.valor)
                         return Primitiva(self.fila, tipoPrimitivo.CHAR, val)
                     else:
-                        pass
+                        alert = "Error expresion negatico invalido"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar CASTEO"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             # ! STR
             elif self.tipo == tipoPrimitivo.STR:
                 if data.tipo == tipoPrimitivo.STR:
                     val = data.valor
                     return Primitiva(self.fila, tipoPrimitivo.STR, val)
+                else:
+                    alert = "Error expresion invalido para aplicar CASTEO"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
 
             # ! STRING
             elif self.tipo == tipoPrimitivo.STRING:
@@ -61,7 +76,11 @@ class Casteos(Instruccion):
                     val = data.valor
                     return Primitiva(self.fila, tipoPrimitivo.STRING, val)
                 else:
-                    pass
+                    alert = "Error expresion invalido para aplicar CASTEO"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
 
         else:
-            pass
+            alert = "Error expresion invalido para aplicar CASTEO"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)

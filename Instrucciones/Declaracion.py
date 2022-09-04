@@ -2,6 +2,8 @@ from Abstracta.Instruccion import Instruccion
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Variable import Variable
 from Entorno.Entorno import Entorno
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 
 class DeclaracionVariable(Instruccion):
@@ -27,10 +29,6 @@ class DeclaracionVariable(Instruccion):
                         variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                         entorno.nueva_variable(variable)
 
-                    # elif (self.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
-                    #     variable = Variable(self.tipo, self.nombre, expre.valor, self.fila, self.mutable)
-                    #     entorno.nueva_variable(variable)
-
                     elif (self.tipo == tipoPrimitivo.NULO):
 
                         if expre.tipo == tipoPrimitivo.TOS or expre.tipo == tipoPrimitivo.TOW:
@@ -44,10 +42,12 @@ class DeclaracionVariable(Instruccion):
                         variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                         entorno.nueva_variable(variable)
                     else:
-                        print("El tipo {} y la expresion {} no coinciden")
+                        aler = "Error el tipo y la expresion no coinciden"
+                        Tabla_Errorres.append(Errores(self.fila, aler, TIPIN_ERROR.SEMANTICO))
 
                 else:
                     variable = Variable(expre.tipo, self.nombre, expre.valor, self.fila, self.mutable)
                     entorno.nueva_variable(variable)
-                    # msg_error = 'La variable no puede almacenar un arreglo'
-                    # print(msg_error)
+            else:
+                aler = "Error no es permitido el tipo de declaracion"
+                Tabla_Errorres.append(Errores(self.fila, aler, TIPIN_ERROR.SEMANTICO))

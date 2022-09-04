@@ -3,7 +3,8 @@ from Entorno.Entorno import Entorno
 from Enumeradas.OperadorAritmetica import OPERADOR_ARITMETICO
 from Enumeradas.Primitivo import tipoPrimitivo
 from Expresiones.Primitiva import Primitiva
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class Aritmetica(Instruccion):
     def __init__(self, fila, exp1, operador, exp2, tipoOP):
@@ -35,7 +36,9 @@ class Aritmetica(Instruccion):
                             return Primitiva(self.fila, tipoPrimitivo.TOS, resultado)
 
                         else:
-                            print("Error de suma")
+                            alert = "Error al operar operaciones"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
                     # ! Operacion Resta
                     elif self.operador == OPERADOR_ARITMETICO.MENOS:
 
@@ -48,7 +51,9 @@ class Aritmetica(Instruccion):
                             return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
 
                         else:
-                            print("Error de resta")
+                            alert = "Error al operar operaciones"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
                     # ! Operacion Multiplicacion
                     elif self.operador == OPERADOR_ARITMETICO.POR:
                         if expresion1.tipo == tipoPrimitivo.F64 and expresion2.tipo == tipoPrimitivo.F64:  # ! multiplicacion de float
@@ -60,19 +65,32 @@ class Aritmetica(Instruccion):
                             return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
 
                         else:
-                            print("Error mutiplicacion")
+                            alert = "Error al operar operaciones "
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+
                     # ! Operacion division
                     elif self.operador == OPERADOR_ARITMETICO.DIVIDIDO:
                         if expresion1.tipo == tipoPrimitivo.F64 and expresion2.tipo == tipoPrimitivo.F64:  # ! division de float
-                            resultado = round(float(expresion1.valor) / float(expresion2.valor), 2)
-                            return Primitiva(self.fila, tipoPrimitivo.F64, resultado)
-
+                            if expresion2.valor != 0:
+                                resultado = round(float(expresion1.valor) / float(expresion2.valor), 2)
+                                return Primitiva(self.fila, tipoPrimitivo.F64, resultado)
+                            else:
+                                alert = "Error no se puede dividir entre 0"
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                         elif expresion1.tipo == tipoPrimitivo.I64 and expresion2.tipo == tipoPrimitivo.I64:  # ! division de entero
-                            resultado = round(int(expresion1.valor) / int(expresion2.valor), 2)
-                            return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
-
+                            if expresion2.valor!=0:
+                                resultado = round(int(expresion1.valor) / int(expresion2.valor), 2)
+                                return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
+                            else:
+                                alert = "Error no se puede dividir entre 0"
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                         else:
-                            print("Erro de division")
+                            alert = "Error al operar operaciones"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
                     # !Operacion modulo
                     elif self.operador == OPERADOR_ARITMETICO.MODULO:
                         if expresion1.tipo == tipoPrimitivo.F64 and expresion2.tipo == tipoPrimitivo.F64:  # ! modulo de float
@@ -84,14 +102,18 @@ class Aritmetica(Instruccion):
                             return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
 
                         else:
-                            print("Error de modulo")
+                            alert = "Error al operar operaciones"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
                     #!Operacion de potencia para float
                     elif self.operador == OPERADOR_ARITMETICO.POTENCIAF and self.tipoOP is not None:
                         if self.tipoOP == tipoPrimitivo.F64 and expresion1.tipo == tipoPrimitivo.F64 and expresion2.tipo == tipoPrimitivo.F64:  # ! Potencia de float
                             resultado = round(float(expresion1.valor) ** float(expresion2.valor), 2)
                             return Primitiva(self.fila, tipoPrimitivo.F64, resultado)
                         else:
-                            print("Error de potencia")
+                            alert = "Error al operar operaciones"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
 
                     #!Operacion de potencia para int
                     elif self.operador == OPERADOR_ARITMETICO.POTENCIA and self.tipoOP is not None:
@@ -99,4 +121,13 @@ class Aritmetica(Instruccion):
                             resultado = int(expresion1.valor) ** int(expresion2.valor)
                             return Primitiva(self.fila, tipoPrimitivo.I64, resultado)
                         else:
-                            print("Error de potencia")
+                            alert = "Error al operar operaciones"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+                else:
+                    alert = "Error tipo incompatible para realizar operaciones"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+            else:
+                alert = "Error el tipo de expresiones es incompatible"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))

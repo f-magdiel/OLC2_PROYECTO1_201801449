@@ -7,6 +7,8 @@ from Enumeradas.Primitivo import tipoPrimitivo
 from Instrucciones.Break import Break
 from Instrucciones.Return import Return
 from Instrucciones.Continue import Continue
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 
 class ForIn(Instruccion):
@@ -20,7 +22,7 @@ class ForIn(Instruccion):
     def ejecutar(self, entorno: Entorno):
         data1 = self.exp1.ejecutar(entorno)
         if data1:
-            # ! obtener de una el tipo
+            # ! obtener de un el tipo
             type1 = data1.tipo
             arreglo = []
             tipin = None
@@ -40,22 +42,31 @@ class ForIn(Instruccion):
 
                             tipin = tipoPrimitivo.I64
                         else:
-                            pass
+                            alert = "Error en rango, no se puede iterar al reves"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                            print(alert)
 
                     else:
-                        pass
+                        alert = "Error este tipo de dato no se puede iterar"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 else:
-                    pass
+                    alert = "Error en declaracion de rango"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             else:
-
+                #! for para arreglos
                 if type1 in [tipoPrimitivo.ARREGLO, tipoPrimitivo.VECTOR]:
                     arreglo = data1.valor
                     tipin = arreglo[0].tipo
                 else:
-                    pass
+                    alert = "Error la expresion no es de tipo VECTOR"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
                     # ! aqui va error
             if tipin is not None:
-                entorno_for = Entorno(entorno, entorno.flag_break, entorno.flag_return, entorno.flag_continue)
+                entorno_for = Entorno(entorno, True, entorno.flag_return, True)
+                Tabla_Simbolos.append(entorno_for)
                 variable = Variable(tipin, self.id, arreglo[0].valor, self.fila, True)
                 entorno_for.nueva_variable(variable)
                 for i in range(len(arreglo)):
@@ -66,21 +77,29 @@ class ForIn(Instruccion):
                     # ! se iteran instrucciones
 
                     for instruc in self.instrucciones:
-                        if instruc:
-                            res = instruc.ejecutar(entorno_for)
-                            if res:
-                                if isinstance(res, Return):
-                                    pass
-                                elif isinstance(res, Continue):
-                                    pass
-                                elif isinstance(res, Break):
-                                    pass
 
-                            else:
-                                pass
+                        res = instruc.ejecutar(entorno_for)
+
+                        if res:
+                            if isinstance(res, Return) and entorno_for.flag_return:
+                                return res
+                            elif isinstance(res, Continue) and entorno_for.flag_continue:
+                                break
+                            elif isinstance(res, Break) and entorno_for.flag_break:
+                                return None
+                            elif isinstance(res, Return) and not entorno_for.flag_return:
+                                alert = "Error el RETURN solo puede estar dentro de funciones"
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
+
                         else:
                             pass
+
             else:
-                pass
+                alert = "Error no se puede iterar este tipo de VECTOR"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
         else:
-            pass
+            alert = "Error el vector no ha sido declarado"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)

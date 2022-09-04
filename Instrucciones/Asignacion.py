@@ -2,7 +2,8 @@ from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
 from Entorno.Variable import Variable
 from Enumeradas.Primitivo import tipoPrimitivo
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class AsignacionVariable(Instruccion):
     def __init__(self, fila, nombre, expresion):
@@ -21,18 +22,21 @@ class AsignacionVariable(Instruccion):
                             nueva_variable = Variable(variable.tipo, variable.nombre, expre.valor, self.fila, variable.mutable)
                             entorno.editar_variable(variable.nombre, nueva_variable)
 
-
                         elif ((expre.tipo == tipoPrimitivo.TOS or expre.tipo == tipoPrimitivo.TOW) and variable.tipo == tipoPrimitivo.STRING):  # si es tipo string o str
                             nueva_variable = Variable(variable.tipo, variable.nombre, expre.valor, self.fila, variable.mutable)
                             entorno.editar_variable(variable.nombre, nueva_variable)
 
-
-                        # elif(variable.tipo == tipoPrimitivo.STR and expre.tipo == tipoPrimitivo.STRING):
-                        #     nueva_variable = Variable(variable.tipo, variable.nombre, self.expresion, self.fila, variable.mutable)
-                        #     entorno.editar_variable(variable.nombre, nueva_variable)
-
                         else:
-                            print("El tipo {} y la expresion {} no coinciden")
+                            alert = "Error el tipo y la expresion no coinciden"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+                else:
+                    alert = "Error ocurrió un error al realizar asignación"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+            else:
+                alert = "Error variable no ha sido declarado"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
 
 
 class AsignacionArreglo(Instruccion):
@@ -58,23 +62,30 @@ class AsignacionArreglo(Instruccion):
                                         if (expresion.valor >= 0):
                                             posiciones.append(expresion.valor)
                                         else:
-                                            desc = 'El indice del arreglo no puede ser un entero negativo.'
-                                            # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                            errores.append(None)
+
+                                            alert = "Error el indice del arreglo no puede ser un entero negativo"
+                                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                            print(alert)
                                     else:
-                                        desc = 'El indice del arreglo no puede ser un valor de tipo ({}).'.format(expresion.tipo.value)
-                                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                        errores.append(None)
+
+                                        alert = "Error el indice del arreglo no puede ser un valor del tipo ({})".format(expresion.tipo.value)
+                                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                        print(alert)
                                 else:
-                                    desc = 'El indice del arreglo no puede ser un valor nulo.'
-                                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                    errores.append(None)
+
+                                    alert = "Error el indice del arreglo no puede ser un valor nulo"
+                                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                    print(alert)
                             else:
-                                desc = 'El indice del arreglo no puede ser un arreglo.'
-                                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                errores.append(None)
+
+                                alert = "Error el indice del arreglo no puede ser un arreglo"
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                         else:
-                            errores.append(None)
+                            alert = "Error al acceder al indice del arreglo"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                            print(alert)
+
                     if not (errores):
 
                         arreglo_aux = variable.valor
@@ -103,23 +114,29 @@ class AsignacionArreglo(Instruccion):
 
                                         entorno.editar_variable(variable.nombre, nueva_variable)
                                     else:
-                                        desc = 'El tipo ({}) y la expresion ({}) de la variable no concuerdan.'.format(variable.tipo.value, expresion.tipo.value)
-                                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                                        alert = 'El tipo ({}) y la expresion ({}) de la variable no concuerdan.'.format(variable.tipo.value, expresion.tipo.value)
+                                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                        print(alert)
                                 else:
-                                    desc = 'No se pueden asignar arreglos.'
-                                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                                    alert = 'No se pueden asignar arreglos.'
+                                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                    print(alert)
                             else:
-                                desc = 'No se puede asignar el valor porque en la posicion hay un arreglo.'
-                                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                                alert = 'No se puede asignar el valor porque en la posicion hay un arreglo.'
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                         except:
-                            desc = 'El indice supera los limites del arreglo.'
-                            # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                            alert = 'El indice supera los limites del arreglo.'
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                            print(alert)
                 else:
-                    desc = 'La variable con el nombre \'{}\' de tipo ({}) no es un arreglo.'.format(variable.nombre, variable.tipo.value)
-                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                    alert = 'La variable con el nombre \'{}\' de tipo ({}) no es un arreglo.'.format(variable.nombre, variable.tipo.value)
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             else:
-                desc = "No existe una variable con el nombre '{}' en la tabla de simbolos.".format(self.nombre)
-                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
+                alert = "No existe una variable con el nombre '{}' en la tabla de simbolos.".format(self.nombre)
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
 
     def obtener_tipo(self, dato):  # Devuelve el tipo primitivo (si es que hay) del dato arreglo
         if isinstance(dato.valor, list):

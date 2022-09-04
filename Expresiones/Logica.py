@@ -3,7 +3,8 @@ from Enumeradas.Primitivo import tipoPrimitivo
 from Enumeradas.OperadorLogico import OPERADOR_LOGICO
 from Expresiones.Primitiva import Primitiva
 from Entorno.Entorno import Entorno
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class Logica(Instruccion):
     def __init__(self, fila, expresion1, operador, expresion2):
@@ -26,3 +27,18 @@ class Logica(Instruccion):
                     elif self.operador == OPERADOR_LOGICO.AND:
                         resultado = expre1.valor and expre2.valor
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
+                    else:
+                        alert = "Error al realizar operaciones logicas"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+                else:
+                    alert = "Error al realizar operaciones logicas, expresiones incompatibles"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+            else:
+                alert = "Error al realizar operaciones logicas"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+
+        else:
+            alert = "Error al realizar operaciones logicas"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))

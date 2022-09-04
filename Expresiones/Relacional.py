@@ -3,6 +3,8 @@ from Expresiones.Primitiva import Primitiva
 from Entorno.Entorno import Entorno
 from Enumeradas.OperadorRelacional import OPERADOR_RELACIONAL
 from Enumeradas.Primitivo import tipoPrimitivo
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class Relacional(Instruccion):
     def __init__(self, fila, expresion1, operador, expresion2):
@@ -31,7 +33,9 @@ class Relacional(Instruccion):
                         resultado = str(expre1.valor) == str(expre2.valor)
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
-                        print("Error de igualacion")
+                        alert = "Error al realizar operaciones relacionales"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 #! Mayor que >
                 elif self.operador == OPERADOR_RELACIONAL.MAYORQUE:
                     #! para entero
@@ -47,7 +51,9 @@ class Relacional(Instruccion):
                         resultado = str(expre1.valor) > str(expre2.valor)
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
-                        print("Error de mayor que")
+                        alert = "Error al realizar operaciones relacionales"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 #! Menor que <
                 elif self.operador == OPERADOR_RELACIONAL.MENORQUE:
                     # ! para entero
@@ -63,7 +69,9 @@ class Relacional(Instruccion):
                         resultado = str(expre1.valor) < str(expre2.valor)
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
-                        print("Error de menor que")
+                        alert = "Error al realizar operaciones relacionales"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 #! Mayor igual que >=
                 elif self.operador == OPERADOR_RELACIONAL.MAYORIQUE:
                     # ! para entero
@@ -79,7 +87,9 @@ class Relacional(Instruccion):
                         resultado = str(expre1.valor) >= str(expre2.valor)
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
-                        print("Error de mayor igual que")
+                        alert = "Error al realizar operaciones relacionales"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 #! Menor igual que <=
                 elif self.operador == OPERADOR_RELACIONAL.MENORIQUE:
                     # ! para entero
@@ -95,7 +105,9 @@ class Relacional(Instruccion):
                         resultado = str(expre1.valor) <= str(expre2.valor)
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
-                        print("Error de menor igual que")
+                        alert = "Error al realizar operaciones relacionales"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 #! No igual que !=
                 elif self.operador == OPERADOR_RELACIONAL.NOGUALQUE:
                     # ! para entero
@@ -111,4 +123,14 @@ class Relacional(Instruccion):
                         resultado = str(expre1.valor) != str(expre2.valor)
                         return Primitiva(self.fila, tipoPrimitivo.BOOL, resultado)
                     else:
-                        print("Error de no igual que")
+                        alert = "Error al realizar operaciones relacionales"
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
+            else:
+                alert = "Error en expresiones para realizar operaciones relacionales"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
+        else:
+            alert = "Error ocurrido en expresiones"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)

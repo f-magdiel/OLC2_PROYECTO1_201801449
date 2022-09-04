@@ -2,7 +2,8 @@ from Abstracta.Instruccion import Instruccion
 from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Entorno import Entorno
 from Expresiones.Primitiva import Primitiva
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class Arreglo(Instruccion):
     def __init__(self, fila, expresiones):
@@ -53,14 +54,18 @@ class Arreglo(Instruccion):
                             # Retornar una nueva primitiva con el tipo y valor del arreglo de expresiones procesado
                             return Primitiva(self.fila,  tipoPrimitivo.ARREGLO, aux)
                         else:
-                            # TODO: Error
-                            pass
+                            alert = "Error dimensiones incompatibles"
+                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                            print(alert)
                 else:
-                    # TODO: Error
-                    pass
+                    alert = "Error expresiones incompatibles"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             else:
-                # TODO: Error
-                pass
+                alert = "Error expresiones invalidas para crear Arreglo"
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
         else:
-            # TODO: Error
-            pass
+            alert = "Error expresion invalida para crear Arreglo"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)

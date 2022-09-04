@@ -7,6 +7,8 @@ from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Variable import Variable
 from Instrucciones.Return import Return
 from Instrucciones.While import While
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 
 class LlamadaFunciones(Instruccion):
@@ -32,36 +34,38 @@ class LlamadaFunciones(Instruccion):
 
                                     if (parametro_ref.tipo in [tipoPrimitivo.ARREGLO, tipoPrimitivo.VECTOR]):
                                         if not (p_ref[1]):
-                                            desc = "No se hizo referencia al valor del arreglo"
+
+                                            alert = "Error no se hizo referencia al valor del arreglo"
+                                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                            print(alert)
                                             todo_correcto = False
                                         else:
                                             parametros_procesados.append(Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
                                         # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
                                     else:
                                         parametros_procesados.append(Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
-                                    # valor_arreglo = []
-                                    # por si vienen Arreglos........................................
-                                    # despues de validar que no sea arreglo se almacena la variable en la lista de parametros
-                                    # parametros_procesados.append(
-                                    #     Variable(parametro.tipo, parametro.nombre, parametro_ref.valor, self.fila, True))
+
                                 else:
-                                    desc = "El tipo ({}) del parametro de llamada no coincide con el tipo ({}) declarado.".format(
-                                        parametro_ref.tipo.value, funcion.parametros[indice].tipo.value)
-                                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                    print(desc)
+
+                                    alert = "El tipo del parametro de llamada no coincide con el tipo declarado."
+                                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                    print(alert)
                                     todo_correcto = False
                             else:
                                 todo_correcto = False
                             indice += 1
                     else:
-                        desc = "La cantidad de parametros no coincide con el de la funcion."
-                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                        print(desc)
+                        alert = "Error La cantidad de parametros no coincide con el de la funcion."
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
+
                 if (todo_correcto):
                     if (funcion.tipo == tipoPrimitivo.NULO):
                         nuevo_entorno = Entorno(entorno, False, False, False)
+                        Tabla_Simbolos.append(nuevo_entorno)
                     else:
                         nuevo_entorno = Entorno(entorno, False, True, False)  # ! se manda para retornar en funciones
+                        Tabla_Simbolos.append(nuevo_entorno)
                     if (parametros_procesados):
                         for variable in parametros_procesados:
                             nuevo_entorno.nueva_variable(variable)
@@ -76,24 +80,29 @@ class LlamadaFunciones(Instruccion):
                                     if not (isinstance(instr.primitiva.valor, list)):
                                         return instr.primitiva
                                     else:
-                                        desc = 'Las funciones no pueden retornar arreglos.'
-                                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, instr.fila))
-                                        print(desc)
+                                        alert = 'Las funciones no pueden retornar arreglos.'
+                                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                        print(alert)
                                 else:
-                                    desc = 'La funcion de tipo ({}) no puede retornar un valor de tipo ({}).'.format(
-                                        funcion.tipo.value, instr.primitiva.tipo.value)
-                                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, instr.fila))
-                                    print(desc)
+                                    alert = 'La funcion de tipo ({}) no puede retornar un valor de tipo ({}).'.format(funcion.tipo.value, instr.primitiva.tipo.value)
+                                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                    print(alert)
                             elif (isinstance(instr, Return) and not nuevo_entorno.flag_return):
-                                desc = 'La instruccion return solo puede estar dentro de funciones que retornen valores.'
-                                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, instr.fila))
-                                print(desc)
+
+                                alert = "La instruccion return solo puede estar dentro de funciones que retonen valores"
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                     if (funcion.tipo != tipoPrimitivo.NULO):
-                        desc = 'La funcion es de tipo ({}) con lo cual, debe retornar un valor.'.format(
-                            funcion.tipo.value)
-                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                        print(desc)
+                        alert = "Error La funcion es de tipo ({}) con lo cual, debe retornar un valor".format(funcion.tipo.value)
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
             else:
-                desc = "No existe una funcion con el nombre '{}' en la tabla de simbolos.".format(self.nombre)
-                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                print(desc)
+
+                alert = "Error no existe una funcion con el nombre '{}' en la tabla de simbolos".format(self.nombre)
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
+
+        else:
+            alert = "Error con el nombre de la funcion llamada"
+            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+            print(alert)
