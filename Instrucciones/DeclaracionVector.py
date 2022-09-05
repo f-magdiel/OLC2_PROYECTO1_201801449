@@ -22,7 +22,7 @@ class DeclaracionVector(Instruccion):
                 # ! recorrer arreglo
                 iguales = True
                 for i in range(len(data.valor)):
-                    if data.tipo != self.tipo:
+                    if data.valor[i].tipo != self.tipo:
                         iguales = False
                         break
 

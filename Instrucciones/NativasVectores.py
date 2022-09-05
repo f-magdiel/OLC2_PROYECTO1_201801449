@@ -21,17 +21,14 @@ class NativasVectores(Instruccion):
         if NATIVE_VECTORES.LEN == self.funcion:
             # ! Busco el nombre = id
             var = self.id.ejecutar(entorno)
-            if var and type(var) is object:
-                tam = len(var.valor)
-                return Primitiva(self.fila, tipoPrimitivo.I64, tam)
-            else:
-                alert = "Error no se puede aplicar LEN a esta expresion"
-                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
-                print(alert)
+
+            tam = len(var.valor)
+            return Primitiva(self.fila, tipoPrimitivo.I64, tam)
+
 
         elif NATIVE_VECTORES.CAPACITY == self.funcion:
             var = entorno.buscar_variable(self.id.nombre)
-            if var and type(var) is object:
+            if var:
                 return Primitiva(self.fila, tipoPrimitivo.I64, var.capacidad)
             else:
                 alert = "Error no se puede aplicar CAPACITY a esta expresion"
@@ -40,21 +37,18 @@ class NativasVectores(Instruccion):
 
         elif NATIVE_VECTORES.PUSH == self.funcion:
 
-            if hasattr(self.id, 'nombre'):
-                var = entorno.buscar_variable(self.id.nombre)
-                data = self.expresion1.ejecutar(entorno)
-                if data:
-                    if var and type(var.valor) is list:
-                        var.valor.append(data)
-                        entorno.editar_variable(self.id.nombre, var)
-                    else:
-                        alert = "Error no se puede aplicar PUSH a esta expresion"
-                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
-                        print(alert)
-            else:
-                alert = "Error expresion invalido para aplicar PUSH"
-                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
-                print(alert)
+
+            var = entorno.buscar_variable(self.id.nombre)
+            data = self.expresion1.ejecutar(entorno)
+            if data:
+                if var and type(var.valor) is list:
+                    var.valor.append(data)
+                    entorno.editar_variable(self.id.nombre, var)
+                else:
+                    alert = "Error no se puede aplicar PUSH a esta expresion"
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
+
 
         elif NATIVE_VECTORES.CONTAINS == self.funcion:
             if hasattr(self.id, 'nombre'):
@@ -85,25 +79,19 @@ class NativasVectores(Instruccion):
 
 
         elif NATIVE_VECTORES.REMOVE == self.funcion:
-            if hasattr(self.id, 'nombre'):
-                var = entorno.buscar_variable(self.id.nombre)
-                pos = self.expresion1.ejecutar(entorno)
-                if hasattr(var, 'valor'):
-                    if pos.valor < len(var.valor):
-                        var.valor.pop(pos.valor)
-                        entorno.editar_variable(self.id.nombre, var)
-                    else:
-                        alert = "Error indice fuera del rango"
-                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
-                        print(alert)
-                else:
-                    alert = "Error expresion invalido para aplicar REMOVE"
-                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
-                    print(alert)
+
+            var = entorno.buscar_variable(self.id.nombre)
+            pos = self.expresion1.ejecutar(entorno)
+
+            if pos.valor < len(var.valor):
+                var.valor.pop(pos.valor)
+                entorno.editar_variable(self.id.nombre, var)
+
             else:
                 alert = "Error expresion invalido para aplicar REMOVE"
                 Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
                 print(alert)
+
 
         elif NATIVE_VECTORES.REMOVE_EXPRE == self.funcion:
             if hasattr(self.id, 'nombre'):
@@ -136,7 +124,7 @@ class NativasVectores(Instruccion):
                 pos = self.expresion1.ejecutar(entorno)
                 if data and pos:
                     if hasattr(var, 'valor'):
-                        if pos.valor < len(var.valor):
+                        if pos.valor <= len(var.valor):
                             var.valor.insert(pos.valor, data)
                             entorno.editar_variable(self.id.nombre, var)
                         else:

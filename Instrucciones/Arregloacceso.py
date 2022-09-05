@@ -3,7 +3,8 @@ from Enumeradas.Primitivo import tipoPrimitivo
 from Entorno.Entorno import Entorno
 from Entorno.Variable import Variable
 from Expresiones.Primitiva import Primitiva
-
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.TipoError import TIPIN_ERROR
 
 class Arregloacceso(Instruccion):
     def __init__(self, fila, nombre, indices):
@@ -35,24 +36,24 @@ class Arregloacceso(Instruccion):
                                             posiciones.append(expresion.valor)
                                             # print("valor de posicion: ",expresion.valor)
                                         else:
-                                            desc = 'El indice del arreglo no puede ser un entero negativo.'
-                                            # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                            print(desc)
+                                            alert = 'El indice del arreglo no puede ser un entero negativo.'
+                                            Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                            print(alert)
                                             return None
                                     else:
-                                        desc = 'El indice del arreglo no puede ser un valor de tipo ({}).'.format(expresion.tipo.value)
-                                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                        print(desc)
+                                        alert = 'El indice del arreglo no puede ser un valor de tipo ({}).'.format(expresion.tipo.value)
+                                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                        print(alert)
                                         return None
                                 else:
-                                    desc = 'El indice del arreglo no puede ser un valor nulo.'
-                                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                    print(desc)
+                                    alert = 'El indice del arreglo no puede ser un valor nulo.'
+                                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                    print(alert)
                                     return None
                             else:
-                                desc = 'El indice del arreglo no puede ser un arreglo.'
-                                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                                print(desc)
+                                alert = 'El indice del arreglo no puede ser un arreglo.'
+                                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                                print(alert)
                                 return None
                         else:
                             return None
@@ -67,14 +68,14 @@ class Arregloacceso(Instruccion):
 
                         return Primitiva(self.fila, valor_arreglo.tipo, valor_arreglo.valor)
                     except:
-                        desc = 'El indice supera los limites del arreglo.'
-                        # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                        print(desc)
+                        alert = 'El indice supera los limites del arreglo.'
+                        Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                        print(alert)
                 else:
-                    desc = 'La variable con el nombre \'{}\' de tipo ({}) no es un arreglo.'.format(variable.nombre, variable.tipo.value)
-                    # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                    print(desc)
+                    alert = 'La variable con el nombre \'{}\' de tipo ({}) no es un arreglo.'.format(variable.nombre, variable.tipo.value)
+                    Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                    print(alert)
             else:
-                desc = 'No existe una variable con el nombre \'{}\' en la tabla de simbolos.'.format(self.nombre)
-                # lista_errores.append(Error(TIPO_ERROR.SEMANTICO, desc, self.fila))
-                print(desc)
+                alert = 'No existe una variable con el nombre \'{}\' en la tabla de simbolos.'.format(self.nombre)
+                Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
+                print(alert)
