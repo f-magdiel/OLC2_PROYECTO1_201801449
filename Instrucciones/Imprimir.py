@@ -1,7 +1,7 @@
 from Abstracta.Instruccion import Instruccion
 from Entorno.Entorno import Entorno
 from Enumeradas.Primitivo import tipoPrimitivo
-from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores
+from Reportes.Contenido import Tabla_Errorres, Tabla_Simbolos, Errores, Tabla_Impresion
 from Reportes.TipoError import TIPIN_ERROR
 listimpresion = []
 
@@ -39,6 +39,7 @@ class Imprimir(Instruccion):
 
 
                     print(cadena)
+                    Tabla_Impresion.append(cadena)
                 else:
                     alert = "Error la impresion debe de tener el mismo {} que los argumentos"
                     Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))
@@ -52,6 +53,8 @@ class Imprimir(Instruccion):
             if expre:
                 if expre.tipo == tipoPrimitivo.STR:
                     print(expre.valor)
+                    Tabla_Impresion.append(expre.valor)
+
                 else:
                     alert = "Error la imprimir debe de llevar un formato"
                     Tabla_Errorres.append(Errores(self.fila, alert, TIPIN_ERROR.SEMANTICO))

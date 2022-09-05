@@ -917,26 +917,26 @@ def report(self):
 # !---------------------------------------Se ejecuta el parser---------------------------------------------------------
 parser = yacc.yacc()
 
-entrada = r''' 
-
-
-fn main(){
-   
-    println!(" valor casteo: {}", );
-   
-}
-'''
-print("Inicia analizador...")
-instruc = parser.parse(entrada)
-entorno_global = [Entorno(None, None, None, None)]
-if instruc:
-    for instru in instruc:
-        # print("Instrucciones fuera del main {}".format(instru))
-        if isinstance(instru, MainInstru):
-            instru.ejecutar(entorno_global[0])
-        elif isinstance(instru, Funciones):
-            instru.ejecutar(entorno_global[0])
-else:
-    print("Error al ejecutar instrucciones del analizador")
-
-print("Finaliza analizador...")
+# entrada = r'''
+#
+#
+# fn main(){
+#
+#     println!(" valor casteo: {}", );
+#
+# }
+# '''
+# print("Inicia analizador...")
+# instruc = parser.parse(entrada)
+# entorno_global = [Entorno(None, None, None, None)]
+# if instruc:
+#     for instru in instruc:
+#         # print("Instrucciones fuera del main {}".format(instru))
+#         if isinstance(instru, MainInstru):
+#             instru.ejecutar(entorno_global[0])
+#         elif isinstance(instru, Funciones):
+#             instru.ejecutar(entorno_global[0])
+# else:
+#     print("Error al ejecutar instrucciones del analizador")
+#
+# print("Finaliza analizador...")

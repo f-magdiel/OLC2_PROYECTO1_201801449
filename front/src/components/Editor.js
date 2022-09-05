@@ -18,6 +18,7 @@ function Editor(){
        setInformacion(newValue)
     }
 
+   
     
 
     const enviarCarga = async(event)=>{
@@ -28,7 +29,9 @@ function Editor(){
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify(informacion)
+            body:JSON.stringify({
+                "code":informacion
+            })
         })
         
         const data = await res.json();
@@ -65,7 +68,7 @@ function Editor(){
             mode="javascript"
             theme="monokai"
             name="blah2"
-            value={consola.estado}
+            value={consola.consola}
             editorProps={{ $blockScrolling: true }}
             setOptions={{
                  enableBasicAutocompletion: false,
